@@ -1,0 +1,69 @@
+@use "sass:color";
+@use "variables" as *;
+
+/* ========== Colors ========== */
+$clr-bg: #b8c2cc;
+$clr-ui-bg: #181f2b;
+$clr-ui-bg-invert: #e5e5e5;
+
+$clr-border: #e5e5e5;
+$clr-box-shadow: rgba(2, 2, 6, 0.6);
+
+/* ========== Font Colors ========== */
+$clr-text-primary: #e5e5e5;
+$clr-text-invert: #221a0f;
+$clr-text-logo-primary: #9a0000;
+
+$clr-text-shadow: rgba(0, 0, 0, 50%);
+$clr-text-shadow-inverted: rgba(255, 255, 255, 50%);
+
+/* ========== Accent Colors ========== */
+$clr-accent: #9a0000;
+$clr-highlight: #d4af37;
+
+/* ========== Additional Colors ========== */
+$clr-black: #0f0f0f;
+
+/* ========= Game Colors ========== */
+$clr-hp-red: #e53e3e;
+$clr-mp-blue: #3b82f6;
+$clr-exp-green: #4caf50;
+$clr-exp-blue: #2196f3;
+
+$clr-common: #a0a0a0;
+$clr-magic: #3b82f6;
+$clr-rare: #d4af37;
+$clr-epic: #8b5cf6;
+$clr-legendary: #f59e0b;
+
+/* ========== Gradients ========== */
+$grad-ui-bg: linear-gradient(
+  $gradient-top-left,
+  $clr-ui-bg 0%,
+  color.scale($clr-ui-bg, $lightness: 5%) 100%
+);
+
+$grad-ui-bg-invert: linear-gradient(
+  $gradient-bottom,
+  color.scale($clr-ui-bg-invert, $lightness: -20%) 0%,
+  color.scale($clr-ui-bg-invert, $lightness: -50%) 100%
+);
+
+$grad-accent-lighten: linear-gradient(
+  $gradient-right,
+  $clr-accent 0%,
+  color.scale($clr-accent, $lightness: 20%) 100%
+);
+
+$grad-accent-darken: linear-gradient(
+  $gradient-left,
+  $clr-accent 0%,
+  color.scale($clr-accent, $lightness: -40%) 100%
+);
+
+$grad-exp-bar: linear-gradient(90deg, $clr-exp-green 0%, $clr-exp-blue 100%);
+$grad-health-bar: linear-gradient(
+  90deg,
+  $clr-hp-red 0%,
+  color.scale($clr-hp-red, $lightness: -30%) 100%
+);

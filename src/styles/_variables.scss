@@ -1,0 +1,42 @@
+/* ========== Gradient Directions ========== */
+$gradient-top: 0deg;
+$gradient-right: 90deg;
+$gradient-bottom: 180deg;
+$gradient-left: 270deg;
+$gradient-top-right: 45deg;
+$gradient-bottom-right: 135deg;
+$gradient-bottom-left: 225deg;
+$gradient-top-left: 315deg;
+
+/* ========== Variables ========== */
+$border-radius: 8px;
+$gap: 12px;
+
+/* ========== Responsive Breakpoints ========== */
+$bp-sm: 640px;
+$bp-md: 960px;
+$bp-lg: 1280px;
+
+/* ========== Fonts ========== */
+$font-family-title: "Cinzel Decorative", serif;
+$font-family-header: "MedievalSharp", cursive;
+
+/* ========== Font Sizes ========== */
+
+/* ========== Key Frames ========== */
+@-webkit-keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

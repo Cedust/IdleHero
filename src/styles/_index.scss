@@ -1,0 +1,13 @@
+/* Central index for styles */
+@forward "./variables";
+@forward "./mixins";
+@forward "./utility";
+@forward "./colors";
+
+/* 
+ Add this line in SCSS files
+  
+  @use "index" as *;
+
+ to gain access to all variables, mixins, and utility classes.
+*/

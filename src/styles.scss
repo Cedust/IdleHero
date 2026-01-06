@@ -1,1 +1,33 @@
-/* You can add global styles to this file, and also import other style files */
+@use "index" as *;
+
+// Bootstrap Icons
+@use "bootstrap-icons";
+
+* {
+  font-family: "Inter Tight";
+
+  /* Improve font rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Reset default margin & padding */
+  margin: 0;
+  padding: 0;
+
+  /* Enable dark mode */
+  color-scheme: dark;
+}
+
+html,
+body {
+  /* Set full height and width */
+  height: 100%;
+  width: 100%;
+}
+
+*,
+*::before,
+*::after {
+  /* Include box sizing for all elements */
+  box-sizing: border-box;
+}

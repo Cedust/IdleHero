@@ -1,0 +1,155 @@
+@use "variables" as *;
+@use "colors" as *;
+
+// Mixin for relative positioning
+@mixin relative-container($height: 100%, $width: 100%) {
+  position: relative;
+  height: $height;
+  width: $width;
+}
+
+// Mixin to handle overflow
+@mixin overflow($display: block, $max-height: null, $max-width: null) {
+  display: $display;
+
+  @if $max-height != null {
+    max-height: $max-height;
+    overflow-y: auto;
+  }
+  @if $max-width != null {
+    max-width: $max-width;
+    overflow-x: auto;
+  }
+}
+
+// Mixin to disable text selection
+@mixin disable-text-selection {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard syntax */
+}
+// Flexbox mixin
+@mixin flexbox($dir: row, $justify: center, $align: center) {
+  display: flex;
+  flex-direction: $dir;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+// Fixed floating mixin
+@mixin fixed-floating($top: null, $right: null, $bottom: null, $left: null, $z-index: null) {
+  position: fixed;
+  @if $top != null {
+    top: $top;
+  }
+  @if $right != null {
+    right: $right;
+  }
+  @if $bottom != null {
+    bottom: $bottom;
+  }
+  @if $left != null {
+    left: $left;
+  }
+  @if $z-index != null {
+    z-index: $z-index;
+  } @else {
+    z-index: 1000;
+  }
+}
+// Fixed vertically centered mixin
+@mixin fixed-vertically-centered {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ========== Divider Mixins ========== */
+@mixin divider($color: $clr-border, $thickness: 2px, $margin: 8px 0, $padding: $gap) {
+  border-bottom: $thickness solid $color;
+  margin: $margin;
+  padding: $padding;
+}
+
+@mixin divider-top($color: $clr-border, $thickness: 2px, $margin: 8px 0, $padding: $gap) {
+  border-top: $thickness solid $color;
+  margin: $margin;
+  padding: $padding;
+}
+
+/* ========== Panel Mixins ========== */
+@mixin panel($bg: $grad-ui-bg, $padding: $gap, $radius: $border-radius) {
+  background: $bg;
+  padding: $padding;
+  border-radius: $radius;
+}
+
+@mixin panel-shadow(
+  $shadow: 0 8px 20px,
+  $border-width: 1px,
+  $border-color: rgba(255, 255, 255, 0.04),
+  $shadow-color: $clr-box-shadow
+) {
+  border: $border-width solid $border-color;
+  box-shadow: $shadow $shadow-color;
+}
+
+/* ========== Button Mixins ========== */
+@mixin button-text-font($weight: 700, $shadow: true) {
+  font-family: $font-family-header;
+  font-weight: $weight;
+  letter-spacing: 0.1em;
+  word-spacing: 0em;
+  @if $shadow {
+    text-shadow: 1px 1px 2px $clr-text-shadow;
+  }
+}
+
+@mixin button-style(
+  $bg-color: $clr-accent,
+  $color: $clr-text-primary,
+  $border: none,
+  $border-radius: $border-radius
+) {
+  cursor: pointer;
+  color: $color;
+  background: $bg-color;
+  border-radius: $border-radius;
+  border: $border;
+}
+
+@mixin button-sizing($font-size: $font-size-button-default, $min-width: 120px, $padding: 8px 10px) {
+  font-size: $font-size;
+  min-width: $min-width;
+  padding: $padding;
+}
+
+@mixin button-hover-active($bg-color: $clr-accent, $bg-color-active: darken($bg-color, 10%)) {
+  transition: background-color 0.3s;
+
+  &:hover {
+    background: $bg-color;
+    outline: none;
+  }
+
+  &:active {
+    background: $bg-color-active;
+    outline: none;
+  }
+}
+
+@mixin button-focus($bg-color: $clr-accent) {
+  &:focus {
+    background: $bg-color;
+    outline: none;
+  }
+}
+
+/* Focus styles for keyboard navigability */
+@mixin button-focus-visible-outline($color: $clr-highlight, $offset: 2px, $thickness: 2px) {
+  &:focus-visible {
+    outline: $thickness solid $color;
+    outline-offset: $offset;
+  }
+}
