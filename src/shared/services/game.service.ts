@@ -45,7 +45,7 @@ export class GameService {
         /* Boss Respawn Delay */
         await TimeoutUtils.wait(500);
 
-        this.RewardPhase();
+        await this.RewardPhase();
         this.NextStage();
       }
     }
@@ -71,10 +71,10 @@ export class GameService {
     return (1 / this.playerService.AttackSpeed()) * 1000;
   }
 
-  private RewardPhase() {
+  private async RewardPhase() {
     const experience = this.stageService.Experience;
     console.log('Gained Experience:', experience);
-    this.playerService.Level().GainExperience(experience);
+    return await this.playerService.Level().GainExperience(experience);
   }
 
   private NextStage() {

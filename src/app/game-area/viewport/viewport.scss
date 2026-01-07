@@ -4,10 +4,12 @@
 .container {
   display: grid;
   grid:
-    "stage boss-health _" 1fr
-    "boss boss boss" 2fr
-    "player player player" 1fr
-    / 1fr 1fr 1fr;
+    "stage stage stage" auto
+    "boss-health boss-health boss-health" auto
+    "buffs boss damage" 2fr
+    "buffs player damage" 1fr
+    "exp exp exp" auto
+    / auto 1fr auto;
 
   gap: $gap;
 
@@ -20,29 +22,7 @@
 
 .boss-health {
   grid-area: boss-health;
-
-  // @include flexbox($align: flex-start);
-}
-
-.health-bar {
-  width: 100%;
-  background-color: color.scale(red, $lightness: -80%);
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.health-fill {
-  height: 2rem;
-  background-color: color.scale(red, $lightness: 20%);
-  transition: width 0.5s;
-}
-
-.health-text {
-  font-weight: bold;
-  color: white;
-  text-shadow: 1px 1px 2px black;
+  margin-left: 100px;
 }
 
 .boss {
@@ -69,4 +49,12 @@
       transform 0.2s,
       margin-bottom 0.2s;
   }
+}
+
+.damage-area {
+  grid-area: damage;
+}
+
+.experience-bar {
+  grid-area: exp;
 }

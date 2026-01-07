@@ -1,17 +1,40 @@
 <div class="container">
-  <div class="stage">{{ stageService.CurrentStage() }}</div>
+  <!-- Stage -->
+  <div class="stage">
+    <app-stage-label
+      [stageNumber]="showStage ? stageService.CurrentStage() : null"></app-stage-label>
+  </div>
+
+  <!-- Boss Health Bar -->
   <div class="boss-health">
-    <div class="health-bar">
-      <div
-        class="health-fill"
-        [style.width.%]="(bossService.CurrentHealth() / bossService.MaxHealth()) * 100"></div>
-    </div>
-    <div class="health-text">{{ bossService.CurrentHealth() }} / {{ bossService.MaxHealth() }}</div>
+    @if (showBoss) {
+      <app-health-bar
+        [currentHealth]="bossService.CurrentHealth()"
+        [maxHealth]="bossService.MaxHealth()"
+        [showHealthValues]="true">
+      </app-health-bar>
+    }
   </div>
+
+  <!-- Boss -->
   <div class="boss">
-    <span class="icon">🐉</span>
+    @if (showBoss) {
+      <span class="icon">🐉</span>
+    }
   </div>
+
+  <!-- Player -->
   <div class="player">
     <span class="icon">🧙‍♂️</span>
+  </div>
+
+  <!-- Experience Bar -->
+  <div class="experience-bar">
+    @if (showExpBar) {
+      <app-experience-bar
+        [currentLevel]="playerService.Level().Current"
+        [currentExp]="playerService.Level().Experience"
+        [expToNextLevel]="playerService.Level().ExperienceToNextLevel"></app-experience-bar>
+    }
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ExperienceBar } from './experience-bar/experience-bar';
+import { ExperienceBar } from '../../../shared/components';
 import { Info } from './info/info';
 import { PlayerService } from '../../../shared/services';
 import { Stats } from './stats/stats';

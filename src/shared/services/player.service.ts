@@ -16,7 +16,7 @@ import { ChanceUtils } from '../utils';
 })
 export class PlayerService {
   public Name = signal('Hero');
-  public Level = signal(new Level());
+  public Level = signal(new Level(700));
   public Class = signal('Wizard');
 
   /* Attributes */

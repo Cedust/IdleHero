@@ -1,0 +1,6 @@
+<div class="health-bar-bg">
+  <div class="health-bar-fill" [style.width]="progress + '%'"></div>
+  @if (showHealthValues) {
+    <div class="health-bar-text">{{ currentHealth }} / {{ maxHealth }} HP</div>
+  }
+</div>

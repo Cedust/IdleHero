@@ -11,6 +11,10 @@ export class ExperienceBar {
   @Input() currentExp: number = 0;
   @Input() expToNextLevel: number = 0;
 
+  get experience(): number {
+    return Math.min(this.currentExp, this.expToNextLevel);
+  }
+
   get progress(): number {
     return Math.min(100, (this.currentExp / this.expToNextLevel) * 100);
   }
