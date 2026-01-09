@@ -1,13 +1,13 @@
 <!-- Header -->
 <div class="header">
-  <div class="header__name">{{ playerService.Name() }}</div>
+  <div class="header__name">{{ heroService.Name() }}</div>
   <div class="header__level">
     <div class="level__label">Level:</div>
     <div class="level__value">
-      {{ playerService.Level().Current }}
+      {{ levelService.Current }}
     </div>
   </div>
-  <div class="header__class">{{ playerService.Class() }}</div>
+  <div class="header__class">{{ heroService.Class() }}</div>
 </div>
 
 <!-- Summary -->

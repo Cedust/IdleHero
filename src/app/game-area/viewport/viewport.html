@@ -32,9 +32,9 @@
   <div class="experience-bar">
     @if (showExpBar) {
       <app-experience-bar
-        [currentLevel]="playerService.Level().Current"
-        [currentExp]="playerService.Level().Experience"
-        [expToNextLevel]="playerService.Level().ExperienceToNextLevel"></app-experience-bar>
+        [currentLevel]="levelService.Current"
+        [currentExp]="levelService.Experience"
+        [expToNextLevel]="levelService.ExperienceToNextLevel"></app-experience-bar>
     }
   </div>
 </div>

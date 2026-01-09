@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
-import { ExperienceBar } from '../../../shared/components';
 import { Info } from './info/info';
-import { PlayerService } from '../../../shared/services';
 import { Stats } from './stats/stats';
+import { StatsService } from '../../../shared/services';
 
 @Component({
   selector: 'app-character-sheet',
-  imports: [Info, Stats, ExperienceBar],
+  imports: [Info, Stats],
   templateUrl: './character-sheet.html',
   styleUrl: './character-sheet.scss'
 })
 export class CharacterSheet {
-  constructor(protected playerService: PlayerService) {}
+  constructor(protected statsService: StatsService) {}
 }

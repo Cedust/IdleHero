@@ -1,6 +1,5 @@
+import { Experience, StageRewards } from '../models';
 import { Injectable, signal } from '@angular/core';
-
-import { Experience } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +10,9 @@ export class StageService {
   private _currentStage = signal(this.DEFAULT_STAGE);
   public CurrentStage = this._currentStage.asReadonly();
 
-  public get Experience(): number {
-    return Experience.GetForStage(this._currentStage());
+  public GetRewards(): StageRewards {
+    const experience = Experience.GetForStage(this._currentStage());
+    return new StageRewards(experience, 0);
   }
 
   public NextStage() {

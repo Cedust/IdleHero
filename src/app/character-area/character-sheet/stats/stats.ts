@@ -1,7 +1,7 @@
 import { Component, Inject, LOCALE_ID } from '@angular/core';
 
 import { PercentPipe } from '@angular/common';
-import { GameService, PlayerService } from '../../../../shared/services';
+import { GameService, StatsService } from '../../../../shared/services';
 
 @Component({
   selector: 'app-stats',
@@ -14,7 +14,7 @@ export class Stats {
 
   constructor(
     @Inject(LOCALE_ID) locale: string,
-    protected playerService: PlayerService,
+    protected statsService: StatsService,
     protected gameService: GameService
   ) {
     this.percentPipe = new PercentPipe(locale);
@@ -24,15 +24,15 @@ export class Stats {
     return [
       {
         label: 'Strength',
-        value: this.playerService.Strength()
+        value: this.statsService.Strength()
       },
       {
         label: 'Intelligence',
-        value: this.playerService.Intelligence()
+        value: this.statsService.Intelligence()
       },
       {
         label: 'Dexterity',
-        value: this.playerService.Dexterity()
+        value: this.statsService.Dexterity()
       }
     ];
   }
@@ -41,39 +41,39 @@ export class Stats {
     return [
       {
         label: 'Attack Speed',
-        value: this.percentPipe.transform(this.playerService.AttackSpeed(), '1.0-0')
+        value: this.percentPipe.transform(this.statsService.AttackSpeed(), '1.0-0')
       },
       {
         label: 'Critical Hit Chance',
-        value: this.percentPipe.transform(this.playerService.CriticalHitChance(), '1.0-0')
+        value: this.percentPipe.transform(this.statsService.CriticalHitChance(), '1.0-0')
       },
       {
         label: 'Critical Hit Damage',
-        value: this.percentPipe.transform(this.playerService.CriticalHitDamage(), '1.0-0')
+        value: this.percentPipe.transform(this.statsService.CriticalHitDamage(), '1.0-0')
       },
       {
         label: 'Multi Hit Chance',
-        value: this.percentPipe.transform(this.playerService.MultiHitChance(), '1.0-0')
+        value: this.percentPipe.transform(this.statsService.MultiHitChance(), '1.0-0')
       },
       {
         label: 'Multi Hit Damage',
-        value: this.percentPipe.transform(this.playerService.MultiHitDamage(), '1.0-0')
+        value: this.percentPipe.transform(this.statsService.MultiHitDamage(), '1.0-0')
       }
     ];
   }
 
   CanIncreaseSkillPoints(): boolean {
-    return !this.gameService.InProgress() && this.playerService.Level().UnspentSkillPoints > 0;
+    return !this.gameService.InProgress() && this.statsService.UnspentSkillPoints() > 0;
   }
 
   CanDecreaseSkillPoints(attribute: string): boolean {
     switch (attribute) {
       case 'Strength':
-        return !this.gameService.InProgress() && this.playerService.Strength() > 1;
+        return !this.gameService.InProgress() && this.statsService.Strength() > 1;
       case 'Intelligence':
-        return !this.gameService.InProgress() && this.playerService.Intelligence() > 1;
+        return !this.gameService.InProgress() && this.statsService.Intelligence() > 1;
       case 'Dexterity':
-        return !this.gameService.InProgress() && this.playerService.Dexterity() > 1;
+        return !this.gameService.InProgress() && this.statsService.Dexterity() > 1;
       default:
         return false;
     }
@@ -82,13 +82,13 @@ export class Stats {
   protected increaseAttribute(attribute: string) {
     switch (attribute) {
       case 'Strength':
-        this.playerService.IncreaseAttribute('Strength');
+        this.statsService.IncreaseAttribute('Strength');
         break;
       case 'Intelligence':
-        this.playerService.IncreaseAttribute('Intelligence');
+        this.statsService.IncreaseAttribute('Intelligence');
         break;
       case 'Dexterity':
-        this.playerService.IncreaseAttribute('Dexterity');
+        this.statsService.IncreaseAttribute('Dexterity');
         break;
     }
   }
@@ -96,13 +96,13 @@ export class Stats {
   protected decreaseAttribute(attribute: string) {
     switch (attribute) {
       case 'Strength':
-        this.playerService.DecreaseAttribute('Strength');
+        this.statsService.DecreaseAttribute('Strength');
         break;
       case 'Intelligence':
-        this.playerService.DecreaseAttribute('Intelligence');
+        this.statsService.DecreaseAttribute('Intelligence');
         break;
       case 'Dexterity':
-        this.playerService.DecreaseAttribute('Dexterity');
+        this.statsService.DecreaseAttribute('Dexterity');
         break;
     }
   }

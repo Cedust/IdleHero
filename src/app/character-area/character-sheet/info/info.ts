@@ -1,5 +1,6 @@
+import { HeroService, LevelService, StatsService } from '../../../../shared/services';
+
 import { Component } from '@angular/core';
-import { PlayerService } from '../../../../shared/services';
 
 @Component({
   selector: 'app-info',
@@ -8,12 +9,16 @@ import { PlayerService } from '../../../../shared/services';
   styleUrl: './info.scss'
 })
 export class Info {
-  constructor(protected playerService: PlayerService) {}
+  constructor(
+    protected heroService: HeroService,
+    protected statsService: StatsService,
+    protected levelService: LevelService
+  ) {}
 
   get SummaryStats(): { label: string; value: number }[] {
     return [
-      { label: 'Attack Power', value: this.playerService.AttackPower() },
-      { label: 'Unspent Skill Points', value: this.playerService.Level().UnspentSkillPoints }
+      { label: 'Attack Power', value: this.statsService.AttackPower() },
+      { label: 'Unspent Skill Points', value: this.statsService.UnspentSkillPoints() }
     ];
   }
 }

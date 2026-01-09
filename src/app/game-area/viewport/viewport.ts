@@ -1,4 +1,4 @@
-import { BossService, GameService, PlayerService, StageService } from '../../../shared/services';
+import { BossService, GameService, LevelService, StageService } from '../../../shared/services';
 import { ExperienceBar, HealthBar, StageLabel } from '../../../shared/components';
 
 import { Component } from '@angular/core';
@@ -25,7 +25,7 @@ export class Viewport {
   constructor(
     protected stageService: StageService,
     protected bossService: BossService,
-    protected playerService: PlayerService,
+    protected levelService: LevelService,
     protected gameService: GameService
   ) {}
 }

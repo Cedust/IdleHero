@@ -1,9 +1,9 @@
 import {
   AttackPower,
+  AttackResult,
   AttackSpeed,
   CriticalHitChance,
   CriticalHitDamage,
-  Level,
   MultiHitChance,
   MultiHitDamage
 } from '../models';
@@ -14,10 +14,10 @@ import { ChanceUtils } from '../utils';
 @Injectable({
   providedIn: 'root'
 })
-export class PlayerService {
-  public Name = signal('Hero');
-  public Level = signal(new Level(700));
-  public Class = signal('Wizard');
+export class StatsService {
+  private readonly SKILL_POINTS_PER_LEVEL = 1;
+
+  public UnspentSkillPoints = signal(0);
 
   /* Attributes */
   public Strength = signal(1);
@@ -32,7 +32,7 @@ export class PlayerService {
   public MultiHitChance = computed(() => MultiHitChance.Calculate(this.Dexterity()));
   public MultiHitDamage = signal(2);
 
-  public Attack(): number {
+  public Attack(): AttackResult {
     let damage: number = this.AttackPower();
     let isCritical: boolean = false;
     let isMultiHit: boolean = false;
@@ -49,20 +49,19 @@ export class PlayerService {
       isMultiHit = true;
     }
 
-    /* Log Attack Type */
-    if (isCritical && isMultiHit) {
-      console.log('Critical Multi Hit!');
-    } else if (isCritical) {
-      console.log('Critical Hit!');
-    } else if (isMultiHit) {
-      console.log('Multi Hit!');
-    }
+    return {
+      Damage: damage,
+      IsCritical: isCritical,
+      IsMultiHit: isMultiHit
+    };
+  }
 
-    return damage;
+  public LevelUp() {
+    this.UnspentSkillPoints.set(this.UnspentSkillPoints() + this.SKILL_POINTS_PER_LEVEL);
   }
 
   public IncreaseAttribute(attribute: 'Strength' | 'Intelligence' | 'Dexterity'): void {
-    if (this.Level().UnspentSkillPoints <= 0) {
+    if (this.UnspentSkillPoints() <= 0) {
       return;
     }
 
@@ -78,7 +77,7 @@ export class PlayerService {
         break;
     }
 
-    this.Level().UnspentSkillPoints -= 1;
+    this.UnspentSkillPoints.set(this.UnspentSkillPoints() - 1);
   }
 
   public DecreaseAttribute(attribute: 'Strength' | 'Intelligence' | 'Dexterity'): void {
@@ -99,6 +98,6 @@ export class PlayerService {
         break;
     }
 
-    this.Level().UnspentSkillPoints += 1;
+    this.UnspentSkillPoints.set(this.UnspentSkillPoints() + 1);
   }
 }
