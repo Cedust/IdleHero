@@ -36,6 +36,16 @@ $clr-rare: #d4af37;
 $clr-epic: #8b5cf6;
 $clr-legendary: #f59e0b;
 
+$clr-stage-label: color.scale($clr-highlight, $lightness: 30%);
+$clr-log-info: color.scale($clr-exp-green, $lightness: 20%);
+$clr-log-other: $clr-common;
+$clr-log-damage: #ee4444;
+$clr-log-crit: #eee000;
+$clr-log-multi: $clr-epic;
+$clr-log-crit-multi: #ff8800;
+$clr-log-boss-defeat: color.scale($clr-accent, $lightness: 40%);
+$clr-log-level-up: #00aaff;
+
 /* ========== Gradients ========== */
 $grad-ui-bg: linear-gradient(
   $gradient-top-left,

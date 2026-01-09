@@ -1,7 +1,7 @@
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { BattleLogMessage, MessageType } from '../../models';
 
 import { BattleLogService } from '../../services';
-import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-battle-log',
@@ -9,12 +9,28 @@ import { Component } from '@angular/core';
   templateUrl: './battle-log.html',
   styleUrl: './battle-log.scss'
 })
-export class BattleLog {
+export class BattleLog implements AfterViewInit {
+  @ViewChild('battleLogContainer') battleLogContainer!: ElementRef;
+
   protected get Messages(): BattleLogMessage[] {
     return this.battleLogService.Logs();
   }
 
   constructor(private battleLogService: BattleLogService) {}
+
+  ngAfterViewInit(): void {
+    this.scrollToBottom(this.battleLogContainer);
+  }
+
+  private scrollToBottom(element: ElementRef): void {
+    setInterval(() => {
+      const isScrolledToBottom = element.nativeElement.scrollTop >= 1;
+
+      if (isScrolledToBottom) {
+        element.nativeElement.scrollTop = 0;
+      }
+    }, 500);
+  }
 
   protected GetMessageIcon(type: MessageType): string | null {
     switch (type) {
@@ -50,13 +66,13 @@ export class BattleLog {
   protected GetSubMessage(type: MessageType): string | null {
     switch (type) {
       case 'Crit':
-        return 'Critical Hit!';
+        return 'Critical Hit'.toUpperCase();
 
       case 'Multi':
-        return 'Multi Hit!';
+        return 'Multi Hit'.toUpperCase();
 
       case 'CritMulti':
-        return 'Critical Multi Hit!';
+        return 'Critical Multi Hit'.toUpperCase();
 
       default:
         return null;

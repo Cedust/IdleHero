@@ -157,3 +157,39 @@
     outline-offset: $offset;
   }
 }
+
+/* Scrollbar Mixins */
+@mixin scrollbar($size: 1rem, $border-radius: 1rem, $shadow: true) {
+  scroll-behavior: smooth;
+
+  /* Scrollbar */
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+
+    background: $clr-ui-bg;
+    border-radius: $border-radius;
+  }
+
+  /* Scrollbar Track */
+  &::-webkit-scrollbar-track {
+    border-radius: $border-radius;
+
+    @if $shadow {
+      box-shadow: inset 0 0 5px $clr-ui-bg;
+    } @else {
+      box-shadow: none;
+    }
+  }
+
+  /* Scrollbar Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $grad-accent-darken;
+    border-radius: $border-radius;
+  }
+
+  /* Scrollbar Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: $grad-accent-lighten;
+  }
+}

@@ -5,7 +5,6 @@
   @include disable-text-selection();
   position: absolute;
   font-size: 5rem;
-  opacity: 0.8;
 }
 
 .stage-label {
@@ -18,11 +17,17 @@
   font-family: $font-family-title;
   font-size: 1.3rem;
   font-weight: 800;
-  color: $clr-highlight;
+  color: $clr-stage-label;
   text-align: center;
 
   text-shadow:
-    0 0 5px color.adjust($clr-black, $alpha: -0.5),
-    0 0 10px color.adjust($clr-black, $alpha: -0.5),
-    0 0 15px color.adjust($clr-black, $alpha: -0.5);
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+
+  // text-shadow:
+  //   0 0 5px color.adjust($clr-black, $alpha: -0.5),
+  //   0 0 10px color.adjust($clr-black, $alpha: -0.5),
+  //   0 0 15px color.adjust($clr-black, $alpha: -0.5);
 }

@@ -55,21 +55,9 @@
 
 .battle-log {
   grid-area: battlelog;
-  @include overflow($display: flex, $max-height: 62vh, $max-width: 200px);
-
-  // Automatically scroll to bottom
-  flex-direction: column-reverse;
-
-  // Left-hand side scrollbars
-  direction: rtl;
-
-  width: 180px;
-}
-
-.battle-log--scroll {
-  overflow-y: scroll;
-  scroll-behavior: smooth;
-  scrollbar-width: thin;
+  align-content: end;
+  height: 63vh;
+  width: 250px;
 }
 
 .experience-bar {
