@@ -1,0 +1,10 @@
+@use "sass:color";
+@use "index" as *;
+
+.gold-display {
+  @include disable-text-selection;
+
+  font-family: $font-family-title;
+  font-size: 1.5rem;
+  color: $clr-highlight;
+}

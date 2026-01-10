@@ -29,8 +29,31 @@
   width: 100%;
 }
 
-.gold-display {
-  color: $clr-highlight;
+.gear-area {
+  display: grid;
+
+  grid:
+    "_ gear-slots gear-actions"
+    / 1fr 1fr 1fr;
+
+  gap: $gap;
+  width: 100%;
+}
+
+.gear-slots {
+  grid-area: gear-slots;
+
+  width: 340px;
+
+  // Centered horizontally
+  margin: 0 auto;
+}
+
+.gear-actions {
+  grid-area: gear-actions;
+
+  @include flexbox($dir: column, $align: flex-end, $justify: flex-end);
+  gap: $gap;
 }
 
 .enchanting-area {

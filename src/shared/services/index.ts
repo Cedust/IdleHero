@@ -4,6 +4,8 @@ export * from './buffs-service';
 export * from './game.service';
 export * from './hero.service';
 export * from './inventory.service';
+export * from './item-price.service';
 export * from './level.service';
 export * from './stage.service';
 export * from './stats.service';
+export * from './vendor.service';

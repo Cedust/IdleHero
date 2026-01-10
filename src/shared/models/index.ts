@@ -2,6 +2,7 @@ export * from './battle-log-message';
 export * from './boss-health';
 export * from './buff';
 export * from './experience';
+export * from './gear/gear';
 export * from './results/attack-phase-result';
 export * from './results/attack-result';
 export * from './results/boss-damage-result';

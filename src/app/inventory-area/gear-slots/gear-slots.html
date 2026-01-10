@@ -1,20 +1,44 @@
 <div class="gear-slots">
-  <button class="gear-slot head" (click)="SelectGearSlot('Head')">
-    <app-icon icon="helmet" size="2x"></app-icon>
+  <!-- Head -->
+  <button
+    class="gear-slot head"
+    (click)="SelectGearSlot($event, GearType.Head)"
+    [class.unequipped]="!inventoryService.Head()">
+    <app-icon gear="head" size="2x"></app-icon>
   </button>
-  <button class="gear-slot chest" (click)="SelectGearSlot('Chest')">
-    <app-icon icon="chest" size="2x"></app-icon>
+  <!-- Chest -->
+  <button
+    class="gear-slot chest"
+    (click)="SelectGearSlot($event, GearType.Chest)"
+    [class.unequipped]="!inventoryService.Chest()">
+    <app-icon gear="chest" size="2x"></app-icon>
   </button>
-  <button class="gear-slot legs" (click)="SelectGearSlot('Legs')">
-    <app-icon icon="legs" size="2x"></app-icon>
+  <!-- Legs -->
+  <button
+    class="gear-slot legs"
+    (click)="SelectGearSlot($event, GearType.Legs)"
+    [class.unequipped]="!inventoryService.Legs()">
+    <app-icon gear="legs" size="2x"></app-icon>
   </button>
-  <button class="gear-slot boots" (click)="SelectGearSlot('Boots')">
-    <app-icon icon="boots" size="2x"></app-icon>
+  <!-- Boots -->
+  <button
+    class="gear-slot boots"
+    (click)="SelectGearSlot($event, GearType.Boots)"
+    [class.unequipped]="!inventoryService.Boots()">
+    <app-icon gear="boots" size="2x"></app-icon>
   </button>
-  <button class="gear-slot gear-slot-large weapon" (click)="SelectGearSlot('Weapon')">
-    <app-icon icon="sword" size="3x"></app-icon>
+  <!-- Weapon -->
+  <button
+    class="gear-slot gear-slot-large weapon"
+    (click)="SelectGearSlot($event, GearType.Weapon)"
+    [class.unequipped]="!inventoryService.Weapon()">
+    <app-icon gear="sword" size="3x"></app-icon>
   </button>
-  <button class="gear-slot gear-slot-large shield" (click)="SelectGearSlot('Shield')">
-    <app-icon icon="shield" size="3x"></app-icon>
+  <!-- Shield -->
+  <button
+    class="gear-slot gear-slot-large shield"
+    (click)="SelectGearSlot($event, GearType.Shield)"
+    [class.unequipped]="!inventoryService.Shield()">
+    <app-icon gear="shield" size="3x"></app-icon>
   </button>
 </div>

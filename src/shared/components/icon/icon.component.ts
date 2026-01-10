@@ -1,6 +1,7 @@
 import { Component, HostBinding, Input, OnChanges, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { GEAR_SLOT_ICONS, GearSlotIconName } from './gear-slot.icons';
+import { SYMBOLS_ICONS, SymbolsIconName } from './symbols.icons';
 
 import { IconSize } from './icon-size';
 
@@ -33,8 +34,9 @@ import { IconSize } from './icon-size';
 export class IconComponent implements OnChanges {
   private sanitizer = inject(DomSanitizer);
 
-  @Input({ required: true }) icon!: GearSlotIconName;
   @Input() size: IconSize = 'lg';
+  @Input() gear?: GearSlotIconName;
+  @Input() symbol?: SymbolsIconName;
 
   @HostBinding('style.width.px') get width() {
     return this.sizeMap[this.size];
@@ -56,9 +58,22 @@ export class IconComponent implements OnChanges {
   safeSvgContent?: SafeHtml;
 
   ngOnChanges() {
-    const path = GEAR_SLOT_ICONS[this.icon];
+    const path: string | null = this.getSvgContent();
+
     if (path) {
       this.safeSvgContent = this.sanitizer.bypassSecurityTrustHtml(path);
     }
+  }
+
+  private getSvgContent(): string | null {
+    let path: string | null = null;
+
+    if (this.gear !== undefined) {
+      path = GEAR_SLOT_ICONS[this.gear];
+    } else if (this.symbol !== undefined) {
+      path = SYMBOLS_ICONS[this.symbol];
+    }
+
+    return path;
   }
 }

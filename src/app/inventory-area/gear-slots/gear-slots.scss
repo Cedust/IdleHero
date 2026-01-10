@@ -12,7 +12,7 @@
     / auto auto auto;
 
   gap: $gap;
-  align-items: flex-end;
+  align-items: end;
 }
 
 .gear-slot {
@@ -49,4 +49,8 @@
 }
 .boots {
   grid-area: boots;
+}
+
+.unequipped {
+  opacity: 0.5;
 }

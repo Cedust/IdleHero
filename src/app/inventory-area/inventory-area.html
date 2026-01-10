@@ -5,16 +5,39 @@
   <div class="content">
     <div class="inventory-items">
       <div class="subheader">
-        <h3>Items</h3>
-        <div class="gold-display">{{ inventoryService.Gold() | number }} 💰</div>
+        <h3>ITEMS</h3>
+        <app-gold [amount]="inventoryService.Gold()" size="md"></app-gold>
       </div>
-      <app-gear-slots></app-gear-slots>
+      <div class="gear-area">
+        <div class="gear-slots">
+          <app-gear-slots
+            (gearSlotSelected)="onGearSlotSelected($event.event, $event.slot)"></app-gear-slots>
+        </div>
+        <div class="gear-actions">
+          @if (CanBuy) {
+            <app-gold [amount]="ItemPrice" size="md"></app-gold>
+            <button class="ih-button" (click)="buyItem($event)" [disabled]="!EnoughGoldToBuy">
+              Buy
+            </button>
+          }
+          @if (CanSell) {
+            <app-gold [amount]="SellValue" size="md"></app-gold>
+            <button class="ih-button" (click)="sellItem($event)">Sell</button>
+          }
+          @if (CanEnchant) {
+            <button class="ih-button" (click)="enchantItem($event)">Enchant</button>
+          }
+        </div>
+      </div>
     </div>
     <hr class="separator" />
-    <div class="enchanting-area">
-      <div class="subheader">
-        <h3>Enchanting Area</h3>
+    @if (Enchanting) {
+      <div class="enchanting-area">
+        <div class="subheader">
+          <h3>ENCHANTING AREA</h3>
+        </div>
+        <app-enchanting></app-enchanting>
       </div>
-    </div>
+    }
   </div>
 </div>
