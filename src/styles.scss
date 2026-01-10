@@ -47,8 +47,14 @@ h2 {
   @include disable-text-selection();
 }
 
+h3 {
+  font-family: "MedievalSharp", cursive;
+  @include disable-text-selection();
+}
+
 button {
   @include disable-text-selection();
+  cursor: pointer;
 
   &:disabled {
     opacity: 0.5;

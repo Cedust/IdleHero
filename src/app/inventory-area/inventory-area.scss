@@ -9,3 +9,31 @@
   @include flexbox();
   @include divider();
 }
+
+.content {
+  @include flexbox($dir: column);
+  gap: $gap;
+}
+
+.separator {
+  width: 100%;
+}
+
+.inventory-items {
+  @include flexbox($dir: column);
+  width: 100%;
+}
+
+.subheader {
+  @include flexbox($justify: space-between);
+  width: 100%;
+}
+
+.gold-display {
+  color: $clr-highlight;
+}
+
+.enchanting-area {
+  @include flexbox($dir: column);
+  width: 100%;
+}

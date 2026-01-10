@@ -2,4 +2,19 @@
   <div class="header">
     <h2>INVENTORY</h2>
   </div>
+  <div class="content">
+    <div class="inventory-items">
+      <div class="subheader">
+        <h3>Items</h3>
+        <div class="gold-display">{{ inventoryService.Gold() | number }} 💰</div>
+      </div>
+      <app-gear-slots></app-gear-slots>
+    </div>
+    <hr class="separator" />
+    <div class="enchanting-area">
+      <div class="subheader">
+        <h3>Enchanting Area</h3>
+      </div>
+    </div>
+  </div>
 </div>

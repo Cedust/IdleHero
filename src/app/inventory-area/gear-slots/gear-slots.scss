@@ -1,0 +1,52 @@
+@use "sass:color";
+@use "index" as *;
+
+.gear-slots {
+  display: grid;
+
+  grid:
+    "weapon head shield"
+    "weapon chest shield"
+    "weapon legs shield"
+    "weapon boots shield"
+    / auto auto auto;
+
+  gap: $gap;
+  align-items: flex-end;
+}
+
+.gear-slot {
+  @include button-text-font();
+  @include button-focus-visible-outline();
+
+  height: 100px;
+  width: 100px;
+
+  border: 2px solid $clr-gray;
+  border-radius: $border-radius;
+
+  background-color: $clr-ui-bg;
+}
+
+.gear-slot-large {
+  height: calc(200px + $gap);
+}
+
+.weapon {
+  grid-area: weapon;
+}
+.shield {
+  grid-area: shield;
+}
+.head {
+  grid-area: head;
+}
+.chest {
+  grid-area: chest;
+}
+.legs {
+  grid-area: legs;
+}
+.boots {
+  grid-area: boots;
+}
