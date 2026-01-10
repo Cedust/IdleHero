@@ -1,4 +1,4 @@
-import { ExperienceGainResult } from '../models/experience-gain-result';
+import { ExperienceGainResult } from '../models/results/experience-gain-result';
 import { Injectable } from '@angular/core';
 import { TimeoutUtils } from '../utils';
 

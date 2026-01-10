@@ -9,7 +9,7 @@ export class BuffsService {
   public readonly Buffs = signal<Buff[]>([
     Buff.FromObject({
       Icon: '🔥',
-      Name: 'Strength Boost',
+      Name: 'Attack Boost',
       Description: 'Increases damage by 10%.',
       DurationInSeconds: 20,
       CooldownInSeconds: 30
