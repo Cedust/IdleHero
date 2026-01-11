@@ -12,6 +12,7 @@ import { Injectable, signal } from '@angular/core';
 import { BattleLogService } from './battle-log.service';
 import { BossService } from './boss.service';
 import { BuffsService } from './buffs-service';
+import { InventoryService } from './inventory.service';
 import { LevelService } from './level.service';
 import { StageService } from './stage.service';
 import { StatsService } from './stats.service';
@@ -27,7 +28,8 @@ export class GameService {
     private levelService: LevelService,
     private bossService: BossService,
     private battleLogService: BattleLogService,
-    private buffsService: BuffsService
+    private buffsService: BuffsService,
+    private inventoryService: InventoryService
   ) {}
 
   private _gameInProgress = signal(false);
@@ -132,6 +134,7 @@ export class GameService {
   }
 
   private async RewardPhase(rewards: StageRewards) {
+    this.inventoryService.AddGold(rewards.Gold);
     let experienceGainResult: ExperienceGainResult = await this.levelService.GainExperience(
       rewards.Experience
     );

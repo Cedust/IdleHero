@@ -7,6 +7,7 @@ export * from './gear/enchantment-slot';
 export * from './gear/enchantment';
 export * from './gear/gear-type';
 export * from './gear/gear';
+export * from './gold';
 export * from './results/attack-phase-result';
 export * from './results/attack-result';
 export * from './results/boss-damage-result';

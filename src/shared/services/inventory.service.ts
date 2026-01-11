@@ -15,6 +15,10 @@ export class InventoryService {
   public Legs = signal<Gear>(null as any);
   public Boots = signal<Gear>(null as any);
 
+  public AddGold(amount: number): void {
+    this.Gold.update((gold) => gold + amount);
+  }
+
   public GetGearForSlot(slot: GearType): Gear | null {
     switch (slot) {
       case GearType.Weapon:
