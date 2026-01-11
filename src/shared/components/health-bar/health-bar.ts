@@ -1,8 +1,10 @@
 import { Component, Input } from '@angular/core';
 
+import { DecimalPipe } from '@angular/common';
+
 @Component({
   selector: 'app-health-bar',
-  imports: [],
+  imports: [DecimalPipe],
   templateUrl: './health-bar.html',
   styleUrl: './health-bar.scss'
 })

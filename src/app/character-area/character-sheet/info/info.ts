@@ -1,6 +1,7 @@
+import { DecimalPipe } from '@angular/common';
 import { HeroService, LevelService, StatsService } from '../../../../shared/services';
 
-import { Component } from '@angular/core';
+import { Component, Inject, LOCALE_ID } from '@angular/core';
 
 @Component({
   selector: 'app-info',
@@ -9,24 +10,31 @@ import { Component } from '@angular/core';
   styleUrl: './info.scss'
 })
 export class Info {
+  private readonly PLACEHOLDER = '-';
+
+  private readonly decimalPipe: DecimalPipe;
+
   constructor(
+    @Inject(LOCALE_ID) locale: string,
     protected heroService: HeroService,
     protected statsService: StatsService,
     protected levelService: LevelService
-  ) {}
+  ) {
+    this.decimalPipe = new DecimalPipe(locale);
+  }
 
   get SummaryStats(): { label: string; value: string }[] {
     return [
       {
         label: 'Attack Power',
-        value: this.statsService.AttackPower().toString()
+        value: this.decimalPipe.transform(this.statsService.AttackPower()) || this.PLACEHOLDER
       },
       {
         label: 'Unspent Skill Points',
         value:
           this.levelService.TotalSkillPoints() > 0
             ? this.levelService.UnspentSkillPoints() + ' / ' + this.levelService.TotalSkillPoints()
-            : '-'
+            : this.PLACEHOLDER
       }
     ];
   }
