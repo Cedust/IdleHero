@@ -1,4 +1,4 @@
-import { Gear, GearType } from '../models';
+import { Gear, GearType, StatType } from '../models';
 import { Injectable, signal } from '@angular/core';
 
 @Injectable({
@@ -37,23 +37,77 @@ export class InventoryService {
   public SetGearForSlot(slot: GearType, gear: Gear): void {
     switch (slot) {
       case GearType.Weapon:
-        this.Weapon.set(gear);
+        this.Weapon.update(() => null as any);
+
+        if (gear) {
+          this.Weapon.update(() => gear);
+        }
         break;
+
       case GearType.Shield:
-        this.Shield.set(gear);
+        this.Shield.update(() => null as any);
+
+        if (gear) {
+          this.Shield.update(() => gear);
+        }
         break;
+
       case GearType.Head:
-        this.Head.set(gear);
+        this.Head.update(() => null as any);
+
+        if (gear) {
+          this.Head.update(() => gear);
+        }
         break;
+
       case GearType.Chest:
-        this.Chest.set(gear);
+        this.Chest.update(() => null as any);
+
+        if (gear) {
+          this.Chest.update(() => gear);
+        }
         break;
+
       case GearType.Legs:
-        this.Legs.set(gear);
+        this.Legs.update(() => null as any);
+
+        if (gear) {
+          this.Legs.update(() => gear);
+        }
         break;
+
       case GearType.Boots:
-        this.Boots.set(gear);
+        this.Boots.update(() => null as any);
+
+        if (gear) {
+          this.Boots.update(() => gear);
+        }
         break;
     }
+  }
+
+  public RemoveGearFromSlot(slot: GearType): void {
+    this.SetGearForSlot(slot, null as any);
+  }
+
+  public GetBonusStatFromGear(stat: StatType): number {
+    let totalBonus: number = 0;
+
+    const gearSlots: Gear[] = [
+      this.Weapon(),
+      this.Shield(),
+      this.Head(),
+      this.Chest(),
+      this.Legs(),
+      this.Boots()
+    ];
+
+    gearSlots.forEach((gear) => {
+      if (gear) {
+        totalBonus += gear.GetStatBonus(stat);
+      }
+    });
+
+    return totalBonus;
   }
 }

@@ -15,10 +15,19 @@ export class Info {
     protected levelService: LevelService
   ) {}
 
-  get SummaryStats(): { label: string; value: number }[] {
+  get SummaryStats(): { label: string; value: string }[] {
     return [
-      { label: 'Attack Power', value: this.statsService.AttackPower() },
-      { label: 'Unspent Skill Points', value: this.statsService.UnspentSkillPoints() }
+      {
+        label: 'Attack Power',
+        value: this.statsService.AttackPower().toString()
+      },
+      {
+        label: 'Unspent Skill Points',
+        value:
+          this.levelService.TotalSkillPoints() > 0
+            ? this.levelService.UnspentSkillPoints() + ' / ' + this.levelService.TotalSkillPoints()
+            : '-'
+      }
     ];
   }
 }

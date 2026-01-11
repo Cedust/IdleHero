@@ -1,0 +1,84 @@
+import {
+  BOOTS_ENCHANTMENT_POOL,
+  CHEST_ENCHANTMENT_POOL,
+  Enchantment,
+  Gear,
+  GearType,
+  HEAD_ENCHANTMENT_POOL,
+  LEGS_ENCHANTMENT_POOL,
+  SHIELD_ENCHANTMENT_POOL,
+  WEAPON_ENCHANTMENT_POOL
+} from '../models';
+
+import { Injectable } from '@angular/core';
+import { InventoryService } from './inventory.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class EnchantingService {
+  private readonly ENCHANTMENT_MODIFIER = 1.2;
+
+  constructor(private inventoryService: InventoryService) {}
+
+  public Enchant(item: Gear, slotIndex: number) {
+    if (item.EnchantmentSlots[slotIndex].IsEnchanted) {
+      return;
+    }
+
+    const enchantment: Enchantment = this.CreateEnchantment(item.Type);
+
+    item.EnchantmentSlots[slotIndex].Enchantment = enchantment;
+    item.EnchantmentSlots[slotIndex].EnchantmentLevel = 1;
+
+    this.inventoryService.SetGearForSlot(item.Type, item);
+  }
+
+  public Disenchant(item: Gear, slotIndex: number) {
+    if (!item.EnchantmentSlots[slotIndex].IsEnchanted) {
+      return;
+    }
+
+    item.EnchantmentSlots[slotIndex].Enchantment = undefined!;
+    item.EnchantmentSlots[slotIndex].EnchantmentLevel = 0;
+
+    this.inventoryService.SetGearForSlot(item.Type, item);
+  }
+
+  public Upgrade(item: Gear, slotIndex: number) {
+    if (!item.EnchantmentSlots[slotIndex].CanUpgrade) {
+      return;
+    }
+
+    const enchantmentSlot = item.EnchantmentSlots[slotIndex];
+    if (enchantmentSlot.Enchantment.Value < 1) {
+      enchantmentSlot.Enchantment.Value =
+        Math.ceil(enchantmentSlot.Enchantment.Value * this.ENCHANTMENT_MODIFIER * 100) / 100;
+    } else {
+      enchantmentSlot.Enchantment.Value = Math.ceil(
+        enchantmentSlot.Enchantment.Value * this.ENCHANTMENT_MODIFIER
+      );
+    }
+    enchantmentSlot.EnchantmentLevel++;
+    item.EnchantmentSlots[slotIndex] = enchantmentSlot;
+
+    this.inventoryService.SetGearForSlot(item.Type, item);
+  }
+
+  private CreateEnchantment(type: GearType): Enchantment {
+    switch (type) {
+      case GearType.Weapon:
+        return WEAPON_ENCHANTMENT_POOL.GetRandomEnchantment();
+      case GearType.Shield:
+        return SHIELD_ENCHANTMENT_POOL.GetRandomEnchantment();
+      case GearType.Head:
+        return HEAD_ENCHANTMENT_POOL.GetRandomEnchantment();
+      case GearType.Chest:
+        return CHEST_ENCHANTMENT_POOL.GetRandomEnchantment();
+      case GearType.Legs:
+        return LEGS_ENCHANTMENT_POOL.GetRandomEnchantment();
+      case GearType.Boots:
+        return BOOTS_ENCHANTMENT_POOL.GetRandomEnchantment();
+    }
+  }
+}

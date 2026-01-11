@@ -6,7 +6,7 @@
     @for (slot of item.EnchantmentSlots; track $index) {
       <button
         class="item-slot"
-        (click)="onEnchantmentSlotSelected(slot, $index)"
+        (click)="OnEnchantmentSlotSelected(slot, $index)"
         [class.selected]="selectedSlotIndex === $index">
         <h2>{{ GetSlotDescription(slot) }}</h2>
       </button>
@@ -26,7 +26,10 @@
       Disenchant
     </button>
   }
-  <button class="ih-button enchant-button" (click)="Upgrade()" [disabled]="!CanUpgrade">
-    Upgrade
-  </button>
+
+  @if (CanDisenchant) {
+    <button class="ih-button enchant-button" (click)="Upgrade()" [disabled]="!CanUpgrade">
+      Upgrade
+    </button>
+  }
 </div>

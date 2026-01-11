@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { EnchantmentSlot, Gear, GearType } from '../../../shared/models';
 import { GearSlotIconName, IconComponent, Separator } from '../../../shared/components';
 
+import { EnchantingService } from '../../../shared/services';
+
 @Component({
   selector: 'app-enchanting',
   imports: [IconComponent, Separator],
@@ -10,6 +12,10 @@ import { GearSlotIconName, IconComponent, Separator } from '../../../shared/comp
 })
 export class Enchanting {
   @Input({ required: true }) item!: Gear;
+
+  ngOnChanges() {
+    this.Unselect();
+  }
 
   protected get GearIcon(): GearSlotIconName {
     switch (this.item.Type) {
@@ -43,28 +49,35 @@ export class Enchanting {
   protected selectedSlot: EnchantmentSlot | null = null;
   protected selectedSlotIndex: number | null = null;
 
-  protected onEnchantmentSlotSelected(slot: EnchantmentSlot, index: number) {
+  constructor(private enchantingService: EnchantingService) {}
+
+  protected OnEnchantmentSlotSelected(slot: EnchantmentSlot, index: number) {
     this.selectedSlot = slot;
     this.selectedSlotIndex = index;
   }
 
+  private Unselect() {
+    this.selectedSlot = null;
+    this.selectedSlotIndex = null;
+  }
+
   protected GetSlotDescription(slot: EnchantmentSlot): string {
     if (slot.IsEnchanted) {
-      return '+' + slot.Value + ' ' + slot.Type + ' ' + '[' + slot.EnchantmentLevel + ']';
+      return slot.Enchantment.DisplayName + ' ' + '[' + slot.EnchantmentLevel + ']';
     } else {
       return slot.Name;
     }
   }
 
   protected Enchant(): void {
-    this.item.EnchantmentSlots[this.selectedSlotIndex!].Enchant('Strength', 10);
+    this.enchantingService.Enchant(this.item, this.selectedSlotIndex!);
   }
 
   protected Disenchant(): void {
-    this.item.EnchantmentSlots[this.selectedSlotIndex!].Disenchant();
+    this.enchantingService.Disenchant(this.item, this.selectedSlotIndex!);
   }
 
   protected Upgrade(): void {
-    this.item.EnchantmentSlots[this.selectedSlotIndex!].Upgrade();
+    this.enchantingService.Upgrade(this.item, this.selectedSlotIndex!);
   }
 }

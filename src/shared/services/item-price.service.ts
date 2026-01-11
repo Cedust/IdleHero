@@ -1,4 +1,5 @@
-import { GearType } from '../models';
+import { Boots, Chest, GearType, Head, Legs, Shield, Weapon } from '../models';
+
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -10,17 +11,17 @@ export class ItemPriceService {
   public GetBuyPrice(itemSlot: GearType): number {
     switch (itemSlot) {
       case GearType.Weapon:
-        return 100;
+        return Weapon.BuyPrice;
       case GearType.Shield:
-        return 80;
+        return Shield.BuyPrice;
       case GearType.Head:
-        return 50;
+        return Head.BuyPrice;
       case GearType.Chest:
-        return 20;
+        return Chest.BuyPrice;
       case GearType.Legs:
-        return 30;
+        return Legs.BuyPrice;
       case GearType.Boots:
-        return 30;
+        return Boots.BuyPrice;
       default:
         return 0;
     }

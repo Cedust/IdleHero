@@ -12,19 +12,31 @@ import { Injectable, computed, signal } from '@angular/core';
 
 import { BuffsService } from './buffs-service';
 import { ChanceUtils } from '../utils';
+import { InventoryService } from './inventory.service';
+import { LevelService } from './level.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StatsService {
-  private readonly SKILL_POINTS_PER_LEVEL = 1;
-
-  public UnspentSkillPoints = signal(0);
-
   /* Attributes */
-  public Strength = signal(1);
-  public Intelligence = signal(1);
-  public Dexterity = signal(1);
+  private _strengthStat = signal(1);
+  public Strength = computed(() => {
+    const bonus: number = this.inventoryService.GetBonusStatFromGear('Strength');
+    return this._strengthStat() + bonus;
+  });
+
+  private _intelligenceStat = signal(1);
+  public Intelligence = computed(() => {
+    const bonus: number = this.inventoryService.GetBonusStatFromGear('Intelligence');
+    return this._intelligenceStat() + bonus;
+  });
+
+  private _dexterityStat = signal(1);
+  public Dexterity = computed(() => {
+    const bonus: number = this.inventoryService.GetBonusStatFromGear('Dexterity');
+    return this._dexterityStat() + bonus;
+  });
 
   /* Combat Stats */
   public AttackPower = computed(() => {
@@ -33,25 +45,36 @@ export class StatsService {
   });
 
   public AttackSpeed = computed(() => {
+    const bonus: number = this.inventoryService.GetBonusStatFromGear('AttackSpeed');
     const modifier: number = this.GetModifierFromBuffs(['Speed Boost']);
-    return AttackSpeed.Calculate(this.Dexterity(), modifier);
+    return AttackSpeed.Calculate(this.Dexterity(), bonus, modifier);
   });
 
   public CriticalHitChance = computed(() => {
+    const bonus = this.inventoryService.GetBonusStatFromGear('CriticalHitChance');
     const modifier: number = this.GetModifierFromBuffs(['Critical Focus']);
-    return CriticalHitChance.Calculate(this.Intelligence(), modifier);
+    return CriticalHitChance.Calculate(this.Intelligence(), bonus, modifier);
   });
 
-  public CriticalHitDamage = signal(1.5);
+  private _criticalHitDamageStat = signal(1.5);
+  public CriticalHitDamage = computed(() => {
+    const bonus: number = this.inventoryService.GetBonusStatFromGear('CriticalHitDamage');
+    return this._criticalHitDamageStat() + bonus;
+  });
 
   public MultiHitChance = computed(() => {
+    const bonus: number = this.inventoryService.GetBonusStatFromGear('MultiHitChance');
     const modifier: number = this.GetModifierFromBuffs(['Multi-Hit Frenzy']);
-    return MultiHitChance.Calculate(this.Dexterity(), modifier);
+    return MultiHitChance.Calculate(this.Dexterity(), bonus, modifier);
   });
 
   public MultiHitDamage = signal(2);
 
-  constructor(private buffsService: BuffsService) {}
+  constructor(
+    private levelService: LevelService,
+    private inventoryService: InventoryService,
+    private buffsService: BuffsService
+  ) {}
 
   public Attack(): AttackResult {
     let damage: number = this.AttackPower();
@@ -75,49 +98,49 @@ export class StatsService {
     } as AttackResult;
   }
 
-  public LevelUp() {
-    this.UnspentSkillPoints.set(this.UnspentSkillPoints() + this.SKILL_POINTS_PER_LEVEL);
-  }
-
   public IncreaseAttribute(attribute: 'Strength' | 'Intelligence' | 'Dexterity'): void {
-    if (this.UnspentSkillPoints() <= 0) {
+    if (this.levelService.UnspentSkillPoints() <= 0) {
       return;
     }
 
     switch (attribute) {
       case 'Strength':
-        this.Strength.set(this.Strength() + 1);
+        this._strengthStat.set(this._strengthStat() + 1);
         break;
       case 'Intelligence':
-        this.Intelligence.set(this.Intelligence() + 1);
+        this._intelligenceStat.set(this._intelligenceStat() + 1);
         break;
       case 'Dexterity':
-        this.Dexterity.set(this.Dexterity() + 1);
+        this._dexterityStat.set(this._dexterityStat() + 1);
         break;
     }
 
-    this.UnspentSkillPoints.set(this.UnspentSkillPoints() - 1);
+    this.levelService.SpentSkillPoint();
   }
 
   public DecreaseAttribute(attribute: 'Strength' | 'Intelligence' | 'Dexterity'): void {
+    if (this.levelService.SpentSkillPoints() <= 0) {
+      return;
+    }
+
     switch (attribute) {
       case 'Strength':
         if (this.Strength() <= 1) return;
-        this.Strength.set(this.Strength() - 1);
+        this._strengthStat.set(this._strengthStat() - 1);
         break;
 
       case 'Intelligence':
         if (this.Intelligence() <= 1) return;
-        this.Intelligence.set(this.Intelligence() - 1);
+        this._intelligenceStat.set(this._intelligenceStat() - 1);
         break;
 
       case 'Dexterity':
         if (this.Dexterity() <= 1) return;
-        this.Dexterity.set(this.Dexterity() - 1);
+        this._dexterityStat.set(this._dexterityStat() - 1);
         break;
     }
 
-    this.UnspentSkillPoints.set(this.UnspentSkillPoints() + 1);
+    this.levelService.UnspentSkillPoint();
   }
 
   private GetModifierFromBuffs(buffs: string[]): number {

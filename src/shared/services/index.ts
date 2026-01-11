@@ -1,6 +1,7 @@
 export * from './battle-log.service';
 export * from './boss.service';
 export * from './buffs-service';
+export * from './enchanting.service';
 export * from './game.service';
 export * from './hero.service';
 export * from './inventory.service';

@@ -8,9 +8,6 @@ import { ItemPriceService } from './item-price.service';
   providedIn: 'root'
 })
 export class VendorService {
-  private DEFAULT_SELL_MULTIPLIER = 0.5;
-  private DEFAULT_SLOT_AMOUNT = 3;
-
   constructor(
     private inventoryService: InventoryService,
     private itemPriceService: ItemPriceService
@@ -18,11 +15,11 @@ export class VendorService {
 
   public BuyItem(slot: GearType) {
     const price = this.itemPriceService.GetBuyPrice(slot);
+
     if (this.inventoryService.Gold() >= price) {
       this.inventoryService.Gold.update((gold) => gold - price);
 
-      const sellValue = this.CalculateSellValue(price);
-      const item = new Gear(slot, this.DEFAULT_SLOT_AMOUNT, sellValue);
+      const item = Gear.Create(slot);
 
       this.inventoryService.SetGearForSlot(slot, item);
     }
@@ -33,11 +30,7 @@ export class VendorService {
 
     if (gear !== null) {
       this.inventoryService.Gold.update((gold) => gold + gear.SellValue);
-      this.inventoryService.SetGearForSlot(slot, null as any);
+      this.inventoryService.RemoveGearFromSlot(slot);
     }
-  }
-
-  private CalculateSellValue(price: number): number {
-    return Math.floor(price * this.DEFAULT_SELL_MULTIPLIER);
   }
 }

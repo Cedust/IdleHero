@@ -1,7 +1,7 @@
 import { Component, Inject, LOCALE_ID } from '@angular/core';
 
 import { PercentPipe } from '@angular/common';
-import { GameService, StatsService } from '../../../../shared/services';
+import { GameService, LevelService, StatsService } from '../../../../shared/services';
 
 @Component({
   selector: 'app-stats',
@@ -14,8 +14,9 @@ export class Stats {
 
   constructor(
     @Inject(LOCALE_ID) locale: string,
-    protected statsService: StatsService,
-    protected gameService: GameService
+    private statsService: StatsService,
+    private levelService: LevelService,
+    private gameService: GameService
   ) {
     this.percentPipe = new PercentPipe(locale);
   }
@@ -63,10 +64,14 @@ export class Stats {
   }
 
   CanIncreaseSkillPoints(): boolean {
-    return !this.gameService.InProgress() && this.statsService.UnspentSkillPoints() > 0;
+    return !this.gameService.InProgress() && this.levelService.UnspentSkillPoints() > 0;
   }
 
   CanDecreaseSkillPoints(attribute: string): boolean {
+    if (this.levelService.SpentSkillPoints() <= 0) {
+      return false;
+    }
+
     switch (attribute) {
       case 'Strength':
         return !this.gameService.InProgress() && this.statsService.Strength() > 1;
