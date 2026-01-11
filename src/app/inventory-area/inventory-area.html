@@ -28,9 +28,6 @@
             <app-gold [amount]="SellValue" size="md"></app-gold>
             <button class="ih-button" (click)="sellItem($event)">Sell</button>
           }
-          @if (CanEnchant) {
-            <button class="ih-button" (click)="enchantItem($event)">Enchant</button>
-          }
         </div>
       </div>
     </div>
@@ -38,13 +35,14 @@
     <separator></separator>
 
     <!-- ENCHANTING -->
-    @if (Enchanting) {
-      <div class="enchanting-area">
+    <div class="enchanting-area">
+      @if (CanEnchant) {
         <div class="subheader">
           <h3>ENCHANTING AREA</h3>
+          <h3>{{ SelectedGear!.Type.toUpperCase() }}</h3>
         </div>
-        <app-enchanting [item]="EnchantingItem"></app-enchanting>
-      </div>
-    }
+        <app-enchanting [item]="SelectedGear!"></app-enchanting>
+      }
+    </div>
   </div>
 </div>

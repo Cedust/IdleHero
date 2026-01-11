@@ -19,13 +19,11 @@
   @include button-text-font();
   @include button-focus-visible-outline();
 
+  @include panel($bg: $clr-ui-bg, $padding: 0);
+  @include panel-shadow($border-width: 2px, $border-color: $clr-gray);
+
   height: 100px;
   width: 100px;
-
-  border: 2px solid $clr-gray;
-  border-radius: $border-radius;
-
-  background-color: $clr-ui-bg;
 }
 
 .gear-slot-large {
@@ -53,4 +51,8 @@
 
 .unequipped {
   opacity: 0.5;
+}
+
+.selected {
+  border: 3px solid $clr-border;
 }

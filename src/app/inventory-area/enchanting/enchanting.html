@@ -1,6 +1,32 @@
-<div class="container">
-  <div class="item-display"></div>
-  <div class="enchanting-options">
-    <h2>Enchant {{ item?.Type }}</h2>
+<div class="item">
+  <div class="item-display">
+    <app-icon [gear]="GearIcon" size="5x"></app-icon>
   </div>
+  <div class="item-slots">
+    @for (slot of item.EnchantmentSlots; track $index) {
+      <button
+        class="item-slot"
+        (click)="onEnchantmentSlotSelected(slot, $index)"
+        [class.selected]="selectedSlotIndex === $index">
+        <h2>{{ GetSlotDescription(slot) }}</h2>
+      </button>
+    }
+  </div>
+</div>
+
+<separator></separator>
+
+<div class="enchanting-options">
+  @if (CanEnchant) {
+    <button class="ih-button enchant-button" (click)="Enchant()" [disabled]="!CanEnchant">
+      Enchant
+    </button>
+  } @else if (CanDisenchant) {
+    <button class="ih-button enchant-button" (click)="Disenchant()" [disabled]="!CanDisenchant">
+      Disenchant
+    </button>
+  }
+  <button class="ih-button enchant-button" (click)="Upgrade()" [disabled]="!CanUpgrade">
+    Upgrade
+  </button>
 </div>

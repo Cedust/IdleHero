@@ -2,15 +2,21 @@
 @use "index" as *;
 
 .container {
-  @include relative-container();
+}
+
+.content {
+}
+
+.inventory-items {
+  // height: 485px;
 }
 
 .subheader {
   @include flexbox($justify: space-between);
+  margin-bottom: $gap;
 }
 
 .gear-area {
-  @include relative-container();
   display: grid;
 
   grid:
@@ -37,5 +43,4 @@
 }
 
 .enchanting-area {
-  @include relative-container();
 }

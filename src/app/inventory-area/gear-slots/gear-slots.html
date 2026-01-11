@@ -3,42 +3,48 @@
   <button
     class="gear-slot head"
     (click)="SelectGearSlot($event, GearType.Head)"
-    [class.unequipped]="!inventoryService.Head()">
+    [class.selected]="IsSelected(GearType.Head)"
+    [class.unequipped]="IsUnequipped(GearType.Head)">
     <app-icon gear="head" size="2x"></app-icon>
   </button>
   <!-- Chest -->
   <button
     class="gear-slot chest"
     (click)="SelectGearSlot($event, GearType.Chest)"
-    [class.unequipped]="!inventoryService.Chest()">
+    [class.selected]="IsSelected(GearType.Chest)"
+    [class.unequipped]="IsUnequipped(GearType.Chest)">
     <app-icon gear="chest" size="2x"></app-icon>
   </button>
   <!-- Legs -->
   <button
     class="gear-slot legs"
     (click)="SelectGearSlot($event, GearType.Legs)"
-    [class.unequipped]="!inventoryService.Legs()">
+    [class.selected]="IsSelected(GearType.Legs)"
+    [class.unequipped]="IsUnequipped(GearType.Legs)">
     <app-icon gear="legs" size="2x"></app-icon>
   </button>
   <!-- Boots -->
   <button
     class="gear-slot boots"
     (click)="SelectGearSlot($event, GearType.Boots)"
-    [class.unequipped]="!inventoryService.Boots()">
+    [class.selected]="IsSelected(GearType.Boots)"
+    [class.unequipped]="IsUnequipped(GearType.Boots)">
     <app-icon gear="boots" size="2x"></app-icon>
   </button>
   <!-- Weapon -->
   <button
     class="gear-slot gear-slot-large weapon"
     (click)="SelectGearSlot($event, GearType.Weapon)"
-    [class.unequipped]="!inventoryService.Weapon()">
+    [class.selected]="IsSelected(GearType.Weapon)"
+    [class.unequipped]="IsUnequipped(GearType.Weapon)">
     <app-icon gear="sword" size="3x"></app-icon>
   </button>
   <!-- Shield -->
   <button
     class="gear-slot gear-slot-large shield"
     (click)="SelectGearSlot($event, GearType.Shield)"
-    [class.unequipped]="!inventoryService.Shield()">
+    [class.selected]="IsSelected(GearType.Shield)"
+    [class.unequipped]="IsUnequipped(GearType.Shield)">
     <app-icon gear="shield" size="3x"></app-icon>
   </button>
 </div>

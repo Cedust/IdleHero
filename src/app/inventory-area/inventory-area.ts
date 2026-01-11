@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, inject } from '@angular/core';
 import { Gear, GearType } from '../../shared/models';
 import { Gold, PanelHeader, Separator } from '../../shared/components';
 import { InventoryService, ItemPriceService, VendorService } from '../../shared/services';
@@ -13,9 +13,13 @@ import { GearSlots } from './gear-slots/gear-slots';
   styleUrl: './inventory-area.scss'
 })
 export class InventoryArea {
+  private elementRef = inject(ElementRef);
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
-    this.deselectGearSlot();
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.deselectGearSlot();
+    }
   }
 
   protected get CanBuy(): boolean {
@@ -50,16 +54,13 @@ export class InventoryArea {
 
   private SelectedGearSlot: GearType | null = null;
 
-  private get SelectedGear(): Gear | null {
+  protected get SelectedGear(): Gear | null {
     if (this.SelectedGearSlot === null) {
       return null;
     }
 
     return this.inventoryService.GetGearForSlot(this.SelectedGearSlot);
   }
-
-  protected Enchanting: boolean = false;
-  protected EnchantingItem: Gear | null = null;
 
   constructor(
     protected inventoryService: InventoryService,
@@ -84,7 +85,6 @@ export class InventoryArea {
     }
 
     this.vendorService.BuyItem(this.SelectedGearSlot);
-    this.deselectGearSlot();
   }
 
   protected sellItem(event: MouseEvent) {
@@ -96,11 +96,5 @@ export class InventoryArea {
 
     this.vendorService.SellItem(this.SelectedGearSlot);
     this.deselectGearSlot();
-  }
-
-  protected enchantItem(event: MouseEvent) {
-    event.stopPropagation();
-    this.Enchanting = true;
-    this.EnchantingItem = this.SelectedGear;
   }
 }
