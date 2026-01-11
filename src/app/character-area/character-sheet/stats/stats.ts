@@ -85,11 +85,11 @@ export class Stats {
 
     switch (attribute) {
       case 'Strength':
-        return !this.gameService.InProgress() && this.statsService.Strength() > 1;
+        return !this.gameService.InProgress() && this.statsService.StrengthStat() > 1;
       case 'Intelligence':
-        return !this.gameService.InProgress() && this.statsService.Intelligence() > 1;
+        return !this.gameService.InProgress() && this.statsService.IntelligenceStat() > 1;
       case 'Dexterity':
-        return !this.gameService.InProgress() && this.statsService.Dexterity() > 1;
+        return !this.gameService.InProgress() && this.statsService.DexterityStat() > 1;
       default:
         return false;
     }

@@ -21,21 +21,24 @@ import { LevelService } from './level.service';
 export class StatsService {
   /* Attributes */
   private _strengthStat = signal(1);
+  public StrengthStat = this._strengthStat.asReadonly();
   public Strength = computed(() => {
     const bonus: number = this.inventoryService.GetBonusStatFromGear('Strength');
-    return this._strengthStat() + bonus;
+    return this.StrengthStat() + bonus;
   });
 
   private _intelligenceStat = signal(1);
+  public IntelligenceStat = this._intelligenceStat.asReadonly();
   public Intelligence = computed(() => {
     const bonus: number = this.inventoryService.GetBonusStatFromGear('Intelligence');
-    return this._intelligenceStat() + bonus;
+    return this.IntelligenceStat() + bonus;
   });
 
   private _dexterityStat = signal(1);
+  public DexterityStat = this._dexterityStat.asReadonly();
   public Dexterity = computed(() => {
     const bonus: number = this.inventoryService.GetBonusStatFromGear('Dexterity');
-    return this._dexterityStat() + bonus;
+    return this.DexterityStat() + bonus;
   });
 
   /* Combat Stats */
