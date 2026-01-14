@@ -9,7 +9,7 @@ export const GAME_CONFIG = {
   },
   STAGE: {
     BASE: 1,
-    MAX: 2
+    MAX: 50
   },
   BOSS: {
     BASE_HEALTH: 5,
