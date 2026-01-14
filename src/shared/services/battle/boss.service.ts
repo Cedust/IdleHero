@@ -1,6 +1,7 @@
 import { BossDamageResult, BossHealth } from '../../models';
-import { Injectable, signal } from '@angular/core';
+import { Injectable, Signal, WritableSignal, signal } from '@angular/core';
 
+import { CreaturesIconName } from '../../components';
 import { GAME_CONFIG } from '../../constants';
 
 @Injectable({
@@ -12,6 +13,9 @@ export class BossService {
 
   private _currentHealth = signal(GAME_CONFIG.BOSS.BASE_HEALTH);
   public CurrentHealth = this._currentHealth.asReadonly();
+
+  public _bossIcon: WritableSignal<CreaturesIconName> = signal('wyvern');
+  public BossIcon: Signal<CreaturesIconName> = this._bossIcon.asReadonly();
 
   public get IsDefeated(): boolean {
     return this.CurrentHealth() <= 0;
@@ -30,10 +34,19 @@ export class BossService {
   public SetBossForStage(stage: number) {
     this._maxHealth.update(() => BossHealth.CalculateForStage(stage));
     this._currentHealth.set(this.MaxHealth());
+    this._bossIcon.update(() => this.NextBossIcon());
   }
 
   public Reset() {
     this._maxHealth.set(GAME_CONFIG.BOSS.BASE_HEALTH);
     this._currentHealth.set(GAME_CONFIG.BOSS.BASE_HEALTH);
+  }
+
+  private NextBossIcon(): CreaturesIconName {
+    const icons: CreaturesIconName[] = ['wyvern', 'haunting', 'spectre', 'gargoyle'];
+    const currentIcon = this.BossIcon();
+    const currentIndex = icons.indexOf(currentIcon);
+    const nextIndex = (currentIndex + 1) % icons.length;
+    return icons[nextIndex];
   }
 }

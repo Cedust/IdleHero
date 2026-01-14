@@ -1,4 +1,5 @@
 import { CHARACTERS_ICONS, CharactersIconName } from './characters.icons';
+import { CREATURES_ICONS, CreaturesIconName } from './creatures.icons';
 import { Component, HostBinding, Input, OnChanges, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { GEAR_SLOT_ICONS, GearSlotIconName } from './gear-slot.icons';
@@ -42,6 +43,7 @@ export class IconComponent implements OnChanges {
   @Input() symbol?: SymbolsIconName;
   @Input() ui?: UiIconName;
   @Input() character?: CharactersIconName;
+  @Input() creatures?: CreaturesIconName;
 
   @HostBinding('style.width.px') get width() {
     return this.sizeMap[this.size];
@@ -81,6 +83,8 @@ export class IconComponent implements OnChanges {
       path = UI_ICONS[this.ui];
     } else if (this.character !== undefined) {
       path = CHARACTERS_ICONS[this.character];
+    } else if (this.creatures !== undefined) {
+      path = CREATURES_ICONS[this.creatures];
     }
 
     return path;

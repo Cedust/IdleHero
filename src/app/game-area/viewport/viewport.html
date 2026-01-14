@@ -18,7 +18,7 @@
   <!-- Boss -->
   <div class="boss">
     @if (showBoss) {
-      <span class="icon">🐉</span>
+      <app-icon class="icon" [creatures]="BossIcon" size="5x"></app-icon>
     }
   </div>
 
@@ -36,7 +36,9 @@
 
   <!-- Player -->
   <div class="player">
-    <span class="icon">🧙‍♂️</span>
+    @if (showHero) {
+      <app-icon class="icon" [character]="HeroIcon" size="4x"></app-icon>
+    }
   </div>
 
   <!-- Experience Bar -->

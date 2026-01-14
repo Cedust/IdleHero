@@ -5,6 +5,7 @@ export * from './experience-bar/experience-bar';
 export * from './gold/gold';
 export * from './health-bar/health-bar';
 export * from './icon/characters.icons';
+export * from './icon/creatures.icons';
 export * from './icon/gear-slot.icons';
 export * from './icon/icon-size';
 export * from './icon/icon.component';

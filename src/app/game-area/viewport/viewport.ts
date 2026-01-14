@@ -1,22 +1,35 @@
 import {
   BattleLog,
   BuffsBar,
+  CharactersIconName,
+  CreaturesIconName,
   ExperienceBar,
   HealthBar,
+  IconComponent,
   StageLabel
 } from '../../../shared/components';
-import { BossService, GameService, LevelService, StageService } from '../../../shared/services';
+import {
+  BossService,
+  GameService,
+  HeroService,
+  LevelService,
+  StageService
+} from '../../../shared/services';
 
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-viewport',
-  imports: [HealthBar, ExperienceBar, StageLabel, BattleLog, BuffsBar],
+  imports: [HealthBar, ExperienceBar, StageLabel, BattleLog, BuffsBar, IconComponent],
   templateUrl: './viewport.html',
   styleUrl: './viewport.scss'
 })
 export class Viewport {
   protected get showStage(): boolean {
+    return this.gameService.InProgress();
+  }
+
+  protected get showHero(): boolean {
     return this.gameService.InProgress();
   }
 
@@ -32,7 +45,16 @@ export class Viewport {
     return this.gameService.InProgress();
   }
 
+  protected get HeroIcon(): CharactersIconName {
+    return this.heroService.CharacterIcon();
+  }
+
+  protected get BossIcon(): CreaturesIconName {
+    return this.bossService.BossIcon();
+  }
+
   constructor(
+    protected heroService: HeroService,
     protected stageService: StageService,
     protected bossService: BossService,
     protected levelService: LevelService,
