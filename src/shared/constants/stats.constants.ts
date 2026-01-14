@@ -11,7 +11,7 @@ export const STATS_CONFIG = {
   CHC: {
     BASE: 0.01,
     MAX: 1,
-    CHC_PER_INTELLIGENCE: 0.01
+    CHC_PER_INTELLIGENCE: 0.0075
   },
   CHD: {
     BASE: 1.5

@@ -35,17 +35,17 @@ export class GearSlots {
   protected GetEnchantments(slot: GearType): EnchantmentSlot[] {
     switch (slot) {
       case GearType.Weapon:
-        return this.inventoryService.Weapon()?.Enchantments ?? [];
+        return this.inventoryService.Weapon()?.Slots ?? [];
       case GearType.Shield:
-        return this.inventoryService.Shield()?.Enchantments ?? [];
+        return this.inventoryService.Shield()?.Slots ?? [];
       case GearType.Head:
-        return this.inventoryService.Head()?.Enchantments ?? [];
+        return this.inventoryService.Head()?.Slots ?? [];
       case GearType.Chest:
-        return this.inventoryService.Chest()?.Enchantments ?? [];
+        return this.inventoryService.Chest()?.Slots ?? [];
       case GearType.Legs:
-        return this.inventoryService.Legs()?.Enchantments ?? [];
+        return this.inventoryService.Legs()?.Slots ?? [];
       case GearType.Boots:
-        return this.inventoryService.Boots()?.Enchantments ?? [];
+        return this.inventoryService.Boots()?.Slots ?? [];
       default:
         return [];
     }

@@ -9,7 +9,6 @@ import {
   SHIELD_ENCHANTMENT_POOL,
   WEAPON_ENCHANTMENT_POOL
 } from '../models';
-import { ENCHANTING_CONFIG, GEAR_CONFIG } from '../constants';
 
 import { CurrencyService } from './character/currency.service';
 import { Injectable } from '@angular/core';
@@ -26,8 +25,25 @@ export class EnchantingService {
     private currencyService: CurrencyService
   ) {}
 
+  public UpgradeGear(item: Gear) {
+    if (!item.CanUpgrade) {
+      return;
+    }
+
+    const gearUpgradeCost = this.itemPriceService.GetGearUpgradeCost(item);
+
+    if (!this.currencyService.SpendGold(gearUpgradeCost)) {
+      return;
+    }
+
+    item.Upgrade();
+    this.itemPriceService.IncreaseSellValue(item, gearUpgradeCost);
+
+    this.UpdateSlot(item);
+  }
+
   public Enchant(item: Gear, slotIndex: number) {
-    if (item.Enchantments[slotIndex].IsEnchanted) {
+    if (item.Slots[slotIndex].IsEnchanted) {
       return;
     }
 
@@ -38,17 +54,14 @@ export class EnchantingService {
     }
 
     const enchantment: Enchantment = this.CreateEnchantment(item.Type);
+    item.Slots[slotIndex].Enchant(enchantment, item.Level);
+    this.itemPriceService.IncreaseSellValue(item, enchantmentCost);
 
-    item.Enchantments[slotIndex].Enchantment = enchantment;
-    item.Enchantments[slotIndex].Level = 1;
-
-    item.SellValue += Math.floor(enchantmentCost * GEAR_CONFIG.PRICES.SELLVALUE_MULTIPLIER);
-
-    this.inventoryService.SetGearForSlot(item.Type, item);
+    this.UpdateSlot(item);
   }
 
   public Reroll(item: Gear, slotIndex: number) {
-    if (!item.Enchantments[slotIndex].IsEnchanted) {
+    if (!item.Slots[slotIndex].IsEnchanted) {
       return;
     }
 
@@ -59,44 +72,28 @@ export class EnchantingService {
     }
 
     const enchantment: Enchantment = this.CreateEnchantment(item.Type);
-
-    item.Enchantments[slotIndex].Enchantment = enchantment;
-    item.Enchantments[slotIndex].Level = 1;
-
-    item.SellValue += Math.floor(rerollCost * GEAR_CONFIG.PRICES.SELLVALUE_MULTIPLIER);
-
-    this.inventoryService.SetGearForSlot(item.Type, item);
+    item.Slots[slotIndex].Reroll(enchantment, item.Level);
+    this.itemPriceService.IncreaseSellValue(item, rerollCost);
+    this.UpdateSlot(item);
   }
 
   public Upgrade(item: Gear, slotIndex: number) {
-    if (!item.Enchantments[slotIndex].CanUpgrade) {
+    if (!item.Slots[slotIndex].CanUpgrade) {
       return;
     }
 
-    const upgradeCost = this.itemPriceService.GetUpgradeCost(item.Enchantments[slotIndex]);
+    const upgradeCost = this.itemPriceService.GetUpgradeCost(item.Slots[slotIndex]);
 
     if (!this.currencyService.SpendGold(upgradeCost)) {
       return;
     }
 
-    const enchantmentSlot = item.Enchantments[slotIndex];
+    item.Slots[slotIndex].Upgrade();
+    this.itemPriceService.IncreaseSellValue(item, upgradeCost);
+    this.UpdateSlot(item);
+  }
 
-    if (enchantmentSlot.Enchantment!.Value < 1) {
-      enchantmentSlot.Enchantment!.Value =
-        Math.ceil(
-          enchantmentSlot.Enchantment!.Value * ENCHANTING_CONFIG.UPGRADE.STAT_MODIFIER * 100
-        ) / 100;
-    } else {
-      enchantmentSlot.Enchantment!.Value = Math.ceil(
-        enchantmentSlot.Enchantment!.Value * ENCHANTING_CONFIG.UPGRADE.STAT_MODIFIER
-      );
-    }
-
-    enchantmentSlot.Level++;
-    item.Enchantments[slotIndex] = enchantmentSlot;
-
-    item.SellValue += Math.floor(upgradeCost * GEAR_CONFIG.PRICES.SELLVALUE_MULTIPLIER);
-
+  private UpdateSlot(item: Gear) {
     this.inventoryService.SetGearForSlot(item.Type, item);
   }
 

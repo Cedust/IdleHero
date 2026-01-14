@@ -1,17 +1,11 @@
 import { Component, ElementRef, HostListener, Input, OnInit, inject } from '@angular/core';
 import { CurrencyService, EnchantingService, ItemPriceService } from '../../../shared/services';
-import { EnchantmentSlot, Gear, GearType } from '../../../shared/models';
-import {
-  EnchantmentSlotIcon,
-  GearSlotIconName,
-  Gold,
-  IconComponent,
-  Separator
-} from '../../../shared/components';
+import { EnchantmentSlot, Gear } from '../../../shared/models';
+import { Gold, IconComponent } from '../../../shared/components';
 
 @Component({
   selector: 'app-enchanting',
-  imports: [IconComponent, EnchantmentSlotIcon, Gold, Separator],
+  imports: [IconComponent, Gold],
   templateUrl: './enchanting.html',
   styleUrl: './enchanting.scss'
 })
@@ -52,7 +46,7 @@ export class Enchanting implements OnInit {
   }
 
   private ResetSlotStates() {
-    this.Item.Enchantments.forEach((slot, index) => {
+    this.Item.Slots.forEach((slot, index) => {
       if (slot.IsEnchanted) {
         this.SlotStates.set(index, 'Enchanted');
       } else {
@@ -67,7 +61,7 @@ export class Enchanting implements OnInit {
 
   /* ENCHANT SECTION */
   protected ShowEnchantSlot(index: number): boolean {
-    const enchantedSlots = this.Item.Enchantments.filter((e) => e.IsEnchanted).length;
+    const enchantedSlots = this.Item.Slots.filter((e) => e.IsEnchanted).length;
 
     // Show all enchanted Slots and first non-enchanted Slot
     return index < enchantedSlots + 1;

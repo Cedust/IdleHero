@@ -1,12 +1,6 @@
 @use "sass:color";
 @use "index" as *;
 
-.container {
-}
-
-.content {
-}
-
 .inventory-items {
   // height: 485px;
 }
@@ -17,30 +11,11 @@
   margin-bottom: $gap;
 }
 
-.gear-area {
-  display: grid;
-
-  grid:
-    "_ gear-slots gear-actions"
-    / 1fr 1fr 1fr;
-
-  gap: $gap;
-}
-
 .gear-slots {
-  grid-area: gear-slots;
-
   width: 340px;
 
   // Centered horizontally
   margin: 0 auto;
-}
-
-.gear-actions {
-  grid-area: gear-actions;
-
-  @include flexbox($dir: column, $align: flex-end, $justify: flex-end);
-  gap: $gap;
 }
 
 .enchanting-area {
@@ -48,8 +23,11 @@
   grid:
     "header header"
     "item-display item-slots"
+    "gear-actions gear-actions"
     "separator separator"
     / auto 1fr;
+
+  gap: $gap;
 }
 
 .item-preview-area {
@@ -57,8 +35,11 @@
   grid:
     "header"
     "item-display"
+    "gear-actions"
     "separator"
     / 1fr;
+
+  gap: $gap;
 
   > .item-display {
     // Centered horizontally
@@ -72,6 +53,10 @@
 
 .item-slots {
   grid-area: item-slots;
+}
+
+.gear-actions {
+  grid-area: gear-actions;
 }
 
 .button-cancel {

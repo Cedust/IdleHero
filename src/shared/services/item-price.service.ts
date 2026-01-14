@@ -9,8 +9,8 @@ import {
   Shield,
   Weapon
 } from '../models';
+import { ENCHANTING_CONFIG, GEAR_CONFIG } from '../constants';
 
-import { ENCHANTING_CONFIG } from '../constants';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -36,9 +36,17 @@ export class ItemPriceService {
     }
   }
 
+  public IncreaseSellValue(item: Gear, amount: number) {
+    item.SellValue += Math.floor(amount * GEAR_CONFIG.PRICES.SELLVALUE_MULTIPLIER);
+  }
+
+  public GetGearUpgradeCost(item: Gear): number {
+    return item.Level * GEAR_CONFIG.COSTS.UPGRADE_COST_PER_LEVEL;
+  }
+
   public GetEnchantmentCost(item: Gear): number {
     return (
-      (item.SlotAmount - item.Enchantments.filter((e) => !e.IsEnchanted).length + 1) *
+      (item.SlotAmount - item.Slots.filter((e) => !e.IsEnchanted).length + 1) *
       ENCHANTING_CONFIG.COSTS.ENCHANT_COST
     );
   }

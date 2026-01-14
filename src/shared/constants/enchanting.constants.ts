@@ -1,5 +1,6 @@
 export const ENCHANTING_CONFIG = {
   LEVEL: {
+    UNENCHANTED: 0,
     BASE: 1,
     MAX: 5
   },

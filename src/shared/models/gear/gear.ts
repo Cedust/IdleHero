@@ -5,7 +5,8 @@ import { GearType } from './gear-type';
 import { StatType } from '../stats/stat-type';
 
 export abstract class Gear {
-  public readonly Enchantments: EnchantmentSlot[] = [];
+  public Level: number = GEAR_CONFIG.LEVEL.BASE;
+  public readonly Slots: EnchantmentSlot[] = [];
   public SellValue: number;
 
   constructor(
@@ -15,22 +16,28 @@ export abstract class Gear {
     public BuyPrice: number
   ) {
     for (let i = 0; i < SlotAmount; i++) {
-      this.Enchantments.push(new EnchantmentSlot(i + 1));
+      this.Slots.push(new EnchantmentSlot(i + 1));
     }
 
     this.SellValue = Gear.CalculateSellValue(BuyPrice);
   }
 
-  public get Level(): number {
-    let highestLevel = 0;
+  public get CanUpgrade(): boolean {
+    return this.Level < GEAR_CONFIG.LEVEL.MAX;
+  }
 
-    this.Enchantments.forEach((slot) => {
-      if (slot.Level > highestLevel) {
-        highestLevel = slot.Level;
+  public Upgrade() {
+    if (!this.CanUpgrade) {
+      return;
+    }
+
+    this.Level++;
+
+    for (const slot of this.Slots) {
+      if (slot.IsEnchanted) {
+        slot.GearUpgrade(GEAR_CONFIG.UPGRADE.STAT_MODIFIER);
       }
-    });
-
-    return highestLevel;
+    }
   }
 
   private static CalculateSellValue(price: number): number {
@@ -61,7 +68,7 @@ export abstract class Gear {
       totalBonus += this.Innate.Value;
     }
 
-    this.Enchantments.forEach((slot) => {
+    this.Slots.forEach((slot) => {
       if (slot.IsEnchanted && slot.Enchantment!.Stat === stat) {
         totalBonus += slot.Enchantment!.Value;
       }

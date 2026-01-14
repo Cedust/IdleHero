@@ -1,21 +1,25 @@
 import { Component, ElementRef, HostListener, inject } from '@angular/core';
-import {
-  CurrencyService,
-  InventoryService,
-  ItemPriceService,
-  SelectedGearService,
-  VendorService
-} from '../../shared/services';
+import { CurrencyService, InventoryService, SelectedGearService } from '../../shared/services';
 import { Gear, GearType } from '../../shared/models';
 import { Gold, IconComponent, PanelHeader, Separator } from '../../shared/components';
 
 import { Enchanting } from './enchanting/enchanting';
+import { GearActions } from './gear-actions/gear-actions';
 import { GearSlots } from './gear-slots/gear-slots';
 import { ItemDisplay } from './item-display/item-display';
 
 @Component({
   selector: 'app-inventory-area',
-  imports: [GearSlots, Gold, Enchanting, Separator, PanelHeader, IconComponent, ItemDisplay],
+  imports: [
+    GearSlots,
+    Gold,
+    Enchanting,
+    Separator,
+    PanelHeader,
+    IconComponent,
+    ItemDisplay,
+    GearActions
+  ],
   templateUrl: './inventory-area.html',
   styleUrl: './inventory-area.scss'
 })
@@ -25,7 +29,8 @@ export class InventoryArea {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
-      this.DeselectGear(event);
+      event.stopPropagation();
+      this.DeselectGear();
     }
   }
 
@@ -33,37 +38,19 @@ export class InventoryArea {
     return this.currencyService.Gold();
   }
 
-  protected get CanBuy(): boolean {
-    return this.SelectedGearSlot !== null && this.SelectedGear === null;
+  protected get ShowItemDisplay(): boolean {
+    return this.SelectedGear !== null || this.GearPreview !== null;
   }
 
-  protected get EnoughGoldToBuy(): boolean {
-    return this.currencyService.Gold() >= this.ItemPrice;
+  protected get ShowSlots(): boolean {
+    return this.SelectedGear !== null && this.GearPreview === null;
   }
 
-  protected get CanSell(): boolean {
-    return this.SelectedGear !== null;
+  protected get GearType(): string {
+    return this.SelectedGear?.Type?.toUpperCase() ?? this.GearPreview?.Type?.toUpperCase() ?? '';
   }
 
-  protected get CanEnchant(): boolean {
-    return this.SelectedGear !== null;
-  }
-
-  protected get ItemPrice(): number {
-    if (this.SelectedGearSlot === null) {
-      return 0;
-    }
-    return this.itemPriceService.GetBuyPrice(this.SelectedGearSlot);
-  }
-
-  protected get SellValue(): number {
-    if (this.SelectedGear === null) {
-      return 0;
-    }
-    return this.SelectedGear.SellValue;
-  }
-
-  private get SelectedGearSlot(): GearType | null {
+  protected get SelectedGearSlot(): GearType | null {
     return this.selectedGearService.Type();
   }
 
@@ -74,11 +61,9 @@ export class InventoryArea {
   protected GearPreview: Gear | null = null;
 
   constructor(
-    protected selectedGearService: SelectedGearService,
+    private selectedGearService: SelectedGearService,
     private currencyService: CurrencyService,
-    private inventoryService: InventoryService,
-    private itemPriceService: ItemPriceService,
-    private vendorService: VendorService
+    private inventoryService: InventoryService
   ) {}
 
   protected OnGearSlotSelected(event: MouseEvent, slot: GearType) {
@@ -86,41 +71,29 @@ export class InventoryArea {
     this.SelectGear(slot);
   }
 
-  protected DeselectGear(event: MouseEvent) {
-    event.stopPropagation();
+  protected OnItemBought(slot: GearType) {
+    this.SelectGear(slot);
+  }
+
+  protected OnItemSold() {
+    this.DeselectGear();
+  }
+
+  protected DeselectGear() {
     this.selectedGearService.DeselectGear();
     this.GearPreview = null;
   }
 
   private SelectGear(slot: GearType) {
     const selected: Gear | null = this.inventoryService.GetGearForSlot(slot);
-    this.selectedGearService.SetSelectedGear(selected);
-    this.selectedGearService.SetSelectedGearType(slot);
 
     if (selected === null) {
       this.GearPreview = Gear.Create(slot);
-    }
-  }
-
-  protected BuyItem(event: MouseEvent) {
-    event.stopPropagation();
-
-    if (this.SelectedGearSlot === null) {
-      return;
+    } else {
+      this.GearPreview = null;
     }
 
-    this.vendorService.BuyItem(this.SelectedGearSlot);
-    this.SelectGear(this.SelectedGearSlot);
-  }
-
-  protected SellItem(event: MouseEvent) {
-    event.stopPropagation();
-
-    if (this.SelectedGearSlot === null) {
-      return;
-    }
-
-    this.vendorService.SellItem(this.SelectedGearSlot);
-    this.selectedGearService.DeselectGear();
+    this.selectedGearService.SetSelectedGear(selected);
+    this.selectedGearService.SetSelectedGearType(slot);
   }
 }

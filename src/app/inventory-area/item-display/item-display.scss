@@ -6,9 +6,12 @@
 
   @include flexbox($dir: column, $align: center, $justify: center);
   @include panel($bg: $clr-ui-bg);
-  @include panel-shadow($border-width: 2px, $border-color: $clr-border);
+  @include box-shadow();
 
   cursor: pointer;
+
+  border-width: 3px;
+  border-style: solid;
 
   height: 320px;
   width: 220px;
