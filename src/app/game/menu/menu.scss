@@ -1,7 +1,7 @@
 @use "index" as *;
 
 $position-top: calc($gap + 12px);
-$position-left: calc($gap);
+$position-left: calc($gap + 12px);
 
 .menu__toggle {
   @include fixed-floating($position-top, null, null, $position-left, 1000);

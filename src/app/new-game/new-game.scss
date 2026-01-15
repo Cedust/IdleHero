@@ -1,0 +1,92 @@
+@use "sass:color";
+@use "index" as *;
+
+$margin: 40px;
+
+.container {
+  @include flexbox($dir: column);
+  @include panel();
+  @include panel-shadow();
+
+  height: calc(100vh - 2 * $margin);
+  width: calc(100% - 2 * $margin);
+
+  margin: $margin;
+}
+
+.content {
+  @include flexbox($dir: column);
+  gap: $gap;
+}
+
+.header {
+  margin-bottom: $margin;
+
+  width: 50%;
+  text-align: center;
+}
+
+.intro-text {
+  margin-bottom: $margin;
+
+  width: 900px;
+
+  text-align: center;
+}
+
+.character {
+  @include flexbox($dir: row);
+  gap: calc($gap * 4);
+}
+
+.character-selection {
+  @include flexbox($dir: row);
+  gap: $gap;
+}
+
+.button-arrow {
+  border: 3px solid $clr-border;
+  border-radius: 50%;
+  padding: calc($gap / 2);
+}
+
+.left {
+  rotate: 90deg;
+}
+
+.right {
+  rotate: -90deg;
+}
+
+.character-icon {
+  @include flexbox();
+
+  height: 12em;
+  width: 10em;
+
+  border: 3px solid $clr-border;
+  border-radius: $border-radius;
+}
+
+.name-input {
+  @include flexbox($dir: column);
+  height: 200px;
+  width: 350px;
+  gap: $gap;
+}
+
+input {
+  padding: calc($gap / 2);
+
+  line-height: 2rem;
+  font-size: 1.5rem;
+
+  background: $clr-ui-bg;
+  border: 2px solid $clr-border;
+  border-radius: $border-radius;
+}
+
+.input-hint {
+  color: $clr-accent;
+  font-size: 1rem;
+}

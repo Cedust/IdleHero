@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="header">
+    <h1>Idle Hero</h1>
+    <separator class="ih-separator"></separator>
+  </div>
+
+  <div class="content">
+    <h2 class="intro-text">
+      Welcome to Idle Hero!
+      <br /><br />
+      Prepare yourself for an epic adventure filled with heroes, battles, and treasures.
+      <br /><br />
+      Choose your character and enter your name to embark on your journey!
+    </h2>
+
+    <div class="character">
+      <!-- SELECTION -->
+      <div class="character-selection">
+        <button class="ih-button-icon button-arrow left" (click)="PreviousCharacter()">
+          <app-icon ui="arrow" size="sm"></app-icon>
+        </button>
+        <div class="character-icon">
+          <app-icon [character]="CharacterIcon" size="4x"></app-icon>
+        </div>
+        <button class="ih-button-icon button-arrow right" (click)="NextCharacter()">
+          <app-icon ui="arrow" size="sm"></app-icon>
+        </button>
+      </div>
+      <!-- NAME INPUT -->
+      <div class="name-input">
+        <input
+          id="heroname"
+          name="heroname"
+          #heroname="ngModel"
+          [(ngModel)]="heroName"
+          type="text"
+          placeholder="Enter your name"
+          required
+          minlength="3"
+          maxlength="12"
+          pattern="[a-zA-Z]+" />
+        @if (heroname.invalid && (heroname.dirty || heroname.touched)) {
+          <h3 class="input-hint">
+            @if (heroname.hasError("required")) {
+              <div>Name is required</div>
+            }
+            @if (heroname.hasError("minlength")) {
+              <div>Name must be at least 3 characters long</div>
+            }
+            @if (heroname.hasError("pattern")) {
+              <div>Name must contain only letters</div>
+            }
+          </h3>
+        }
+      </div>
+    </div>
+
+    <separator class="ih-separator"></separator>
+
+    <button class="ih-button" (click)="StartGame()" [disabled]="heroname.invalid">
+      Start Game
+    </button>
+  </div>
+</div>

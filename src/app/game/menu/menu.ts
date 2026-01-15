@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, inject } from '@angular/core';
+import { GameService, GameStateService, MenuService } from '../../../shared/services';
 
-import { MenuService } from '../../../shared/services';
+import { Router } from '@angular/router';
 import { Separator } from '../../../shared/components';
 import { environment } from '../../../environment/environment';
 
@@ -34,12 +35,11 @@ export class Menu {
     this.menuService.IsMenuOpen.set(false);
   }
 
-  ToggleMenu() {
+  protected ToggleMenu() {
     this.menuService.IsMenuOpen.set(!this.menuService.IsMenuOpen());
   }
 
-  Reload() {
+  protected NewGame() {
     window.location.reload();
-    this.CloseMenu();
   }
 }

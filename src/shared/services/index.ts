@@ -10,6 +10,7 @@ export * from './character/level.service';
 export * from './character/stats.service';
 export * from './enchanting.service';
 export * from './item-price.service';
+export * from './state/game-state.service';
 export * from './state/menu.service';
 export * from './state/selected-gear.service';
 export * from './vendor.service';

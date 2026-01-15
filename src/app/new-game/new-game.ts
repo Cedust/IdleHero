@@ -1,0 +1,49 @@
+import { CharactersIconName, IconComponent, Separator } from '../../shared/components';
+import { GameStateService, HeroService } from '../../shared/services';
+
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-new-game',
+  imports: [FormsModule, Separator, IconComponent],
+  templateUrl: './new-game.html',
+  styleUrl: './new-game.scss'
+})
+export class NewGame {
+  private CharacterIcons: CharactersIconName[] = ['dwarf', 'overlord', 'wizard'];
+  protected CharacterIcon: CharactersIconName = 'dwarf';
+
+  protected heroName: string = '';
+
+  constructor(
+    private router: Router,
+    private gameStateService: GameStateService,
+    private heroService: HeroService
+  ) {}
+
+  StartGame() {
+    this.gameStateService.GameCreated.set(true);
+
+    this.heroService.CharacterIcon.set(this.CharacterIcon);
+    this.heroService.Name.set(this.heroName);
+
+    this.router.navigate(['/game']);
+  }
+
+  NextCharacter() {
+    this.CharacterIcon =
+      this.CharacterIcons[
+        (this.CharacterIcons.indexOf(this.CharacterIcon) + 1) % this.CharacterIcons.length
+      ];
+  }
+
+  PreviousCharacter() {
+    this.CharacterIcon =
+      this.CharacterIcons[
+        (this.CharacterIcons.indexOf(this.CharacterIcon) - 1 + this.CharacterIcons.length) %
+          this.CharacterIcons.length
+      ];
+  }
+}
