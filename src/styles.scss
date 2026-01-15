@@ -41,6 +41,12 @@ body {
 h1 {
   font-family: "Cinzel Decorative", serif;
   @include disable-text-selection();
+  color: $clr-highlight;
+  text-shadow:
+    -1px -1px 0 $clr-text-shadow,
+    1px -1px 0 $clr-text-shadow,
+    -1px 1px 0 $clr-text-shadow,
+    1px 1px 0 $clr-text-shadow;
 }
 
 h2 {

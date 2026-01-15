@@ -1,0 +1,32 @@
+<aside class="menu" aria-label="Main Menu">
+  <button
+    class="menu__toggle"
+    aria-expanded="{{ IsMenuOpen }}"
+    aria-controls="menuNav"
+    (click)="ToggleMenu()">
+    <i class="bi bi-list menu__toggle__icon"></i>
+  </button>
+
+  <div class="menu__content" [hidden]="!IsMenuOpen">
+    <div class="menu__content__title">
+      <h1>Menu</h1>
+    </div>
+    <nav class="menu__content__nav" aria-label="Main Menu Links" id="menuNav">
+      <button class="ih-button menu__content__nav__item" (click)="Reload()">New Game</button>
+    </nav>
+    <div class="menu__content__site-info">
+      <separator></separator>
+      <p>A little idle game built with Angular.</p>
+      <p>Contains AI generated content.</p>
+      <p>
+        Contains Icons by
+        <a href="https://game-icons.net" target="_blank">Lorc, Delapouite & contributors</a> under
+        the terms of
+        <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank">CC 3.0 BY license</a
+        >.
+      </p>
+      <separator></separator>
+      <p>Version: {{ Version }}</p>
+    </div>
+  </div>
+</aside>

@@ -1,0 +1,53 @@
+@use "index" as *;
+
+$position-top: calc($gap + 12px);
+$position-left: calc($gap);
+
+.menu__toggle {
+  @include fixed-floating($position-top, null, null, $position-left, 1000);
+  cursor: pointer;
+  background: $clr-accent;
+  width: 42px;
+  height: 42px;
+  border: 2px solid $clr-border;
+  border-radius: $border-radius;
+}
+
+.menu__toggle__icon {
+  font-size: 1.5rem;
+  color: $clr-text-primary;
+}
+
+.menu__toggle:hover,
+.menu__toggle:focus {
+  outline: none;
+}
+
+.menu__content {
+  @include fixed-floating($position-top, null, null, $position-left, 999);
+  @include panel($grad-ui-bg, $padding: 20px);
+  @include panel-shadow();
+  width: 400px;
+  border: 2px solid #fff;
+}
+
+.menu__content__title {
+  @include divider($clr-highlight, $margin: 0 0 1rem 0, $padding: 0);
+  text-align: center;
+}
+
+.menu__content__nav {
+  @include flexbox(column, flex-start, stretch);
+  gap: $gap;
+  align-items: center;
+}
+
+.menu__content__nav__item {
+  width: 200px;
+}
+
+.menu__content__site-info {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
