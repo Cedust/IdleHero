@@ -9,6 +9,7 @@ import {
   StageRewards
 } from '../../models';
 import { BATTLE_CONFIG, DELAYS } from '../../constants';
+import { FlagsUtils, TimeoutUtils } from '../../utils';
 import { Injectable, signal } from '@angular/core';
 
 import { BattleLogService } from './battle-log.service';
@@ -19,7 +20,6 @@ import { HeroService } from '../character/hero.service';
 import { LevelService } from '../character/level.service';
 import { StageService } from './stage.service';
 import { StatsService } from '../character/stats.service';
-import { TimeoutUtils } from '../../utils';
 
 @Injectable({
   providedIn: 'root'
@@ -128,7 +128,7 @@ export class GameService {
 
     if (attackPowerOverflow > 0) {
       attackResult.Damage += attackPowerOverflow;
-      attackResult.AttackType |= AttackType.Splash;
+      FlagsUtils.SetFlag(attackResult.AttackType, AttackType.Splash);
     }
 
     this.battleLogService.AttackLog(attackResult);

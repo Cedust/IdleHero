@@ -8,10 +8,10 @@ import {
   MultiHitChance,
   MultiHitDamage
 } from '../../models';
+import { ChanceUtils, FlagsUtils } from '../../utils';
 import { Injectable, computed, signal } from '@angular/core';
 
 import { BuffsService } from '../buffs-service';
-import { ChanceUtils } from '../../utils';
 import { InventoryService } from './inventory.service';
 import { LevelService } from './level.service';
 import { STATS_CONFIG } from '../../constants';
@@ -102,13 +102,13 @@ export class StatsService {
     /* Critical Hit Calculation */
     if (ChanceUtils.success(this.CriticalHitChance())) {
       damage = CriticalHitDamage.Calculate(damage, this.CriticalHitDamage());
-      attackType |= AttackType.Critical;
+      FlagsUtils.SetFlag(attackType, AttackType.Critical);
     }
 
     /* Multi Hit Calculation */
     if (ChanceUtils.success(this.MultiHitChance())) {
       damage = MultiHitDamage.Calculate(damage, this.MultiHitDamage());
-      attackType |= AttackType.MultiHit;
+      FlagsUtils.SetFlag(attackType, AttackType.MultiHit);
     }
 
     return {

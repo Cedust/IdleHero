@@ -7,6 +7,7 @@ import {
   StageRewards
 } from '../../models';
 import { Inject, Injectable, LOCALE_ID, signal } from '@angular/core';
+import { FlagsUtils } from '../../utils';
 
 @Injectable({
   providedIn: 'root'
@@ -50,19 +51,19 @@ export class BattleLogService {
       Type: MessageType.Damage
     };
 
-    if ((attackResult.AttackType & AttackType.Splash) === AttackType.Splash) {
-      message.Type |= MessageType.Splash;
-    }
-
-    if (attackResult.AttackType === (AttackType.Critical | AttackType.MultiHit)) {
+    if (FlagsUtils.IsFlagSet(attackResult.AttackType, AttackType.Critical | AttackType.MultiHit)) {
       message.Type |= MessageType.Crit | MessageType.Multi;
       message.Submessage = 'Critical Multi Hit'.toUpperCase();
-    } else if ((attackResult.AttackType & AttackType.Critical) === AttackType.Critical) {
+    } else if (FlagsUtils.IsFlagSet(attackResult.AttackType, AttackType.Critical)) {
       message.Type |= MessageType.Crit;
       message.Submessage = 'Critical Hit'.toUpperCase();
-    } else if ((attackResult.AttackType & AttackType.MultiHit) === AttackType.MultiHit) {
+    } else if (FlagsUtils.IsFlagSet(attackResult.AttackType, AttackType.MultiHit)) {
       message.Type |= MessageType.Multi;
       message.Submessage = 'Multi Hit'.toUpperCase();
+    }
+
+    if (FlagsUtils.IsFlagSet(attackResult.AttackType, AttackType.Splash)) {
+      FlagsUtils.SetFlag(message.Type, MessageType.Splash);
     }
 
     this.AddLog(message);
