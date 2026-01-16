@@ -3,7 +3,6 @@ import {
   BuffsBar,
   CharactersIconName,
   CreaturesIconName,
-  ExperienceBar,
   HealthBar,
   IconComponent,
   StageLabel
@@ -20,7 +19,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-viewport',
-  imports: [HealthBar, ExperienceBar, StageLabel, BattleLog, BuffsBar, IconComponent],
+  imports: [HealthBar, StageLabel, BattleLog, BuffsBar, IconComponent],
   templateUrl: './viewport.html',
   styleUrl: './viewport.scss'
 })
@@ -34,10 +33,6 @@ export class Viewport {
   }
 
   protected get showBoss(): boolean {
-    return this.gameService.InProgress();
-  }
-
-  protected get showExpBar(): boolean {
     return this.gameService.InProgress();
   }
 

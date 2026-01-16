@@ -37,7 +37,7 @@ export class LevelService {
     return schema;
   }
 
-  public async GainExperience(amount: number): Promise<ExperienceGainResult> {
+  public GainExperience(amount: number): ExperienceGainResult {
     let leveledUp = false;
     let experienceOverflow = 0;
 
@@ -48,12 +48,8 @@ export class LevelService {
       experienceOverflow = this.Experience() - this.ExperienceToNextLevel();
       this.Experience.set(this.ExperienceToNextLevel());
 
-      await TimeoutUtils.wait(DELAYS.LEVEL_UP_ANIMATION_MS);
-
       this.LevelUp();
       this.SetNextLevelExperience();
-
-      await TimeoutUtils.wait(DELAYS.LEVEL_UP_ANIMATION_MS);
     }
 
     return {

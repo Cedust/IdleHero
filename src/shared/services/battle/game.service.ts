@@ -163,7 +163,7 @@ export class GameService {
       this.LogPlayerLevelUp();
 
       while (experienceGainResult.ExperienceOverflow > 0) {
-        experienceGainResult = await this.levelService.GainExperience(
+        experienceGainResult = this.levelService.GainExperience(
           experienceGainResult.ExperienceOverflow
         );
 

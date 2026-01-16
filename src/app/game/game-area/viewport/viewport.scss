@@ -7,7 +7,6 @@
     "stage boss-health boss-health boss-health" auto
     "battlelog battlelog boss buffs" 2fr
     "battlelog battlelog player buffs" 1fr
-    "exp exp exp exp" auto
     / auto auto 1fr auto;
 
   gap: $gap;
@@ -62,8 +61,4 @@
 
 .buffs {
   grid-area: buffs;
-}
-
-.experience-bar {
-  grid-area: exp;
 }

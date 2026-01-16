@@ -2,4 +2,7 @@
 @use "index" as *;
 
 .container {
+  @include flexbox(column, stretch, stretch);
+
+  gap: $gap;
 }

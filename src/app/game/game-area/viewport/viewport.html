@@ -40,14 +40,4 @@
       <app-icon class="icon" [character]="HeroIcon" size="4x"></app-icon>
     }
   </div>
-
-  <!-- Experience Bar -->
-  <div class="experience-bar">
-    @if (showExpBar) {
-      <app-experience-bar
-        [currentLevel]="levelService.Current()"
-        [currentExp]="levelService.Experience()"
-        [expToNextLevel]="levelService.ExperienceToNextLevel()"></app-experience-bar>
-    }
-  </div>
 </div>
