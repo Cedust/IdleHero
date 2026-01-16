@@ -7,7 +7,13 @@ import { GameState } from '../../models';
 })
 export class GameStateService {
   public GameCreated = signal(false);
+
   public GameState = signal<GameState>('IDLE');
+
+  public Reset(): void {
+    this.GameCreated.set(false);
+    this.SetGameIdle();
+  }
 
   public get IsGameInProgress(): boolean {
     return this.GameState() === 'IN_PROGRESS';

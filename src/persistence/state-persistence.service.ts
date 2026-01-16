@@ -18,6 +18,7 @@ export class StatePersistenceService {
 
   public async Save<T>(data: T): Promise<void> {
     if (!this.isBrowser()) {
+      console.log('Not in browser environment, cannot save to local storage');
       return;
     }
 
@@ -29,13 +30,15 @@ export class StatePersistenceService {
       };
       const payload = JSON.stringify(payloadData);
       localStorage.setItem(this.STORAGE_KEY, payload);
-    } catch {
+    } catch (error) {
       // ignore quota/serialization errors for now
+      console.error('Failed to save to local storage', error);
     }
   }
 
   public async Load<T = unknown>(): Promise<T | null> {
     if (!this.isBrowser()) {
+      console.log('Not in browser environment, cannot load from local storage');
       return null;
     }
 
@@ -62,7 +65,8 @@ export class StatePersistenceService {
       }
 
       return (data ?? null) as T | null;
-    } catch {
+    } catch (error) {
+      console.error('Failed to load from local storage', error);
       return null;
     }
   }
@@ -84,13 +88,14 @@ export class StatePersistenceService {
 
   public Clear(): void {
     if (!this.isBrowser()) {
+      console.log('Not in browser environment, cannot clear local storage');
       return;
     }
 
     try {
       localStorage.removeItem(this.STORAGE_KEY);
-    } catch {
-      // ignore
+    } catch (error) {
+      console.error('Failed to clear local storage', error);
     }
   }
 

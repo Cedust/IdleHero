@@ -6,8 +6,8 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection
 } from '@angular/core';
-import { StateApplicationService, StatePersistenceService } from '../persistence';
 
+import { GameLoaderService } from '../persistence';
 import localeDe from '@angular/common/locales/de';
 import { provideRouter } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
@@ -21,17 +21,12 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     { provide: LOCALE_ID, useValue: 'de-DE' },
     provideAppInitializer(async () => {
-      await InitializeApp(inject(StatePersistenceService), inject(StateApplicationService));
+      await InitializeApp(inject(GameLoaderService));
     }),
     provideRouter(routes)
   ]
 };
 
-export async function InitializeApp(
-  statePersistenceService: StatePersistenceService,
-  stateApplicationService: StateApplicationService
-): Promise<void> {
-  const schema = await statePersistenceService.LoadSchema();
-  console.log('Loaded schema:', schema);
-  stateApplicationService.ApplyState(schema);
+export async function InitializeApp(gameLoaderService: GameLoaderService): Promise<void> {
+  await gameLoaderService.LoadGame();
 }

@@ -14,9 +14,4 @@ export class GameSaverService {
     console.log('Saving game:', schema);
     await this.statePersistenceService.Save(schema);
   }
-
-  public ClearGameSaves(): void {
-    console.log('Clearing game saves');
-    this.statePersistenceService.Clear();
-  }
 }
