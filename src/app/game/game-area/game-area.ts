@@ -1,7 +1,8 @@
+import { BattleEngineService, GameStateService } from '../../../shared/services';
+import { Component, OnDestroy } from '@angular/core';
 import { PanelHeader, Separator } from '../../../shared/components';
 
-import { Component } from '@angular/core';
-import { GameService } from '../../../shared/services';
+import { DELAYS } from '../../../shared/constants';
 import { Viewport } from './viewport/viewport';
 
 @Component({
@@ -10,24 +11,36 @@ import { Viewport } from './viewport/viewport';
   templateUrl: './game-area.html',
   styleUrl: './game-area.scss'
 })
-export class GameArea {
-  private RESTART_DELAY_MS = 5000;
+export class GameArea implements OnDestroy {
+  private timeoutId: any;
 
   protected CanStartGame: boolean = true;
+  protected get CanPrestige(): boolean {
+    return this.gameStateService.GameState() === 'IN_PROGRESS';
+  }
 
-  constructor(protected gameService: GameService) {}
+  constructor(
+    private gameStateService: GameStateService,
+    private battleService: BattleEngineService
+  ) {}
+
+  ngOnDestroy(): void {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+  }
 
   startGame() {
-    this.gameService.Start();
+    this.battleService.Start();
   }
 
   prestige() {
-    this.gameService.Prestige();
+    this.battleService.Prestige();
     this.CanStartGame = false;
 
     // Delay before the player can start a new game
-    setTimeout(() => {
+    this.timeoutId = setTimeout(() => {
       this.CanStartGame = true;
-    }, this.RESTART_DELAY_MS);
+    }, DELAYS.BATTLE_RESTART_MS);
   }
 }

@@ -2,6 +2,7 @@ export * from './battle-log-message';
 export * from './boss-health';
 export * from './buff';
 export * from './experience';
+export * from './game-state';
 export * from './gear/enchantment-pool';
 export * from './gear/enchantment-slot';
 export * from './gear/enchantment';

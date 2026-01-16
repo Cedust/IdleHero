@@ -22,12 +22,8 @@ export abstract class Gear {
     this.SellValue = Gear.CalculateSellValue(BuyPrice);
   }
 
-  public get CanUpgrade(): boolean {
-    return this.Level < GEAR_CONFIG.LEVEL.MAX;
-  }
-
   public Upgrade() {
-    if (!this.CanUpgrade) {
+    if (this.Level >= GEAR_CONFIG.LEVEL.MAX) {
       return;
     }
 

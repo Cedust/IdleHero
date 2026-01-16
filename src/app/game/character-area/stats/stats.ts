@@ -3,7 +3,7 @@ import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { DecimalPipe, PercentPipe } from '@angular/common';
 import { LevelService, StatsService } from '../../../../shared/services';
 import { IconComponent } from '../../../../shared/components';
-import { CanChangeAttributesSpecification } from '../../../../shared/specifications';
+import { AttributesSpecification } from '../../../../shared/specifications';
 
 @Component({
   selector: 'app-stats',
@@ -22,7 +22,7 @@ export class Stats {
     @Inject(LOCALE_ID) locale: string,
     private statsService: StatsService,
     private levelService: LevelService,
-    private canChangeAttributes: CanChangeAttributesSpecification
+    private canChangeAttributes: AttributesSpecification
   ) {
     this.decimalPipe = new DecimalPipe(locale);
     this.percentPipe = new PercentPipe(locale);
@@ -83,11 +83,11 @@ export class Stats {
   }
 
   get CanIncreaseAttributes(): boolean {
-    return this.canChangeAttributes.CanIncreaseAttributes();
+    return this.canChangeAttributes.CanIncrease();
   }
 
   protected CanDecreaseAttribute(attribute: string): boolean {
-    return this.canChangeAttributes.CanDecreaseAttribute(
+    return this.canChangeAttributes.CanDecrease(
       attribute as 'Strength' | 'Intelligence' | 'Dexterity'
     );
   }

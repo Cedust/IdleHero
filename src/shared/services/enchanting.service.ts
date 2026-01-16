@@ -9,6 +9,7 @@ import {
 import { Enchantment, Gear, GearType } from '../models';
 
 import { CurrencyService } from './character/currency.service';
+import { GearSpecifications } from '../specifications';
 import { Injectable } from '@angular/core';
 import { InventoryService } from './character/inventory.service';
 import { ItemPriceService } from './item-price.service';
@@ -20,11 +21,12 @@ export class EnchantingService {
   constructor(
     private inventoryService: InventoryService,
     private itemPriceService: ItemPriceService,
-    private currencyService: CurrencyService
+    private currencyService: CurrencyService,
+    private gearSpecifications: GearSpecifications
   ) {}
 
   public UpgradeGear(item: Gear) {
-    if (!item.CanUpgrade) {
+    if (!this.gearSpecifications.CanUpgrade(item)) {
       return;
     }
 

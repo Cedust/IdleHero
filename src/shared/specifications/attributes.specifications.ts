@@ -1,21 +1,23 @@
-import { GameService, LevelService, StatsService } from '../services';
+import { GameStateService, LevelService, StatsService } from '../services';
 
 import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
-export class CanChangeAttributesSpecification {
+export class AttributesSpecification {
   constructor(
     private statsService: StatsService,
     private levelService: LevelService,
-    private gameService: GameService
+    private gameStateService: GameStateService
   ) {}
 
-  public CanIncreaseAttributes(): boolean {
-    return !this.gameService.InProgress() && this.levelService.UnspentAttributePoints() > 0;
+  public CanIncrease(): boolean {
+    return (
+      !this.gameStateService.IsGameInProgress && this.levelService.UnspentAttributePoints() > 0
+    );
   }
 
-  public CanDecreaseAttribute(attribute: 'Strength' | 'Intelligence' | 'Dexterity'): boolean {
-    if (this.gameService.InProgress()) {
+  public CanDecrease(attribute: 'Strength' | 'Intelligence' | 'Dexterity'): boolean {
+    if (this.gameStateService.IsGameInProgress) {
       return false;
     }
 

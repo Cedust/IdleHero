@@ -10,13 +10,14 @@ import {
 } from '../../models';
 import { BATTLE_CONFIG, DELAYS } from '../../constants';
 import { FlagsUtils, TimeoutUtils } from '../../utils';
-import { Injectable, signal } from '@angular/core';
 
 import { BattleLogService } from './battle-log.service';
 import { BossService } from './boss.service';
 import { BuffsService } from '../buffs-service';
 import { CurrencyService } from '../character/currency.service';
+import { GameStateService } from '../state/game-state.service';
 import { HeroService } from '../character/hero.service';
+import { Injectable } from '@angular/core';
 import { LevelService } from '../character/level.service';
 import { StageService } from './stage.service';
 import { StatsService } from '../character/stats.service';
@@ -24,8 +25,9 @@ import { StatsService } from '../character/stats.service';
 @Injectable({
   providedIn: 'root'
 })
-export class GameService {
+export class BattleEngineService {
   constructor(
+    private gameStateService: GameStateService,
     private heroService: HeroService,
     private stageService: StageService,
     private statsService: StatsService,
@@ -35,10 +37,6 @@ export class GameService {
     private buffsService: BuffsService,
     private currencyService: CurrencyService
   ) {}
-
-  private _gameInProgress = signal(false);
-  public InProgress = this._gameInProgress.asReadonly();
-
   private get AttackDelay(): number {
     // Calculate attack delay in milliseconds based on player's attack speed
     return (1 / this.statsService.AttackSpeed()) * 1000;
@@ -56,7 +54,7 @@ export class GameService {
     this.battleLogService.ClearLogs();
     this.battleLogService.StartGame();
 
-    this._gameInProgress.set(true);
+    this.gameStateService.SetGameInProgress();
     this.BattleLoop();
   }
 
@@ -65,7 +63,7 @@ export class GameService {
     this.battleLogService.Prestige(this.stageService.Current());
     this.heroService.Prestige(this.stageService.Current());
 
-    this._gameInProgress.set(false);
+    this.gameStateService.SetGameIdle();
     this.bossService.Reset();
     this.stageService.Reset();
   }
@@ -73,7 +71,7 @@ export class GameService {
   private async BattleLoop(): Promise<void> {
     let attackPowerOverflow: number = 0;
 
-    while (this.InProgress()) {
+    while (this.gameStateService.IsGameInProgress) {
       if (!this.IsSplashDamageEnabled) {
         attackPowerOverflow = 0;
       }
@@ -81,7 +79,7 @@ export class GameService {
       /* Attack Delay */
       await TimeoutUtils.wait(this.AttackDelay);
 
-      if (!this.InProgress()) {
+      if (!this.gameStateService.IsGameInProgress) {
         break;
       }
 
@@ -90,20 +88,20 @@ export class GameService {
       attackPowerOverflow = attackPhaseResult.AttackPowerOverflow;
 
       /* Boss Defeated */
-      if (attackPhaseResult.IsBossDefeated && this.InProgress()) {
+      if (attackPhaseResult.IsBossDefeated && this.gameStateService.IsGameInProgress) {
         const rewards: StageRewards = this.stageService.GetRewards();
         this.battleLogService.BossDefeated(rewards);
 
         /* Boss Respawn Delay */
         await TimeoutUtils.wait(DELAYS.BOSS_RESPAWN_ANIMATION_MS);
 
-        if (!this.InProgress()) {
+        if (!this.gameStateService.IsGameInProgress) {
           break;
         }
 
         await this.RewardPhase(rewards);
 
-        if (!this.InProgress()) {
+        if (!this.gameStateService.IsGameInProgress) {
           break;
         }
 
@@ -155,7 +153,7 @@ export class GameService {
       rewards.Experience
     );
 
-    if (!this.InProgress()) {
+    if (!this.gameStateService.IsGameInProgress) {
       return;
     }
 
@@ -167,7 +165,7 @@ export class GameService {
           experienceGainResult.ExperienceOverflow
         );
 
-        if (!this.InProgress()) {
+        if (!this.gameStateService.IsGameInProgress) {
           return;
         }
 

@@ -1,6 +1,6 @@
+export * from './battle/battle-engine.service';
 export * from './battle/battle-log.service';
 export * from './battle/boss.service';
-export * from './battle/game.service';
 export * from './battle/stage.service';
 export * from './buffs-service';
 export * from './character/currency.service';

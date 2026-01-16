@@ -9,7 +9,7 @@ import {
 } from '../../../../shared/components';
 import {
   BossService,
-  GameService,
+  GameStateService,
   HeroService,
   LevelService,
   StageService
@@ -25,19 +25,19 @@ import { Component } from '@angular/core';
 })
 export class Viewport {
   protected get showStage(): boolean {
-    return this.gameService.InProgress();
+    return this.gameStateService.IsGameInProgress;
   }
 
   protected get showHero(): boolean {
-    return this.gameService.InProgress();
+    return this.gameStateService.IsGameInProgress;
   }
 
   protected get showBoss(): boolean {
-    return this.gameService.InProgress();
+    return this.gameStateService.IsGameInProgress;
   }
 
   protected get showBuffBar(): boolean {
-    return this.gameService.InProgress();
+    return this.gameStateService.IsGameInProgress;
   }
 
   protected get HeroIcon(): CharactersIconName {
@@ -53,6 +53,6 @@ export class Viewport {
     protected stageService: StageService,
     protected bossService: BossService,
     protected levelService: LevelService,
-    protected gameService: GameService
+    protected gameStateService: GameStateService
   ) {}
 }
