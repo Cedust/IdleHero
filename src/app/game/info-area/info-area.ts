@@ -1,12 +1,12 @@
 import { CurrencyService, HeroService } from '../../../shared/services';
+import { Gold, Separator } from '../../../shared/components';
 
 import { Component } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { Gold } from '../../../shared/components';
 
 @Component({
   selector: 'app-info-area',
-  imports: [DecimalPipe, Gold],
+  imports: [DecimalPipe, Gold, Separator],
   templateUrl: './info-area.html',
   styleUrl: './info-area.scss'
 })
