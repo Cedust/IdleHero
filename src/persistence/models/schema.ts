@@ -1,4 +1,4 @@
-import { Boots, Chest, Head, Legs, Shield, Weapon } from '../../shared/models';
+import { Boots, Chest, Head, Legs, Shield, SkillTreeState, Weapon } from '../../shared/models';
 import { CHARACTER_CONFIG, CURRENCY_CONFIG, STATS_CONFIG } from '../../shared/constants';
 import { FallbackUtils, ObjectUtils } from '../../shared/utils';
 
@@ -12,6 +12,7 @@ export class Schema {
   Hero: HeroSchema = new HeroSchema();
   Level: LevelSchema = new LevelSchema();
   Attributes: AttributesSchema = new AttributesSchema();
+  Skills: SkillSchema = new SkillSchema();
   Inventory: InventorySchema = new InventorySchema();
   Currency: CurrencySchema = new CurrencySchema();
 
@@ -42,6 +43,9 @@ export class Schema {
 
     // Stats
     applyTo.Attributes = AttributesSchema.FromRaw(applyTo.Attributes, raw);
+
+    // Skills
+    applyTo.Skills = SkillSchema.FromRaw(applyTo.Skills, raw);
 
     // Inventory
     applyTo.Inventory = InventorySchema.FromRaw(applyTo.Inventory, raw);
@@ -115,6 +119,11 @@ export class LevelSchema {
   public static FromRaw(applyTo: LevelSchema, raw: unknown): LevelSchema {
     const level = (raw as any).Level;
     applyTo.Level = FallbackUtils.pickNumber(level?.Level, applyTo.Level);
+    applyTo.Experience = FallbackUtils.pickNumber(level?.Experience, applyTo.Experience);
+    applyTo.ExperienceToNextLevel = FallbackUtils.pickNumber(
+      level?.ExperienceToNextLevel,
+      applyTo.ExperienceToNextLevel
+    );
     applyTo.UnspentAttributePoints = FallbackUtils.pickNumber(
       level?.UnspentAttributePoints,
       applyTo.UnspentAttributePoints
@@ -141,6 +150,30 @@ export class AttributesSchema {
     applyTo.Strength = FallbackUtils.pickNumber(stats?.Strength, applyTo.Strength);
     applyTo.Intelligence = FallbackUtils.pickNumber(stats?.Intelligence, applyTo.Intelligence);
     applyTo.Dexterity = FallbackUtils.pickNumber(stats?.Dexterity, applyTo.Dexterity);
+    return applyTo;
+  }
+}
+
+export class SkillSchema {
+  SkillTreeState: SkillTreeState = { TierState: {}, SkillState: {} };
+
+  public static FromRaw(applyTo: SkillSchema, raw: unknown): SkillSchema {
+    const skills = (raw as any).Skills;
+    const tierStateRaw = skills?.SkillTreeState?.TierState;
+    const skillStateRaw = skills?.SkillTreeState?.SkillState;
+
+    if (ObjectUtils.isPlainObject(tierStateRaw)) {
+      for (const [key, value] of Object.entries(tierStateRaw)) {
+        applyTo.SkillTreeState.TierState[Number(key)] = FallbackUtils.pickBoolean(value, false);
+      }
+    }
+
+    if (ObjectUtils.isPlainObject(skillStateRaw)) {
+      for (const [key, value] of Object.entries(skillStateRaw)) {
+        applyTo.SkillTreeState.SkillState[key] = FallbackUtils.pickNumber(value, 0);
+      }
+    }
+
     return applyTo;
   }
 }
