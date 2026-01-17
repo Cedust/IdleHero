@@ -102,13 +102,13 @@ export class StatsService {
     /* Critical Hit Calculation */
     if (ChanceUtils.success(this.CriticalHitChance())) {
       damage = CriticalHitDamage.Calculate(damage, this.CriticalHitDamage());
-      FlagsUtils.SetFlag(attackType, AttackType.Critical);
+      attackType = FlagsUtils.AddFlag(attackType, AttackType.Critical);
     }
 
     /* Multi Hit Calculation */
     if (ChanceUtils.success(this.MultiHitChance())) {
       damage = MultiHitDamage.Calculate(damage, this.MultiHitDamage());
-      FlagsUtils.SetFlag(attackType, AttackType.MultiHit);
+      attackType = FlagsUtils.AddFlag(attackType, AttackType.MultiHit);
     }
 
     return {

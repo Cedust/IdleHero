@@ -3,7 +3,7 @@ export class FlagsUtils {
     return (value & flag) === flag;
   }
 
-  public static SetFlag(value: number, flag: number): number {
-    return value | flag;
+  public static AddFlag(value: number, flag: number): number {
+    return (value |= flag);
   }
 }

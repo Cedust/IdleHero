@@ -1,8 +1,9 @@
-import { BattleEngineService, GameStateService } from '../../../shared/services';
 import { Component, OnDestroy } from '@angular/core';
 import { PanelHeader, Separator } from '../../../shared/components';
 
+import { BattleService } from '../../../shared/engine';
 import { DELAYS } from '../../../shared/constants';
+import { GameStateService } from '../../../shared/services';
 import { Viewport } from './viewport/viewport';
 
 @Component({
@@ -21,24 +22,34 @@ export class GameArea implements OnDestroy {
 
   constructor(
     private gameStateService: GameStateService,
-    private battleService: BattleEngineService
+    private battleService: BattleService
   ) {}
 
   ngOnDestroy(): void {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
     }
+
+    this.battleService.Prestige();
   }
 
   startGame() {
-    this.battleService.Start();
+    this.battleService.Battle();
+    this.CanStartGame = false;
   }
 
   prestige() {
     this.battleService.Prestige();
-    this.CanStartGame = false;
 
     // Delay before the player can start a new game
+    this.delayRestart();
+  }
+
+  private delayRestart() {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+
     this.timeoutId = setTimeout(() => {
       this.CanStartGame = true;
     }, DELAYS.BATTLE_RESTART_MS);

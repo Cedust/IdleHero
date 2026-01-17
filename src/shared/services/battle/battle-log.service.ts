@@ -63,7 +63,7 @@ export class BattleLogService {
     }
 
     if (FlagsUtils.IsFlagSet(attackResult.AttackType, AttackType.Splash)) {
-      FlagsUtils.SetFlag(message.Type, MessageType.Splash);
+      message.Type = FlagsUtils.AddFlag(message.Type, MessageType.Splash);
     }
 
     this.AddLog(message);

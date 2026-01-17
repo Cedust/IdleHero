@@ -1,4 +1,3 @@
-export * from './battle/battle-engine.service';
 export * from './battle/battle-log.service';
 export * from './battle/boss.service';
 export * from './battle/stage.service';
