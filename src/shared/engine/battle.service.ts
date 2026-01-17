@@ -150,7 +150,7 @@ export class BattleService implements OnDestroy {
           Message: 'VICTORY!',
           Type: MessageType.Info
         });
-      } else {
+      } else if (this.stageService.Current() > 1) {
         this.Prestige();
       }
     }

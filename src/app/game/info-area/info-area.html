@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="info-value gold" title="Gold Amount">
+    <app-gold [amount]="GoldAmount" size="md"></app-gold>
+  </div>
+  <div class="info-value" title="Prestige Level">
+    <h3>🏆 {{ PrestigeLevel | number }}</h3>
+  </div>
+  <div class="info-value" title="Highest Stage reached">
+    <h3>🚩 {{ MaxStage | number }}</h3>
+  </div>
+  <div class="info-value" title="Highest Damage dealt">
+    <h3>⚡ {{ MaxDamageDealt | number }}</h3>
+  </div>
+</div>

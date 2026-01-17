@@ -2,13 +2,14 @@ import { Component, signal } from '@angular/core';
 
 import { CharacterArea } from './character-area/character-area';
 import { GameArea } from './game-area/game-area';
+import { InfoArea } from './info-area/info-area';
 import { InventoryArea } from './inventory-area/inventory-area';
 import { Menu } from './menu/menu';
 import { MenuService } from '../../shared/services';
 
 @Component({
   selector: 'app-game',
-  imports: [GameArea, CharacterArea, InventoryArea, Menu],
+  imports: [GameArea, CharacterArea, InventoryArea, Menu, InfoArea],
   templateUrl: './game.html',
   styleUrl: './game.scss'
 })

@@ -1,16 +1,28 @@
 <div class="container" [class.opacity]="IsMenuOpen">
+  <!-- HEADER -->
   <div class="header">
     <app-menu></app-menu>
     <div class="title">
       <h1>Idle Hero</h1>
     </div>
   </div>
+
+  <!-- INFO AREA -->
+  <div class="info">
+    <app-info-area></app-info-area>
+  </div>
+
+  <!-- BATTLE AREA -->
   <div class="game-area">
     <app-game-area></app-game-area>
   </div>
+
+  <!-- CHARACTER AREA -->
   <div class="character-area">
     <app-character-area></app-character-area>
   </div>
+
+  <!-- INVENTORY AREA -->
   <div class="inventory-area">
     <app-inventory-area></app-inventory-area>
   </div>
