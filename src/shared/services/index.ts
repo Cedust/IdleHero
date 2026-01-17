@@ -7,6 +7,7 @@ export * from './character/currency.service';
 export * from './character/hero.service';
 export * from './character/inventory.service';
 export * from './character/level.service';
+export * from './character/skills.service';
 export * from './character/stats.service';
 export * from './enchanting.service';
 export * from './item-price.service';

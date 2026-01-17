@@ -5,4 +5,6 @@ export * from './delays.constants';
 export * from './enchanting.constants';
 export * from './enchantments.pool';
 export * from './gear.constants';
+export * from './skill-tiers.constants';
+export * from './skills.constants';
 export * from './stats.constants';

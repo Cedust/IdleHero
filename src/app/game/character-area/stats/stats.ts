@@ -3,7 +3,7 @@ import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { DecimalPipe, PercentPipe } from '@angular/common';
 import { AttributesService, LevelService, StatsService } from '../../../../shared/services';
 import { IconComponent } from '../../../../shared/components';
-import { AttributesSpecification } from '../../../../shared/specifications';
+import { AttributesSpecifications } from '../../../../shared/specifications';
 
 @Component({
   selector: 'app-stats',
@@ -23,7 +23,7 @@ export class Stats {
     private attributesService: AttributesService,
     private statsService: StatsService,
     private levelService: LevelService,
-    private canChangeAttributes: AttributesSpecification
+    private canChangeAttributes: AttributesSpecifications
   ) {
     this.decimalPipe = new DecimalPipe(locale);
     this.percentPipe = new PercentPipe(locale);

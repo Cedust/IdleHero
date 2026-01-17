@@ -22,8 +22,21 @@
     <app-character-area></app-character-area>
   </div>
 
-  <!-- INVENTORY AREA -->
-  <div class="inventory-area">
-    <app-inventory-area></app-inventory-area>
+  <!-- SIDE CONTENT AREA -->
+  <div class="sidecontent">
+    <app-tab-strip [tabs]="Tabs" (selectedChange)="onTabSelected($event)"></app-tab-strip>
+    <div class="sidecontent__area">
+      @switch (SelectedTab()) {
+        @case ("inventory") {
+          <app-inventory-area></app-inventory-area>
+        }
+        @case ("skills") {
+          <app-skill-tree></app-skill-tree>
+        }
+        @case ("crafting") {
+          Coming Soon...
+        }
+      }
+    </div>
   </div>
 </div>

@@ -3,31 +3,17 @@
 
 .container {
   @include relative-container();
+  @include dim();
+
   display: grid;
 
   grid:
     "header info info" auto
-    "game character inventory" 1fr
+    "game character sidecontent" 1fr
     / 1fr 1fr 1fr;
 
   gap: $gap;
   padding: $gap;
-}
-
-// Overlay to dim everything when the menu is open
-.container::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  z-index: 1;
-}
-
-.container.opacity::after {
-  opacity: 1;
 }
 
 @media (max-width: $bp-lg) {
@@ -37,7 +23,7 @@
       "info" auto
       "game" 1fr
       "character" auto
-      "inventory" auto
+      "sidecontent" auto
       / 1fr;
   }
 }
@@ -46,7 +32,7 @@
 .info,
 .game-area,
 .character-area,
-.inventory-area {
+.sidecontent {
   @include panel();
   @include panel-shadow();
 }
@@ -61,12 +47,6 @@
   text-align: center;
 }
 
-// Keep the menu above the dimming overlay
-.header app-menu {
-  position: relative;
-  z-index: 2;
-}
-
 .info {
   grid-area: info;
 }
@@ -79,6 +59,9 @@
   grid-area: character;
 }
 
-.inventory-area {
-  grid-area: inventory;
+.sidecontent {
+  grid-area: sidecontent;
+
+  display: grid;
+  grid-template-rows: auto auto 1fr;
 }

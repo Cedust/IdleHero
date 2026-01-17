@@ -3,7 +3,7 @@ import { AttributesService, GameStateService, LevelService } from '../services';
 import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
-export class AttributesSpecification {
+export class AttributesSpecifications {
   constructor(
     private attributesService: AttributesService,
     private levelService: LevelService,
