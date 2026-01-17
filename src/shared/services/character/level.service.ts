@@ -25,8 +25,7 @@ export class LevelService {
     this.TotalAttributePoints.set(levelSchema.TotalAttributePoints);
   }
 
-  public CollectSchema(): LevelSchema {
-    const schema = new LevelSchema();
+  public CollectSchema(schema: LevelSchema): LevelSchema {
     schema.Level = this.Current();
     schema.Experience = this.Experience();
     schema.ExperienceToNextLevel = this.ExperienceToNextLevel();

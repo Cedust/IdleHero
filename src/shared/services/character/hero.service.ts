@@ -21,8 +21,7 @@ export class HeroService {
     this.HighestDamageDealt.set(heroSchema.HighestDamageDealt);
   }
 
-  public CollectSchema(): HeroSchema {
-    const schema = new HeroSchema();
+  public CollectSchema(schema: HeroSchema): HeroSchema {
     schema.Name = this.Name();
     schema.CharacterIcon = this.CharacterIcon();
     schema.PrestigeLevel = this.PrestigeLevel();

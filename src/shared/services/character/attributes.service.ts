@@ -42,8 +42,7 @@ export class AttributesService {
     this._dexterityStat.set(statsSchema.Dexterity);
   }
 
-  public CollectSchema(): AttributesSchema {
-    const schema = new AttributesSchema();
+  public CollectSchema(schema: AttributesSchema): AttributesSchema {
     schema.Strength = this.StrengthStat();
     schema.Intelligence = this.IntelligenceStat();
     schema.Dexterity = this.DexterityStat();

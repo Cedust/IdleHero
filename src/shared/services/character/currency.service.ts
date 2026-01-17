@@ -14,8 +14,7 @@ export class CurrencyService {
     this._gold.set(currencySchema.Gold);
   }
 
-  public CollectSchema(): CurrencySchema {
-    const schema = new CurrencySchema();
+  public CollectSchema(schema: CurrencySchema): CurrencySchema {
     schema.Gold = this.Gold();
     return schema;
   }

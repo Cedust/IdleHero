@@ -24,8 +24,7 @@ export class InventoryService {
     this.Boots.set(ReconstructGear(inventorySchema.Boots) as any);
   }
 
-  public CollectSchema(): InventorySchema {
-    const schema = new InventorySchema();
+  public CollectSchema(schema: InventorySchema): InventorySchema {
     schema.Weapon = this.Weapon();
     schema.Shield = this.Shield();
     schema.Head = this.Head();
