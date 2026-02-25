@@ -74,10 +74,9 @@ export class BossSelectionService {
     const roll = ChanceUtils.Roll();
     if (roll >= combinedRate) return null;
 
-    const mimicThreshold = Math.min(mimicRate, combinedRate);
-
-    if (roll < mimicThreshold) return Mimic();
-    else return Djinn();
+    if (roll < mimicRate) return Mimic();
+    else if (roll < mimicRate + djinnRate) return Djinn();
+    else return null;
   }
 
   private NormalizeSpawnRate(spawnRate: number): number {

@@ -49,7 +49,7 @@ export const DUNGEON_SPECIAL_BOSS_CONFIG = {
   MIMIC_GOLD_REWARD_MULTIPLIER: 10, // Mimics geben das 10-fache an Gold im Vergleich zu regulären Bossen
 
   DJINN_ID: 'Djinn',
-  DJINN_SPAWN_RATE: 0.0075, // 0.75% Chance, dass ein Djinn statt eines regulären Bosses spawnt
+  DJINN_SPAWN_RATE: 0.005, // 0.5% Chance, dass ein Djinn statt eines regulären Bosses spawnt
   DJINN_EXP_REWARD_MULTIPLIER: 5 // Djinns geben das 5-fache an Erfahrung im Vergleich zu regulären Bossen
 };
 
