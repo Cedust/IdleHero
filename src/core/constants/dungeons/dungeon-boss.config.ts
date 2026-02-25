@@ -3,8 +3,19 @@ import {
   Brute,
   BullyMinion,
   CobraSnake,
+  DoubleHeadedDragon,
+  EvilBat,
+  EvilHarpy,
+  EvilHawk,
+  EvilImp,
   EvilMinion,
+  EvilTrident,
+  FireDragon,
+  FloatingGhost,
+  Ghost,
   Gooey,
+  HauntingGhost,
+  HydraDragon,
   IceGolem,
   KingSlime,
   MambaSnake,
@@ -14,13 +25,17 @@ import {
   RobotGolem,
   RockGolem,
   SandSnake,
+  SeaDragon,
   SeaSerpent,
+  SeaSerpentDragon,
   ShamblingMound,
   Slime,
   Slug,
+  SpectreGhost,
   Troglodyte,
   VileFluid,
-  ViperSnake
+  ViperSnake,
+  WyvernDragon
 } from '../../systems/combat/dungeons/boss.factory';
 
 import { Boss } from '../../models';
@@ -129,6 +144,65 @@ export const DUNGEON_BOSS_CONFIGS: Record<string, DungeonBossConfig> = {
       [60, [IceGolem, ShamblingMound, RobotGolem]],
       [80, [ShamblingMound, RobotGolem]],
       [90, [RobotGolem, BattleMechGolem]]
+    ])
+  },
+  C1: {
+    StageSpecific: new Map<number, BossFactory>([
+      [1, Ghost],
+      [20, Ghost],
+      [40, FloatingGhost],
+      [60, HauntingGhost],
+      [80, SpectreGhost],
+      [100, SpectreGhost]
+    ]),
+    BossPools: new Map<number, BossFactory[]>([
+      [1, [Ghost]],
+      [20, [Ghost, FloatingGhost]],
+      [40, [FloatingGhost, HauntingGhost]],
+      [60, [HauntingGhost]],
+      [80, [HauntingGhost, SpectreGhost]],
+      [90, [SpectreGhost]]
+    ])
+  },
+  C2: {
+    StageSpecific: new Map<number, BossFactory>([
+      [1, EvilImp],
+      [20, EvilImp],
+      [40, EvilBat],
+      [60, EvilTrident],
+      [80, EvilHarpy],
+      [100, EvilHawk]
+    ]),
+    BossPools: new Map<number, BossFactory[]>([
+      [1, [EvilImp]],
+      [20, [EvilImp, EvilBat]],
+      [40, [EvilBat, EvilTrident]],
+      [60, [EvilTrident, EvilHarpy]],
+      [80, [EvilHarpy, EvilHawk]],
+      [90, [EvilHawk]]
+    ])
+  },
+  C3: {
+    StageSpecific: new Map<number, BossFactory>([
+      [1, SeaSerpentDragon],
+      [20, SeaSerpentDragon],
+      [35, WyvernDragon],
+      [50, FireDragon],
+      [65, SeaDragon],
+      [80, DoubleHeadedDragon],
+      [100, HydraDragon]
+    ]),
+    BossPools: new Map<number, BossFactory[]>([
+      [1, [SeaSerpentDragon]],
+      [10, [SeaSerpentDragon, WyvernDragon]],
+      [20, [WyvernDragon]],
+      [30, [WyvernDragon, FireDragon]],
+      [40, [FireDragon]],
+      [50, [FireDragon, SeaDragon]],
+      [60, [SeaDragon]],
+      [70, [SeaDragon, DoubleHeadedDragon]],
+      [80, [DoubleHeadedDragon]],
+      [90, [HydraDragon]]
     ])
   }
 };

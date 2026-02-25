@@ -113,8 +113,8 @@ export const CAPSTONE_DUNGEONS: CapstoneDungeonRoom[] = [
     Type: DungeonType.Capstone,
 
     StagesBase: 1,
-    MidStages: [20, 40],
-    StagesMax: 60,
+    MidStages: [20, 40, 60, 80],
+    StagesMax: 100,
 
     Rewards: {
       XpBase: 100,
@@ -125,7 +125,7 @@ export const CAPSTONE_DUNGEONS: CapstoneDungeonRoom[] = [
 
     Prerequisites: { Key: 'Silver Key' as DungeonRoomKey },
 
-    Locked: true
+    Locked: false
   },
   {
     Id: 'C2',
@@ -135,8 +135,8 @@ export const CAPSTONE_DUNGEONS: CapstoneDungeonRoom[] = [
     Type: DungeonType.Capstone,
 
     StagesBase: 1,
-    MidStages: [20, 40],
-    StagesMax: 60,
+    MidStages: [20, 40, 60, 80],
+    StagesMax: 100,
 
     Rewards: {
       XpBase: 150,
@@ -147,7 +147,7 @@ export const CAPSTONE_DUNGEONS: CapstoneDungeonRoom[] = [
 
     Prerequisites: { Key: 'Magic Key' as DungeonRoomKey },
 
-    Locked: true
+    Locked: false
   },
   {
     Id: 'C3',
@@ -157,8 +157,8 @@ export const CAPSTONE_DUNGEONS: CapstoneDungeonRoom[] = [
     Type: DungeonType.Capstone,
 
     StagesBase: 1,
-    MidStages: [20, 40],
-    StagesMax: 60,
+    MidStages: [20, 35, 50, 65, 80],
+    StagesMax: 100,
 
     Rewards: {
       XpBase: 200,
@@ -169,7 +169,7 @@ export const CAPSTONE_DUNGEONS: CapstoneDungeonRoom[] = [
 
     Prerequisites: { Key: 'Golden Key' as DungeonRoomKey },
 
-    Locked: true
+    Locked: false
   }
 ];
 
