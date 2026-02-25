@@ -4,6 +4,7 @@ import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { AppStateService } from '../shared/services';
 import { LocalStorageData } from './models/local-storage-data';
 import { MigrateSchema_2_0_1_to_2_1_0 } from './migrations/2.0.1-2.1.0.migration';
+import { MigrateSchema_3_1_0_to_3_2_0 } from './migrations/3.1.0-3.2.0.migration';
 import { environment } from '../environment/environment';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -105,6 +106,13 @@ export class StatePersistenceService {
 
     if ((fromVersion === '2.0.0' || fromVersion === '2.0.1') && toVersion === '2.1.0') {
       data = MigrateSchema_2_0_1_to_2_1_0(data);
+    }
+
+    if (
+      (fromVersion === '3.0.0' || fromVersion === '3.0.1' || fromVersion === '3.1.0') &&
+      toVersion === '3.2.0'
+    ) {
+      data = MigrateSchema_3_1_0_to_3_2_0(data);
     }
 
     return data;

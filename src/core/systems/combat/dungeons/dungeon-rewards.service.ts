@@ -153,19 +153,14 @@ export class DungeonRewardsService {
   public GrantCompletionRewards(dungeon: DungeonRoom): Rewards {
     let rewards = this.ComputeCompletionRewards(dungeon);
 
-    // If capstone dungeon, also grant any key reward
-    if (dungeon.Type === DungeonType.Capstone) {
-      const capstoneDungeon = dungeon as CapstoneDungeonRoom;
-
-      if (capstoneDungeon.Rewards.Key) {
-        this.Keys.AddKey(capstoneDungeon.Rewards.Key);
-      }
-
-      rewards = {
-        ...rewards,
-        Key: capstoneDungeon.Rewards.Key || null
-      };
+    if (dungeon.Rewards.Key) {
+      this.Keys.AddKey(dungeon.Rewards.Key);
     }
+
+    rewards = {
+      ...rewards,
+      Key: dungeon.Rewards.Key || null
+    };
 
     this.Log.Rewards(dungeon.StagesMax, rewards);
     this.Gold.Add(rewards.Gold);

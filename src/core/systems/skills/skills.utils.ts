@@ -4,6 +4,8 @@ import {
   SKILL_TIER_1_SKILLS,
   SKILL_TIER_2_SKILLS,
   SKILL_TIER_3_SKILLS,
+  SKILL_TIER_4_SKILLS,
+  SKILL_TIER_5_SKILLS,
   SKILL_TIER_CONFIG
 } from '../../constants';
 import {
@@ -18,12 +20,14 @@ import {
 
 import { DecimalPipe } from '@angular/common';
 
-export const TierOrder: SkillTier[] = ['I', 'II', 'III'];
+export const TierOrder: SkillTier[] = ['I', 'II', 'III', 'IV', 'V'];
 
 export const SkillDefinitionsByTier: Record<SkillTier, SkillDefinition[]> = {
   I: [...SKILL_TIER_1_SKILLS],
   II: [...SKILL_TIER_2_SKILLS],
-  III: [...SKILL_TIER_3_SKILLS]
+  III: [...SKILL_TIER_3_SKILLS],
+  IV: [...SKILL_TIER_4_SKILLS],
+  V: [...SKILL_TIER_5_SKILLS]
 };
 
 export const SkillDefinitionsById = new Map<string, SkillDefinition>(
@@ -62,12 +66,12 @@ export function GetTierMeta(tier: SkillTier): { REQUIRED_LEVEL: number; GOLD_COS
   return SKILL_TIER_CONFIG[index];
 }
 
-export function GetTierIndex(tier: SkillTier): 1 | 2 | 3 {
+export function GetTierIndex(tier: SkillTier): 1 | 2 | 3 | 4 | 5 {
   const index = TierOrder.indexOf(tier) + 1;
-  if (index < 1 || index > 3) {
+  if (index < 1 || index > 5) {
     throw new Error(`Unknown skill tier: ${tier}`);
   }
-  return index as 1 | 2 | 3;
+  return index as 1 | 2 | 3 | 4 | 5;
 }
 
 export function GetPreviousTier(tier: SkillTier): SkillTier | null {
