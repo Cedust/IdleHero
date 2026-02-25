@@ -716,6 +716,7 @@ const INNATE_IAS = ScaleLinearValueCurve(0.01, 0.0075);
 const INNATE_BLEED_CHANCE = ScaleLinearValueCurve(0.01, 0.01);
 const INNATE_CRIT_CHANCE = ScaleLinearValueCurve(0.01, 0.01);
 const INNATE_MULTI_CHANCE = ScaleLinearValueCurve(0.01, 0.01);
+const INNATE_MULTI_CHAIN = ScaleLinearValueCurve(0.01, 0.01);
 const INNATE_CSD = ScaleLinearValueCurve(0.025, 0.025);
 const INNATE_CS_GAIN_T2 = ScaleLinearValueCurve(-8, 1);
 const INNATE_CS_GAIN_T3 = ScaleLinearValueCurve(-18, 1.15);
@@ -1528,6 +1529,23 @@ const LEGS_PANTS_VARIANTS: ItemVariantDefinition[] = [
     }
   },
   {
+    Id: 't3_legs_pants_3',
+    Name: 'Immortal Pants',
+    Icon: 'armoredpants',
+    Slot: 'Legs',
+    Type: 'Pants',
+    Tier: 'III',
+    Innate: {
+      ToLabel: (value: number) => PercentageAdditiveLabel('Bleeding Damage', value),
+      ValuesByLevel: INNATE_BLEED_DAMAGE,
+      MapToStatSource: (value: number): StatSource => {
+        const s = EmptyStatSource('t3_legs_pants_3_innate');
+        s.Bleeding.Damage = value;
+        return s;
+      }
+    }
+  },
+  {
     Id: 't3_legs_pants_2',
     Name: 'Savage Pants',
     Icon: 'loincloth',
@@ -1540,6 +1558,23 @@ const LEGS_PANTS_VARIANTS: ItemVariantDefinition[] = [
       MapToStatSource: (value: number): StatSource => {
         const s = EmptyStatSource('t3_legs_pants_2_innate');
         s.MultiHit.Chance = value;
+        return s;
+      }
+    }
+  },
+  {
+    Id: 't3_legs_pants_4',
+    Name: 'Savage Pants',
+    Icon: 'loincloth',
+    Slot: 'Legs',
+    Type: 'Pants',
+    Tier: 'III',
+    Innate: {
+      ToLabel: (value: number) => PercentageAdditiveLabel('Multi Hit Damage', value),
+      ValuesByLevel: INNATE_MULTI_DAMAGE,
+      MapToStatSource: (value: number): StatSource => {
+        const s = EmptyStatSource('t3_legs_pants_4_innate');
+        s.MultiHit.Damage = value;
         return s;
       }
     }
@@ -1593,6 +1628,23 @@ const LEGS_SKIRT_VARIANTS: ItemVariantDefinition[] = [
       MapToStatSource: (value: number): StatSource => {
         const s = EmptyStatSource('t3_legs_skirt_1_innate');
         s.CriticalHit.Chance = value;
+        return s;
+      }
+    }
+  },
+  {
+    Id: 't3_legs_skirt_2',
+    Name: 'Unholy Plates',
+    Icon: 'metalskirt',
+    Slot: 'Legs',
+    Type: 'Skirt',
+    Tier: 'III',
+    Innate: {
+      ToLabel: (value: number) => PercentageAdditiveLabel('Critical Hit Damage', value),
+      ValuesByLevel: INNATE_CRIT_DAMAGE,
+      MapToStatSource: (value: number): StatSource => {
+        const s = EmptyStatSource('t3_legs_skirt_2_innate');
+        s.CriticalHit.Damage = value;
         return s;
       }
     }
@@ -1700,11 +1752,11 @@ const FEET_BOOTS_VARIANTS: ItemVariantDefinition[] = [
     Type: 'Boots',
     Tier: 'III',
     Innate: {
-      ToLabel: (value: number) => PercentageAdditiveLabel('Attack Speed', value),
-      ValuesByLevel: INNATE_IAS,
+      ToLabel: (value: number) => PercentageAdditiveLabel('Multi Hit Chain', value),
+      ValuesByLevel: INNATE_MULTI_CHAIN,
       MapToStatSource: (value: number): StatSource => {
         const s = EmptyStatSource('t3_feet_boots_2_innate');
-        s.AttackSpeed.Value = value;
+        s.MultiHit.ChainFactor = value;
         return s;
       }
     }

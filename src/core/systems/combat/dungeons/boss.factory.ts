@@ -255,3 +255,147 @@ export function BattleMechGolem(): Boss {
   };
 }
 //#endregion GOLEMS
+
+//#region GHOSTS
+export function Ghost(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'spectres-1',
+    Name: 'Ghost',
+    BossIcon: BossIcon('ghost', true)
+  };
+}
+export function FloatingGhost(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'spectres-2',
+    Name: 'Floating Ghost',
+    BossIcon: BossIcon('floatingghost', true)
+  };
+}
+export function HauntingGhost(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'spectres-3',
+    Name: 'Haunting Ghost',
+    BossIcon: BossIcon('haunting', false)
+  };
+}
+export function SpectreGhost(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'spectres-boss',
+    Name: 'Evil Spectre',
+    BossIcon: BossIcon('spectre', false)
+  };
+}
+//#endregion GHOSTS
+
+//#region EVILS
+export function EvilImp(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'arcana-1',
+    Name: 'Evil Imp',
+    BossIcon: BossIcon('imp', true)
+  };
+}
+export function EvilBat(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'arcana-2',
+    Name: 'Evil Bat',
+    BossIcon: BossIcon('evilbat', false)
+  };
+}
+export function EvilTrident(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'arcana-3',
+    Name: 'Evil Trident',
+    BossIcon: BossIcon('evilfork', false)
+  };
+}
+export function EvilHarpy(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'arcana-4',
+    Name: 'Evil Harpy',
+    BossIcon: BossIcon('harpy', false)
+  };
+}
+export function EvilHawk(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'arcana-boss',
+    Name: 'Evil Hawk',
+    BossIcon: BossIcon('hawkemblem', false)
+  };
+}
+//#endregion EVILS
+
+//#region DRAGONS
+export function SeaSerpentDragon(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'dragon-lair-1',
+    Name: 'Sea Serpent',
+    BossIcon: BossIcon('seadragon', true)
+  };
+}
+export function WyvernDragon(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'dragon-lair-2',
+    Name: 'Wyvern',
+    BossIcon: BossIcon('wyvern', true)
+  };
+}
+export function FireDragon(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'dragon-lair-3',
+    Name: 'Fire Dragon',
+    BossIcon: BossIcon('dragonhead', true)
+  };
+}
+export function SeaDragon(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'dragon-lair-4',
+    Name: 'Sea Dragon',
+    BossIcon: BossIcon('seadragon', true)
+  };
+}
+export function DoubleHeadedDragon(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'dragon-lair-5',
+    Name: 'Double-Headed Dragon',
+    BossIcon: BossIcon('doubledragon', true)
+  };
+}
+export function HydraDragon(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'dragon-lair-boss',
+    Name: 'Hydra',
+    BossIcon: BossIcon('hydra', true)
+  };
+}
+//#endregion DRAGONS
