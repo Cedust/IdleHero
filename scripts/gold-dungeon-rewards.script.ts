@@ -2,7 +2,8 @@
 
 // npm run gold:sim
 
-import { NORMAL_DUNGEONS } from '../src/core/constants/dungeons/dungeons.config';
+import { CAPSTONE_DUNGEONS, NORMAL_DUNGEONS } from '../src/core/constants/dungeons/dungeons.config';
+
 import { REWARDS_CONFIG } from '../src/core/constants/dungeons/rewards.config';
 
 interface DungeonStageRewardRow {
@@ -11,12 +12,20 @@ interface DungeonStageRewardRow {
   RewardSums: Record<string, number | null>;
 }
 
+function GetAllDungeonIds(): string[] {
+  const dungeonIds = NORMAL_DUNGEONS.map((dungeon) => dungeon.Id);
+  const capstoneDungeonIds = CAPSTONE_DUNGEONS.map((dungeon) => dungeon.Id);
+  return [...dungeonIds, ...capstoneDungeonIds];
+}
+
 function FormatNumber(value: number): string {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
 
 function ComputeGoldRewardForStage(dungeonId: string, stage: number): number | null {
-  const dungeon = NORMAL_DUNGEONS.find((item) => item.Id === dungeonId);
+  const dungeon =
+    NORMAL_DUNGEONS.find((item) => item.Id === dungeonId) ||
+    CAPSTONE_DUNGEONS.find((item) => item.Id === dungeonId);
 
   if (!dungeon) {
     return null;
@@ -41,7 +50,9 @@ function ComputeGoldRewardForStage(dungeonId: string, stage: number): number | n
 }
 
 function BuildRows(maxStage: number): DungeonStageRewardRow[] {
-  const dungeonIds = NORMAL_DUNGEONS.map((dungeon) => dungeon.Id);
+  const dungeonIds = GetAllDungeonIds();
+
+  // Initialize cumulative sums for each dungeon
   const cumulativeSums = dungeonIds.reduce<Record<string, number>>((carry, dungeonId) => {
     carry[dungeonId] = 0;
     return carry;
@@ -127,7 +138,7 @@ function PadLeft(value: string, width: number): string {
 }
 
 function PrintTable(rows: DungeonStageRewardRow[]): void {
-  const dungeonIds = NORMAL_DUNGEONS.map((dungeon) => dungeon.Id);
+  const dungeonIds = GetAllDungeonIds();
   const header = BuildHeader(dungeonIds);
   const body = BuildBody(rows, dungeonIds);
   const widths = ComputeColumnWidths(header, body);
