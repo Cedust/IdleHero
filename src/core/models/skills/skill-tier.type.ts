@@ -1,1 +1,1 @@
-export type SkillTier = 'I' | 'II' | 'III';
+export type SkillTier = 'I' | 'II' | 'III' | 'IV' | 'V';

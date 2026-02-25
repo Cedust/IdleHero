@@ -34,7 +34,7 @@ export const STATS_CONFIG = {
     MAX_CRIT_CHANCE: 1.0, // Maximal 100% CHC
     MAX_MULTI_HIT_CHANCE: 1.0, // Maximal 100% MHC
     MAX_MULTI_HIT_CHAIN_FACTOR: 0.9, // Maximal 90% Chain Factor
-    MAX_CHAIN_HITS: 8, // Maximal 8 Hits in Multi-Hit Chain
+    MAX_CHAIN_HITS: 10, // Maximal 10 Hits in Multi-Hit Chain
     MAX_ATTACK_SPEED: 2.5, // Maximal 250% Angriffsgeschwindigkeit
     MAX_STRICKEN: 5.0 // Maximal +500% Stricken-Schaden
   },

@@ -37,7 +37,7 @@ const ATTACK_POWER_I_SKILL: StatSkillDefinition = {
 const ATTACK_POWER_II_SKILL: StatSkillDefinition = {
   Id: 'STAT_ATP_II',
   Name: 'Vile Strike+',
-  Description: 'Increases the damage of your attacks even further.',
+  Description: 'Increases the damage of your attacks to a greater extent.',
   Tier: 'II',
   Type: 'StatBoost',
   Levels: [
@@ -58,13 +58,58 @@ const ATTACK_POWER_II_SKILL: StatSkillDefinition = {
 const ATTACK_POWER_III_SKILL: StatSkillDefinition = {
   Id: 'STAT_ATP_III',
   Name: 'Vile Strike++',
-  Description: 'Increases the damage of your attacks to their maximum potential.',
+  Description: 'Increases the damage of your attacks to an unparalleled level.',
   Tier: 'III',
   Type: 'StatBoost',
   Levels: [
     { Level: 1, Value: 50, Type: 'Flat' },
     { Level: 2, Value: 75, Type: 'Flat' },
     { Level: 3, Value: 100, Type: 'Flat' }
+  ],
+  Effect: {
+    ToLabel: (value: number) => FlatAdditiveLabel('Attack Power', value),
+    MapToStatSource: (source: string, value: number) => {
+      const s = EmptyStatSource(source + `_${TimestampUtils.GetTimestampNow()}`);
+      s.Damage.Value = value;
+      return s;
+    }
+  }
+};
+
+const ATTACK_POWER_IV_SKILL: StatSkillDefinition = {
+  Id: 'STAT_ATP_IV',
+  Name: 'Vile Strike+++',
+  Description: 'Increases the damage of your attacks to a devastating degree.',
+  Tier: 'IV',
+  Type: 'StatBoost',
+  Levels: [
+    { Level: 1, Value: 250, Type: 'Flat' },
+    { Level: 2, Value: 500, Type: 'Flat' },
+    { Level: 3, Value: 750, Type: 'Flat' },
+    { Level: 4, Value: 1000, Type: 'Flat' }
+  ],
+  Effect: {
+    ToLabel: (value: number) => FlatAdditiveLabel('Attack Power', value),
+    MapToStatSource: (source: string, value: number) => {
+      const s = EmptyStatSource(source + `_${TimestampUtils.GetTimestampNow()}`);
+      s.Damage.Value = value;
+      return s;
+    }
+  }
+};
+
+const ATTACK_POWER_V_SKILL: StatSkillDefinition = {
+  Id: 'STAT_ATP_V',
+  Name: 'Vile Strike Max',
+  Description: 'Increases the damage of your attacks to their maximum potential.',
+  Tier: 'V',
+  Type: 'StatBoost',
+  Levels: [
+    { Level: 1, Value: 1_000, Type: 'Flat' },
+    { Level: 2, Value: 2_500, Type: 'Flat' },
+    { Level: 3, Value: 5_000, Type: 'Flat' },
+    { Level: 4, Value: 7_500, Type: 'Flat' },
+    { Level: 5, Value: 10_000, Type: 'Flat' }
   ],
   Effect: {
     ToLabel: (value: number) => FlatAdditiveLabel('Attack Power', value),
@@ -129,9 +174,47 @@ const MULTI_HIT_CHAIN_SKILL: StatSkillDefinition = {
   Levels: [
     { Level: 1, Value: 1, Type: 'Flat' },
     { Level: 2, Value: 2, Type: 'Flat' },
-    { Level: 3, Value: 3, Type: 'Flat' },
-    { Level: 4, Value: 4, Type: 'Flat' },
-    { Level: 5, Value: 5, Type: 'Flat' }
+    { Level: 3, Value: 3, Type: 'Flat' }
+  ],
+  Effect: {
+    ToLabel: (value: number) => FlatAdditiveLabel('Multi Hit Chain', value),
+    MapToStatSource: (source: string, value: number) => {
+      const s = EmptyStatSource(source + `_${TimestampUtils.GetTimestampNow()}`);
+      s.MultiHit.Chain = value;
+      return s;
+    }
+  }
+};
+
+const MULTI_HIT_CHAIN_II_SKILL: StatSkillDefinition = {
+  Id: 'STAT_MAX_MH_CHAIN_II',
+  Name: 'Chain Reaction+',
+  Description: 'Increases the maximum chain length of your multi hit attacks even further.',
+  Tier: 'III',
+  Type: 'StatBoost',
+  Levels: [
+    { Level: 1, Value: 1, Type: 'Flat' },
+    { Level: 2, Value: 2, Type: 'Flat' }
+  ],
+  Effect: {
+    ToLabel: (value: number) => FlatAdditiveLabel('Multi Hit Chain', value),
+    MapToStatSource: (source: string, value: number) => {
+      const s = EmptyStatSource(source + `_${TimestampUtils.GetTimestampNow()}`);
+      s.MultiHit.Chain = value;
+      return s;
+    }
+  }
+};
+
+const MULTI_HIT_CHAIN_III_SKILL: StatSkillDefinition = {
+  Id: 'STAT_MAX_MH_CHAIN_III',
+  Name: 'Chain Reaction Max',
+  Description: 'Increases the maximum chain length of your multi hit attacks to the maximum.',
+  Tier: 'IV',
+  Type: 'StatBoost',
+  Levels: [
+    { Level: 1, Value: 1, Type: 'Flat' },
+    { Level: 2, Value: 2, Type: 'Flat' }
   ],
   Effect: {
     ToLabel: (value: number) => FlatAdditiveLabel('Multi Hit Chain', value),
@@ -188,15 +271,43 @@ const CHARGING_STRIKE_DURATION_SKILL: StatSkillDefinition = {
   }
 };
 
+const CHARGING_STRIKE_DAMAGE_SKILL: StatSkillDefinition = {
+  Id: 'STAT_CS_DAMAGE',
+  Name: 'Powerful Charge',
+  Description: 'Increases the damage of your Charging Strike.',
+  Tier: 'V',
+  Type: 'StatBoost',
+  Levels: [
+    { Level: 1, Value: 1, Type: 'Percent' },
+    { Level: 2, Value: 2, Type: 'Percent' },
+    { Level: 3, Value: 3, Type: 'Percent' },
+    { Level: 4, Value: 4, Type: 'Percent' },
+    { Level: 5, Value: 5, Type: 'Percent' }
+  ],
+  Effect: {
+    ToLabel: (value: number) => PercentageAdditiveLabel('Charge Damage', value),
+    MapToStatSource: (source: string, value: number) => {
+      const s = EmptyStatSource(source + `_${TimestampUtils.GetTimestampNow()}`);
+      s.ChargingStrike.ChargeDamage = value;
+      return s;
+    }
+  }
+};
+
 export const STAT_SKILL_DEFINITIONS: StatSkillDefinition[] = [
   ATTACK_POWER_I_SKILL,
   ATTACK_POWER_II_SKILL,
   ATTACK_POWER_III_SKILL,
+  ATTACK_POWER_IV_SKILL,
+  ATTACK_POWER_V_SKILL,
   ATTACK_SPEED_SKILL,
   BLEEDING_TICKS_SKILL,
   MULTI_HIT_CHAIN_SKILL,
+  MULTI_HIT_CHAIN_II_SKILL,
+  MULTI_HIT_CHAIN_III_SKILL,
   CHARGING_STRIKE_LOSS_SKILL,
-  CHARGING_STRIKE_DURATION_SKILL
+  CHARGING_STRIKE_DURATION_SKILL,
+  CHARGING_STRIKE_DAMAGE_SKILL
 ];
 //#endregion Stat Skill Definitions
 
