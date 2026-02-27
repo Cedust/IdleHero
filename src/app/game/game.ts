@@ -1,13 +1,13 @@
+import { AppStateService, GameService, MenuService } from '../../shared/services';
 import { Component, inject, signal } from '@angular/core';
-import { GameService, MenuService } from '../../shared/services';
 import { IconComponent, TabDefinition, TabStrip } from '../../shared/components';
-import { Router, RouterOutlet } from '@angular/router';
 
 import { CharacterArea } from './character-area/character-area';
 import { CharacterLoadout } from './character-loadout/character-loadout';
 import { CombatState } from '../../core/systems/combat';
 import { InfoArea } from './info-area/info-area';
 import { Menu } from './menu/menu';
+import { RouterOutlet } from '@angular/router';
 import { StatisticsFlyout } from './statistics-flyout/statistics-flyout';
 
 @Component({
@@ -26,13 +26,13 @@ import { StatisticsFlyout } from './statistics-flyout/statistics-flyout';
   styleUrl: './game.scss'
 })
 export class Game {
-  private router = inject(Router);
+  private appState = inject(AppStateService);
   private gameService = inject(GameService);
   private menuService = inject(MenuService);
   private combatState = inject(CombatState);
 
   protected readonly title = this.gameService.Title;
-  protected readonly currentArea = signal<'Town' | 'Dungeon'>('Town');
+  protected readonly currentArea = this.appState.CurrentArea;
 
   // Tabs
   protected get Tabs(): TabDefinition[] {
@@ -58,12 +58,8 @@ export class Game {
   }
 
   SwitchArea() {
-    this.currentArea.set(this.currentArea() === 'Town' ? 'Dungeon' : 'Town');
-
-    if (this.currentArea() === 'Town') {
-      this.combatState.Leave();
-    }
-
-    this.router.navigate([`/game/${this.currentArea().toLowerCase()}`]);
+    const switchTo = this.appState.CurrentArea() === 'Town' ? 'Dungeon' : 'Town';
+    this.appState.SwitchAreaTo(switchTo);
+    if (switchTo === 'Town') this.combatState.Leave();
   }
 }

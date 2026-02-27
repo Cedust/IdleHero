@@ -1,8 +1,9 @@
-<div class="tab-strip">
+<div class="tab-strip" [class.tab-strip--secondary]="secondary()">
   @for (tab of tabs(); track tab.id) {
     <button
       type="button"
       class="tab"
+      [class.tab--secondary]="secondary()"
       role="tab"
       [disabled]="tab.disabled"
       [class.is-active]="selected() === tab.id"
@@ -10,6 +11,11 @@
       (click)="select(tab)">
       <span class="tab__label">{{ tab.label }}</span>
     </button>
+    @if (secondary() && !$last) {
+      <separator class="separator" [vertical]="true"></separator>
+    }
   }
 </div>
-<separator></separator>
+@if (!secondary()) {
+  <separator></separator>
+}

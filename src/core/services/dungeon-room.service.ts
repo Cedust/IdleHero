@@ -1,6 +1,6 @@
-import { Boss, CapstoneDungeonRoom, DungeonRoom, DungeonType } from '../models';
+import { Boss, CapstoneDungeonRoom, DungeonRoom, DungeonRoomKey, DungeonType } from '../models';
 import { BossSelectionService, DungeonRunService } from '../systems/combat';
-import { DUNGEON_SPECIAL_BOSS_CONFIG, GetDungeonById } from '../constants';
+import { DUNGEON_SPECIAL_BOSS_CONFIG, GetAllDungeons, GetDungeonById } from '../constants';
 import { Injectable, computed, inject, signal } from '@angular/core';
 
 import { ClampUtils } from '../../shared/utils';
@@ -10,7 +10,7 @@ import { StatisticsService } from './statistics.service';
 
 @Injectable({ providedIn: 'root' })
 export class DungeonRoomService {
-  private readonly Statistics = inject<StatisticsService>(StatisticsService);
+  private readonly Statistics = inject(StatisticsService);
   private readonly Bosses = inject(BossSelectionService);
   private readonly Rewards = inject(DungeonRewardsService);
   private readonly Keys = inject(DungeonKeyService);

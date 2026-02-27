@@ -53,6 +53,24 @@ export class CombatStatsService {
     return ComputeStats(attributes, baseStats, statSources);
   });
 
+  public readonly Uncapped = computed<ComputedHeroStats>(() => {
+    const baseStats = this.BaseStats();
+    const attributes = this.EffectiveAttributes();
+    const itemSources = this.GearLoadout.StatSources();
+    const amuletRunes = this.AmuletRunes.StatSources();
+    const skillSources = this.Skills.StatSources();
+    const temporarySkillSources = this.CombatSkills.ActiveStatSources();
+
+    const statSources: StatSource[] = [
+      ...itemSources,
+      ...amuletRunes,
+      ...skillSources,
+      ...temporarySkillSources
+    ];
+
+    return ComputeStats(attributes, baseStats, statSources, { IgnoreMaximumCaps: true });
+  });
+
   /**
    * The Attack Power value based on effective stats
    */

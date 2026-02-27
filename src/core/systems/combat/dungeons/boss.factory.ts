@@ -399,3 +399,24 @@ export function HydraDragon(): Boss {
   };
 }
 //#endregion DRAGONS
+
+//#region TITANS
+export function GargoyleTitan(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'titans-1',
+    Name: 'Gargoyle the Stone Sentinel',
+    BossIcon: BossIcon('gargoyle', false)
+  };
+}
+export function ThanatosTitan(): Boss {
+  const boss = DefaultBoss() as Boss;
+  return {
+    ...boss,
+    Id: 'titans-boss',
+    Name: 'Thanatos the Death Bringer',
+    BossIcon: BossIcon('cloakedfigureonhorseback', true)
+  };
+}
+//#endregion TITANS

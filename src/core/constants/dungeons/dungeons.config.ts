@@ -25,7 +25,8 @@ export const NORMAL_DUNGEONS: NormalDungeonRoom[] = [
     },
 
     Prerequisites: {
-      Level: 1
+      Level: 1,
+      CompletedDungeonId: null
     },
 
     Locked: false
@@ -42,14 +43,15 @@ export const NORMAL_DUNGEONS: NormalDungeonRoom[] = [
     StagesMax: 100,
 
     Rewards: {
-      XpBase: 30,
+      XpBase: 25,
       GoldBase: 60,
       RuneDropChances: { Common: 0.08, Magic: 0.04, Rare: 0.005, Epic: 0.0, Legendary: 0.0 },
       Key: null
     },
 
     Prerequisites: {
-      Level: 10
+      Level: 10,
+      CompletedDungeonId: 'D1'
     },
 
     Locked: false
@@ -66,14 +68,15 @@ export const NORMAL_DUNGEONS: NormalDungeonRoom[] = [
     StagesMax: 100,
 
     Rewards: {
-      XpBase: 60,
+      XpBase: 40,
       GoldBase: 90,
       RuneDropChances: { Common: 0.0, Magic: 0.08, Rare: 0.04, Epic: 0.005, Legendary: 0.0 },
       Key: null
     },
 
     Prerequisites: {
-      Level: 20
+      Level: 20,
+      CompletedDungeonId: 'D2'
     },
 
     Locked: false
@@ -90,14 +93,15 @@ export const NORMAL_DUNGEONS: NormalDungeonRoom[] = [
     StagesMax: 100,
 
     Rewards: {
-      XpBase: 90,
+      XpBase: 70,
       GoldBase: 120,
       RuneDropChances: { Common: 0.0, Magic: 0.0, Rare: 0.08, Epic: 0.04, Legendary: 0.005 },
       Key: 'Silver Key' as DungeonRoomKey
     },
 
     Prerequisites: {
-      Level: 30
+      Level: 30,
+      CompletedDungeonId: 'D3'
     },
 
     Locked: false
@@ -139,7 +143,7 @@ export const CAPSTONE_DUNGEONS: CapstoneDungeonRoom[] = [
     StagesMax: 100,
 
     Rewards: {
-      XpBase: 150,
+      XpBase: 125,
       GoldBase: 200,
       RuneDropChances: { Common: 0.0, Magic: 0.0, Rare: 0.0, Epic: 0.08, Legendary: 0.04 },
       Key: 'Golden Key' as DungeonRoomKey
@@ -161,13 +165,35 @@ export const CAPSTONE_DUNGEONS: CapstoneDungeonRoom[] = [
     StagesMax: 100,
 
     Rewards: {
-      XpBase: 200,
+      XpBase: 150,
       GoldBase: 250,
       RuneDropChances: { Common: 0.0, Magic: 0.0, Rare: 0.0, Epic: 0.1, Legendary: 0.06 },
       Key: 'Epic Key' as DungeonRoomKey
     },
 
     Prerequisites: { Key: 'Golden Key' as DungeonRoomKey },
+
+    Locked: false
+  },
+  {
+    Id: 'C4',
+    Title: 'Trial of the Titans',
+    Description: 'Endure the wrath of the titans in this desolated sanctuary.',
+    Icon: 'cloakedfigureonhorseback',
+    Type: DungeonType.Capstone,
+
+    StagesBase: 1,
+    MidStages: [20, 40, 60, 80],
+    StagesMax: 100,
+
+    Rewards: {
+      XpBase: 200,
+      GoldBase: 300,
+      RuneDropChances: { Common: 0.0, Magic: 0.0, Rare: 0.0, Epic: 0.12, Legendary: 0.08 },
+      Key: 'Legendary Key' as DungeonRoomKey
+    },
+
+    Prerequisites: { Key: 'Epic Key' as DungeonRoomKey },
 
     Locked: false
   }

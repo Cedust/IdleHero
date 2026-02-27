@@ -77,7 +77,12 @@
         <div class="grid">
           @for (stat of statGrid.items; track stat.label) {
             <div class="grid__label">{{ stat.label }}</div>
-            <div class="grid__value">{{ stat.value }}</div>
+            <div class="grid__value">
+              @if (stat.uncappedValue) {
+                <span class="grid__uncapped">{{ stat.uncappedValue }}</span>
+              }
+              <span>{{ stat.value }}</span>
+            </div>
           }
         </div>
       }
