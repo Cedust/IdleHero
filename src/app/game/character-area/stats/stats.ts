@@ -12,6 +12,15 @@ import { ToggleIcon } from './toggle-icon/toggle-icon';
 interface StatsItem {
   label: string;
   value: string | null;
+  uncappedValue?: string | null;
+}
+
+interface StatItemDefinition {
+  label: string;
+  effectiveValue: number;
+  uncappedValue: number;
+  formatter: (value: number) => string | null;
+  suffix?: string;
 }
 
 interface StatsGrid {
@@ -253,83 +262,143 @@ export class Stats {
 
   private ChargingStrikeStats = computed<StatsItem[]>(() => {
     const combatStats = this.statsService.Effective();
+    const uncappedCombatStats = this.statsService.Uncapped();
 
     return [
-      {
+      this.CreateStatItem({
         label: 'Charge Gain',
-        value: this.decimalPipe.transform(combatStats.ChargeGain, '1.0-0') + ' / Hit'
-      },
-      {
+        effectiveValue: combatStats.ChargeGain,
+        uncappedValue: uncappedCombatStats.ChargeGain,
+        formatter: (value) => this.decimalPipe.transform(value, '1.0-0'),
+        suffix: ' / Hit'
+      }),
+      this.CreateStatItem({
         label: 'Charge Loss',
-        value: this.percentPipe.transform(combatStats.ChargeLoss, '1.0-0') + ' / Miss'
-      },
-      {
+        effectiveValue: combatStats.ChargeLoss,
+        uncappedValue: uncappedCombatStats.ChargeLoss,
+        formatter: (value) => this.percentPipe.transform(value, '1.0-0'),
+        suffix: ' / Miss'
+      }),
+      this.CreateStatItem({
         label: 'Charged Damage',
-        value: this.percentPipe.transform(combatStats.ChargeDamage, '1.0-0')
-      },
-      {
+        effectiveValue: combatStats.ChargeDamage,
+        uncappedValue: uncappedCombatStats.ChargeDamage,
+        formatter: (value) => this.percentPipe.transform(value, '1.0-0')
+      }),
+      this.CreateStatItem({
         label: 'Charged Duration',
-        value: this.decimalPipe.transform(combatStats.ChargeDuration, '1.1-1', 'en-en') + ' s'
-      }
+        effectiveValue: combatStats.ChargeDuration,
+        uncappedValue: uncappedCombatStats.ChargeDuration,
+        formatter: (value) => this.decimalPipe.transform(value, '1.1-1', 'en-en'),
+        suffix: ' s'
+      })
     ];
   });
 
   private OffenseStats = computed<StatsItem[]>(() => {
     const combatStats = this.statsService.Effective();
+    const uncappedCombatStats = this.statsService.Uncapped();
 
     return [
-      {
+      this.CreateStatItem({
         label: 'Bleeding Chance',
-        value: this.percentPipe.transform(combatStats.BleedingChance, '1.0-0')
-      },
-      {
+        effectiveValue: combatStats.BleedingChance,
+        uncappedValue: uncappedCombatStats.BleedingChance,
+        formatter: (value) => this.percentPipe.transform(value, '1.0-0')
+      }),
+      this.CreateStatItem({
         label: 'Bleeding Damage',
-        value: this.percentPipe.transform(combatStats.BleedingDamage, '1.0-0')
-      },
-      {
+        effectiveValue: combatStats.BleedingDamage,
+        uncappedValue: uncappedCombatStats.BleedingDamage,
+        formatter: (value) => this.percentPipe.transform(value, '1.0-0')
+      }),
+      this.CreateStatItem({
         label: 'Critical Hit Chance',
-        value: this.percentPipe.transform(combatStats.CriticalHitChance, '1.0-0')
-      },
-      {
+        effectiveValue: combatStats.CriticalHitChance,
+        uncappedValue: uncappedCombatStats.CriticalHitChance,
+        formatter: (value) => this.percentPipe.transform(value, '1.0-0')
+      }),
+      this.CreateStatItem({
         label: 'Critical Hit Damage',
-        value: this.percentPipe.transform(combatStats.CriticalHitDamage, '1.0-0')
-      },
-      {
+        effectiveValue: combatStats.CriticalHitDamage,
+        uncappedValue: uncappedCombatStats.CriticalHitDamage,
+        formatter: (value) => this.percentPipe.transform(value, '1.0-0')
+      }),
+      this.CreateStatItem({
         label: 'Multi Hit Chance',
-        value: this.percentPipe.transform(combatStats.MultiHitChance, '1.0-0')
-      },
-      {
+        effectiveValue: combatStats.MultiHitChance,
+        uncappedValue: uncappedCombatStats.MultiHitChance,
+        formatter: (value) => this.percentPipe.transform(value, '1.0-0')
+      }),
+      this.CreateStatItem({
         label: 'Multi Hit Damage',
-        value: this.percentPipe.transform(combatStats.MultiHitDamage, '1.0-0')
-      }
+        effectiveValue: combatStats.MultiHitDamage,
+        uncappedValue: uncappedCombatStats.MultiHitDamage,
+        formatter: (value) => this.percentPipe.transform(value, '1.0-0')
+      })
     ];
   });
 
   private UtilityStats = computed<StatsItem[]>(() => {
     const combatStats = this.statsService.Effective();
+    const uncappedCombatStats = this.statsService.Uncapped();
 
     return [
-      {
+      this.CreateStatItem({
         label: 'Attack Speed',
-        value: this.percentPipe.transform(combatStats.AttackSpeed, '1.0-0')
-      },
-      {
+        effectiveValue: combatStats.AttackSpeed,
+        uncappedValue: uncappedCombatStats.AttackSpeed,
+        formatter: (value) => this.percentPipe.transform(value, '1.0-0')
+      }),
+      this.CreateStatItem({
         label: 'Accuracy',
-        value: this.percentPipe.transform(combatStats.Accuracy, '1.0-0')
-      },
-      {
+        effectiveValue: combatStats.Accuracy,
+        uncappedValue: uncappedCombatStats.Accuracy,
+        formatter: (value) => this.percentPipe.transform(value, '1.0-0')
+      }),
+      this.CreateStatItem({
         label: 'Bleeding Ticks',
-        value: this.decimalPipe.transform(combatStats.BleedingTicks, '1.0-0')
-      },
-      {
+        effectiveValue: combatStats.BleedingTicks,
+        uncappedValue: uncappedCombatStats.BleedingTicks,
+        formatter: (value) => this.decimalPipe.transform(value, '1.0-0')
+      }),
+      this.CreateStatItem({
         label: 'Multi Hit Chain',
-        value: this.decimalPipe.transform(combatStats.MultiHitChain, '1.0-0')
-      },
-      {
+        effectiveValue: combatStats.MultiHitChain,
+        uncappedValue: uncappedCombatStats.MultiHitChain,
+        formatter: (value) => this.decimalPipe.transform(value, '1.0-0')
+      }),
+      this.CreateStatItem({
         label: 'Multi Hit Chain Factor',
-        value: this.percentPipe.transform(combatStats.MultiHitChainFactor, '1.0-0')
-      }
+        effectiveValue: combatStats.MultiHitChainFactor,
+        uncappedValue: uncappedCombatStats.MultiHitChainFactor,
+        formatter: (value) => this.percentPipe.transform(value, '1.0-0')
+      })
     ];
   });
+
+  private CreateStatItem(statDefinition: StatItemDefinition): StatsItem {
+    const { label, effectiveValue, uncappedValue, formatter, suffix = '' } = statDefinition;
+
+    const formattedEffectiveValue = this.FormatStatValue(formatter(effectiveValue), suffix);
+    const shouldShowUncapped = uncappedValue > effectiveValue + Number.EPSILON;
+    const formattedUncappedValue = shouldShowUncapped
+      ? `(${this.FormatStatValue(formatter(uncappedValue), suffix) ?? '-'})`
+      : null;
+
+    return {
+      label,
+      value: formattedEffectiveValue,
+      uncappedValue: formattedUncappedValue
+    };
+  }
+
+  private FormatStatValue(value: string | null, suffix: string): string | null {
+    if (value === null) {
+      return null;
+    }
+
+    return `${value}${suffix}`;
+  }
   //#endregion STATS
 }
