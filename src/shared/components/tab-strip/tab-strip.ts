@@ -21,6 +21,7 @@ export interface TabDefinition {
 export class TabStrip {
   public readonly tabs = input.required<TabDefinition[]>();
   public readonly selected = input<TabDefinition['id']>();
+  public readonly secondary = input<boolean>(false);
 
   // Emits when selection changes (id of selected tab)
   public readonly selectedChange = output<TabDefinition['id']>();
