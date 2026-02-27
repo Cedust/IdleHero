@@ -25,7 +25,8 @@ export const NORMAL_DUNGEONS: NormalDungeonRoom[] = [
     },
 
     Prerequisites: {
-      Level: 1
+      Level: 1,
+      CompletedDungeonId: null
     },
 
     Locked: false
@@ -49,7 +50,8 @@ export const NORMAL_DUNGEONS: NormalDungeonRoom[] = [
     },
 
     Prerequisites: {
-      Level: 10
+      Level: 10,
+      CompletedDungeonId: 'D1'
     },
 
     Locked: false
@@ -73,7 +75,8 @@ export const NORMAL_DUNGEONS: NormalDungeonRoom[] = [
     },
 
     Prerequisites: {
-      Level: 20
+      Level: 20,
+      CompletedDungeonId: 'D2'
     },
 
     Locked: false
@@ -97,7 +100,8 @@ export const NORMAL_DUNGEONS: NormalDungeonRoom[] = [
     },
 
     Prerequisites: {
-      Level: 30
+      Level: 30,
+      CompletedDungeonId: 'D3'
     },
 
     Locked: false

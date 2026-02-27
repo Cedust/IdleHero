@@ -39,6 +39,7 @@ export interface DungeonRoom {
 
 export interface NormalDungeonRoomPrerequisites {
   Level: number;
+  CompletedDungeonId: string | null;
 }
 
 export interface NormalDungeonRoom extends DungeonRoom {

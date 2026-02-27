@@ -4,12 +4,18 @@ import {
   DungeonRoomKey,
   DungeonType,
   NormalDungeonRoom,
+  NormalDungeonRoomPrerequisites,
   RuneQuality
 } from '../../../core/models';
 import { Component, computed, inject } from '@angular/core';
-import { DungeonKeyService, DungeonRoomService, LevelService } from '../../../core/services';
+import { CreaturesIconName, IconComponent, Level, PanelHeader } from '../../../shared/components';
+import {
+  DungeonKeyService,
+  DungeonRoomService,
+  LevelService,
+  StatisticsService
+} from '../../../core/services';
 import { GetAllDungeons, RUNE_QUALITY_ORDER } from '../../../core/constants';
-import { IconComponent, Level, PanelHeader } from '../../../shared/components';
 
 @Component({
   selector: 'app-dungeon-rooms',
@@ -21,6 +27,7 @@ export class DungeonRooms {
   private readonly dungeonRoom = inject(DungeonRoomService);
   private readonly dungeonKey = inject(DungeonKeyService);
   private readonly level = inject(LevelService);
+  private readonly statistics = inject(StatisticsService);
 
   // Data
   public readonly Dungeons = GetAllDungeons();
@@ -41,8 +48,8 @@ export class DungeonRooms {
     }
   ]);
 
-  public readonly UnlocksByDungeonId = computed<Record<string, DungeonUnlockInfo[]>>(() => {
-    return this.Dungeons.reduce<Record<string, DungeonUnlockInfo[]>>((result, dungeon) => {
+  public readonly UnlocksByDungeonId = computed<Record<string, CapstoneDungeonUnlockInfo[]>>(() => {
+    return this.Dungeons.reduce<Record<string, CapstoneDungeonUnlockInfo[]>>((result, dungeon) => {
       const rewardKey = dungeon.Rewards.Key;
       if (!rewardKey) return result;
 
@@ -68,7 +75,7 @@ export class DungeonRooms {
     return this.dungeonRoom.CanEnter(id);
   }
 
-  public GetUnlocks(dungeonId: string): DungeonUnlockInfo[] {
+  public GetUnlocks(dungeonId: string): CapstoneDungeonUnlockInfo[] {
     return this.UnlocksByDungeonId()[dungeonId] ?? [];
   }
 
@@ -125,6 +132,33 @@ export class DungeonRooms {
     return this.IsCapstoneDungeon(dungeon) ? dungeon.Prerequisites.Key : null;
   }
 
+  public GetDungeonPrerequisiteDungeonCompletion(
+    dungeon: DungeonRoom
+  ): NormalDungeonUnlockInfo | null {
+    if (!this.IsNormalDungeon(dungeon)) {
+      return null;
+    }
+
+    const prerequisites: NormalDungeonRoomPrerequisites = dungeon.Prerequisites;
+    const prerequisiteDungeonId = prerequisites.CompletedDungeonId;
+    if (!prerequisiteDungeonId) return null;
+
+    const prerequisiteDungeon = this.Dungeons.find(
+      (currentDungeon): currentDungeon is NormalDungeonRoom =>
+        currentDungeon.Type === DungeonType.Normal && currentDungeon.Id === prerequisiteDungeonId
+    );
+
+    if (!prerequisiteDungeon) {
+      return null;
+    }
+
+    return {
+      DungeonId: prerequisiteDungeon.Id,
+      DungeonIcon: prerequisiteDungeon.Icon,
+      RequiredStage: 100
+    };
+  }
+
   public HasDungeonPrerequisiteKey(dungeon: DungeonRoom): boolean {
     const prerequisiteKey = this.GetDungeonPrerequisiteKey(dungeon);
     if (!prerequisiteKey) return true;
@@ -132,7 +166,7 @@ export class DungeonRooms {
     return this.dungeonKey.HasKey(prerequisiteKey);
   }
 
-  public HasUnlockKey(unlock: DungeonUnlockInfo): boolean {
+  public HasUnlockKey(unlock: CapstoneDungeonUnlockInfo): boolean {
     return this.dungeonKey.HasKey(unlock.Key);
   }
 
@@ -148,11 +182,23 @@ export class DungeonRooms {
     return this.IsNormalDungeon(dungeon) ? dungeon.Prerequisites.Level : null;
   }
 
-  public FulfillsDungeonLevelPrerequisite(dungeon: DungeonRoom): boolean {
-    const playerLevel = this.level.Level();
-    const prerequisiteLevel = this.GetDungeonPrerequisiteLevel(dungeon);
-    if (!prerequisiteLevel) return true;
-    return playerLevel >= prerequisiteLevel;
+  public FulfillsDungeonPrerequisite(dungeon: DungeonRoom): boolean {
+    if (!this.IsNormalDungeon(dungeon)) return true;
+
+    const prerequisites: NormalDungeonRoomPrerequisites = dungeon.Prerequisites;
+    const currentLevel = this.level.Level();
+    if (currentLevel < prerequisites.Level) return false;
+
+    const prerequisiteDungeonId = prerequisites.CompletedDungeonId;
+    if (!prerequisiteDungeonId) return true;
+
+    const prerequisiteDungeonCompletion = this.GetDungeonPrerequisiteDungeonCompletion(dungeon);
+    if (!prerequisiteDungeonCompletion) return false;
+
+    const highestReachedPrerequisiteStage =
+      this.statistics.DungeonStatistics().Dungeon[prerequisiteDungeonId] ?? 0;
+
+    return highestReachedPrerequisiteStage >= prerequisiteDungeonCompletion.RequiredStage;
   }
 }
 
@@ -162,7 +208,13 @@ interface DungeonGroupViewModel {
   Dungeons: DungeonRoom[];
 }
 
-interface DungeonUnlockInfo {
+interface NormalDungeonUnlockInfo {
+  DungeonId: string;
+  DungeonIcon: CreaturesIconName;
+  RequiredStage: 100;
+}
+
+interface CapstoneDungeonUnlockInfo {
   Label: string;
   Key: DungeonRoomKey;
   Symbol: 'skeletonkey';

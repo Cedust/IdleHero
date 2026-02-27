@@ -64,6 +64,7 @@
             <div class="entry-button-area">
               @let prerequisiteLevel = GetDungeonPrerequisiteLevel(dungeon);
               @let prerequisiteKey = GetDungeonPrerequisiteKey(dungeon);
+              @let prerequisiteDungeonCompletion = GetDungeonPrerequisiteDungeonCompletion(dungeon);
               @if (
                 group.Type === "Capstone" && prerequisiteKey && !HasDungeonPrerequisiteKey(dungeon)
               ) {
@@ -79,10 +80,20 @@
               } @else if (
                 group.Type === "Normal" &&
                 prerequisiteLevel &&
-                !FulfillsDungeonLevelPrerequisite(dungeon)
+                prerequisiteDungeonCompletion &&
+                !FulfillsDungeonPrerequisite(dungeon)
               ) {
-                <div class="rewards-icon-item prerequisite-item">
-                  <app-level [level]="prerequisiteLevel" size="mini" fontSize="1rem"></app-level>
+                <div class="dungeon-rewards">
+                  <div class="rewards-icon-item prerequisite-item">
+                    <app-level [level]="prerequisiteLevel" size="mini" fontSize="1rem"></app-level>
+                  </div>
+                  <div class="rewards-icon-item prerequisite-item">
+                    <app-icon
+                      class="prerequisite-dungeon-icon"
+                      [creatures]="prerequisiteDungeonCompletion.DungeonIcon"
+                      size="mini"></app-icon>
+                    <span>{{ prerequisiteDungeonCompletion.RequiredStage }}</span>
+                  </div>
                 </div>
               } @else {
                 <button
