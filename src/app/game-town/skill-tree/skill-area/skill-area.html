@@ -3,7 +3,7 @@
   [class.unlockable]="unlockable()"
   [class.unlocked]="unlocked"
   [class.locked]="!unlockable()"
-  [class.maxed]="isMaxed">
+  [class.maxed]="unlocked && isMaxed">
   <div class="skill-main">
     <div class="skill-title">
       <strong class="skill-title__name">{{ skill().Definition.Name.toUpperCase() }}</strong>
