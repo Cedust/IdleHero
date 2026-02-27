@@ -3,9 +3,13 @@ import { CombatLogEntry, DamageLogEntry } from '../../../../core/models';
 import { Exp, Gold, IconComponent, RuneIcon, Separator } from '../../../../shared/components';
 import {
   GetHitCount,
-  IsBleedingHit,
+  HasBleedingHit,
+  HasCriticalHit,
+  HasMultiHits,
   IsChargeHit,
   IsCriticalHit,
+  IsCriticalMultiHit,
+  IsMultiHit,
   IsSplashHit
 } from '../../../../core/systems/combat';
 
@@ -53,13 +57,11 @@ export class CombatLog {
   }
 
   private DamageActorClass(entry: DamageLogEntry): string {
-    const isCritical = IsCriticalHit(entry.Damage);
-
-    if (isCritical && entry.IsMultiHit) {
+    if (IsCriticalMultiHit(entry.Damage)) {
       return 'log-critical-multi';
-    } else if (entry.IsMultiHit) {
+    } else if (IsMultiHit(entry.Damage)) {
       return 'log-multi';
-    } else if (isCritical) {
+    } else if (IsCriticalHit(entry.Damage)) {
       return 'log-critical';
     } else {
       return '';
@@ -67,13 +69,11 @@ export class CombatLog {
   }
 
   private ActionContent(entry: DamageLogEntry): string {
-    const isCritical = IsCriticalHit(entry.Damage);
-
-    if (isCritical && entry.IsMultiHit) {
+    if (IsCriticalMultiHit(entry.Damage)) {
       return '⚡⚔️';
-    } else if (entry.IsMultiHit) {
+    } else if (IsMultiHit(entry.Damage)) {
       return '⚔️';
-    } else if (isCritical) {
+    } else if (IsCriticalHit(entry.Damage)) {
       return '⚡';
     } else {
       return '🗡️';
@@ -83,12 +83,12 @@ export class CombatLog {
   private DamageDetails(entry: DamageLogEntry): string {
     let damageDetails = 'HIT';
 
-    if (entry.IsMultiHit) {
+    if (HasMultiHits(entry.Damage)) {
       const multiHitCount = GetHitCount(entry.Damage);
       damageDetails = 'MULTI ' + damageDetails + ' [x' + multiHitCount + ']';
     }
 
-    if (IsCriticalHit(entry.Damage)) {
+    if (HasCriticalHit(entry.Damage)) {
       damageDetails = 'CRITICAL ' + damageDetails;
     }
 
@@ -98,7 +98,7 @@ export class CombatLog {
   private AdditionalDetails(entry: DamageLogEntry): AdditionalDetail[] {
     const details: AdditionalDetail[] = [];
 
-    if (IsBleedingHit(entry.Damage)) {
+    if (HasBleedingHit(entry.Damage)) {
       details.push({ value: 'BLEEDING', class: 'log-bleed' });
     }
 
