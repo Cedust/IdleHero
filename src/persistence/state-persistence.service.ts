@@ -111,7 +111,7 @@ export class StatePersistenceService {
 
     if (
       (fromVersion === '3.0.0' || fromVersion === '3.0.1' || fromVersion === '3.1.0') &&
-      (toVersion === '3.2.0' || toVersion === '3.2.1')
+      (toVersion === '3.2.0' || toVersion === '3.2.1' || toVersion === '3.3.0')
     ) {
       data = MigrateSchema_3_1_0_to_3_2_0(data);
     }
@@ -121,7 +121,7 @@ export class StatePersistenceService {
         fromVersion === '3.0.1' ||
         fromVersion === '3.1.0' ||
         fromVersion === '3.2.0') &&
-      toVersion === '3.2.1'
+      (toVersion === '3.2.1' || toVersion === '3.3.0')
     ) {
       data = MigrateSchema_3_2_0_to_3_2_1(data);
     }
