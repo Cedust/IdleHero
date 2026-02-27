@@ -6,9 +6,9 @@ export function ComputeRolledValue(
   percentage: number,
   type: 'Flat' | 'Percent'
 ): number {
-  if (min === max) return type === 'Flat' ? Math.round(max) : max;
+  if (min === max) return type === 'Flat' ? Math.floor(max) : max;
   const result = min + (max - min) * ClampUtils.clamp(percentage, 0, 1);
-  return type === 'Flat' ? Math.round(result) : result;
+  return type === 'Flat' ? Math.floor(result) : result;
 }
 
 /**
@@ -32,7 +32,7 @@ export function RandomInRange(min: number, max: number, type: 'Flat' | 'Percent'
 
     case 'Percent':
       rolled = lo + Math.random() * (hi - lo);
-      rolled = Math.round(rolled * 100) / 100;
+      rolled = Math.floor(rolled * 100) / 100;
       break;
   }
 

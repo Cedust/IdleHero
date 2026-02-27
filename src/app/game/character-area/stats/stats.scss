@@ -61,7 +61,15 @@ $grid-header-padding: calc($gap / 2);
 
   .grid__value {
     @include flexbox($align: top, $justify: flex-end);
+    gap: calc($gap / 2);
     text-align: center;
+  }
+
+  .grid__uncapped {
+    color: color.scale($clr-text-primary, $lightness: -25%);
+    font-size: 0.95rem;
+    align-self: center;
+    word-spacing: -0.2em;
   }
 
   .grid__label,

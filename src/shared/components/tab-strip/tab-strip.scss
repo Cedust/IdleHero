@@ -6,6 +6,12 @@
   gap: $gap;
 }
 
+.tab-strip--secondary {
+  justify-content: center;
+  gap: calc($gap / 2) $gap;
+  margin: calc($gap) 0;
+}
+
 .tab {
   @include button-style($bg-color: transparent);
   @include button-text-font();
@@ -26,8 +32,30 @@
   }
 }
 
+.tab--secondary {
+  @include button-sizing($min-width: auto, $padding: 0 $gap);
+  opacity: 0.85;
+
+  border-radius: 1000px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: $clr-border;
+
+  background: $clr-ui-bg;
+
+  &.is-active {
+    opacity: 1;
+    color: color.scale($clr-highlight, $lightness: 10%);
+    border-color: color.scale($clr-highlight, $lightness: -20%);
+  }
+}
+
 .tab__label {
   display: inline-block;
   font-family: $font-family-header;
   font-size: 1.5rem;
+}
+
+.tab--secondary .tab__label {
+  font-size: 1.2rem;
 }

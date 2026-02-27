@@ -12,6 +12,10 @@ import {
 
 import { ClampUtils } from '../../../shared/utils';
 
+export interface ComputeStatsOptions {
+  IgnoreMaximumCaps?: boolean;
+}
+
 export function ComputeAttributes(attributes: Attributes, statSources: StatSource[]): Attributes {
   const sources: StatSource[] = statSources ?? [];
 
@@ -36,25 +40,28 @@ export function ComputeAttributes(attributes: Attributes, statSources: StatSourc
 export function ComputeStats(
   attributes: Attributes,
   baseStats: HeroStats,
-  statSources: StatSource[]
+  statSources: StatSource[],
+  options?: ComputeStatsOptions
 ): ComputedHeroStats {
   const sources: StatSource[] = statSources ?? [];
+  const ignoreMaximumCaps = options?.IgnoreMaximumCaps ?? false;
 
   // Damage & Attack Speed
   const damage = ComputeDamage(sources);
-  const attackSpeed = ComputeAttackSpeed(sources);
+  const attackSpeed = ComputeAttackSpeed(sources, ignoreMaximumCaps);
 
   // Bleeding Chance & Damage
   const {
     BleedingChance: bleedingChance,
     BleedingDamage: bleedingDamage,
     BleedingTicks: bleedingTicks
-  } = ComputeBleeding(sources, attributes.Strength);
+  } = ComputeBleeding(sources, attributes.Strength, ignoreMaximumCaps);
 
   // Crit Chance & Damage
   const { CriticalHitChance: critChance, CriticalHitDamage: critMultiplier } = ComputeCriticalHit(
     sources,
-    attributes.Intelligence
+    attributes.Intelligence,
+    ignoreMaximumCaps
   );
 
   // Multi-Hit Chance
@@ -63,10 +70,10 @@ export function ComputeStats(
     MultiHitChain: multiHitChain,
     MultiHitChainFactor: multiHitChainFactor,
     MultiHitDamage: multiHitDamage
-  } = ComputeMultiHit(sources, attributes.Dexterity);
+  } = ComputeMultiHit(sources, attributes.Dexterity, ignoreMaximumCaps);
 
   // Accuracy
-  const accuracy = ComputeAccuracy(sources);
+  const accuracy = ComputeAccuracy(sources, ignoreMaximumCaps);
 
   // Charging Strike
   const {
@@ -74,7 +81,7 @@ export function ComputeStats(
     ChargeLoss: chargeLoss,
     ChargeDamage: chargeDamage,
     ChargeDuration: chargeDuration
-  } = ComputeChargingStrike(sources, baseStats);
+  } = ComputeChargingStrike(sources, baseStats, ignoreMaximumCaps);
 
   const stats: ComputedHeroStats = {
     AttackSpeed: attackSpeed,
@@ -111,25 +118,32 @@ function ComputeDamage(sources: StatSource[]): number {
   return effectiveDamage;
 }
 
-function ComputeAttackSpeed(sources: StatSource[]): number {
+function ComputeAttackSpeed(sources: StatSource[], ignoreMaximumCaps: boolean): number {
   const addIAS = sources.reduce((prod, s) => Sum(prod, s.AttackSpeed.Value), 1);
-  const effectiveAttackSpeed = ClampUtils.clamp(addIAS, 0, STATS_CONFIG.CAPS.MAX_ATTACK_SPEED);
+  const effectiveAttackSpeed = ClampWithOptionalMaximum(
+    addIAS,
+    0,
+    STATS_CONFIG.CAPS.MAX_ATTACK_SPEED,
+    ignoreMaximumCaps
+  );
   return effectiveAttackSpeed;
 }
 
 function ComputeBleeding(
   sources: StatSource[],
-  strength: number
+  strength: number,
+  ignoreMaximumCaps: boolean
 ): { BleedingChance: number; BleedingDamage: number; BleedingTicks: number } {
   // Bleeding Chance
   const baseBleedChance = STATS_CONFIG.BASE.BLEEDING_CHANCE;
   const maxBleedChance = STATS_CONFIG.CAPS.MAX_BLEEDING_CHANCE;
   const strBleedChance = MapStrengthToBleedChance(strength);
   const addBleedChance = sources.reduce((sum, s) => Sum(sum, s.Bleeding.Chance), 0);
-  const bleedChance = ClampUtils.clamp(
+  const bleedChance = ClampWithOptionalMaximum(
     baseBleedChance + strBleedChance + addBleedChance,
     baseBleedChance,
-    maxBleedChance
+    maxBleedChance,
+    ignoreMaximumCaps
   );
 
   // Bleeding Damage
@@ -145,10 +159,11 @@ function ComputeBleeding(
   const baseBleedTicks = STATS_CONFIG.BASE.BLEEDING_TICKS;
   const maxBleedTicks = STATS_CONFIG.CAPS.MAX_BLEEDING_TICKS;
   const addBleedTicks = sources.reduce((sum, s) => Sum(sum, s.Bleeding.Ticks), 0);
-  const bleedTicks = ClampUtils.clamp(
+  const bleedTicks = ClampWithOptionalMaximum(
     baseBleedTicks + addBleedTicks,
     baseBleedTicks,
-    maxBleedTicks
+    maxBleedTicks,
+    ignoreMaximumCaps
   );
 
   return {
@@ -160,17 +175,19 @@ function ComputeBleeding(
 
 function ComputeCriticalHit(
   sources: StatSource[],
-  intelligence: number
+  intelligence: number,
+  ignoreMaximumCaps: boolean
 ): { CriticalHitChance: number; CriticalHitDamage: number } {
   // Crit Chance
   const baseCritChance = STATS_CONFIG.BASE.CRIT_CHANCE;
   const maxCritChance = STATS_CONFIG.CAPS.MAX_CRIT_CHANCE;
   const intelligenceCritChance = MapIntelligenceToCritChance(intelligence);
   const addCritChance = sources.reduce((sum, s) => Sum(sum, s.CriticalHit.Chance), 0);
-  const critChance = ClampUtils.clamp(
+  const critChance = ClampWithOptionalMaximum(
     baseCritChance + intelligenceCritChance + addCritChance,
     baseCritChance,
-    maxCritChance
+    maxCritChance,
+    ignoreMaximumCaps
   );
 
   // Crit Damage
@@ -190,7 +207,8 @@ function ComputeCriticalHit(
 
 function ComputeMultiHit(
   sources: StatSource[],
-  dexterity: number
+  dexterity: number,
+  ignoreMaximumCaps: boolean
 ): {
   MultiHitChance: number;
   MultiHitChain: number;
@@ -202,10 +220,11 @@ function ComputeMultiHit(
   const maxMultiHitChance = STATS_CONFIG.CAPS.MAX_MULTI_HIT_CHANCE;
   const dexMultiHitChance = MapDexterityToMultiHitChance(dexterity);
   const addMulti = sources.reduce((sum, s) => Sum(sum, s.MultiHit.Chance), 0);
-  const multiHitChance = ClampUtils.clamp(
+  const multiHitChance = ClampWithOptionalMaximum(
     baseMultiHitChance + dexMultiHitChance + addMulti,
     baseMultiHitChance,
-    maxMultiHitChance
+    maxMultiHitChance,
+    ignoreMaximumCaps
   );
 
   // Multi-Hit Damage
@@ -221,10 +240,11 @@ function ComputeMultiHit(
   const baseMultiHitChain = STATS_CONFIG.BASE.MULTI_HIT_CHAIN;
   const maxMultiHitChain = STATS_CONFIG.CAPS.MAX_CHAIN_HITS;
   const addMultiHitChain = sources.reduce((sum, s) => Sum(sum, s.MultiHit.Chain), 0);
-  const multiHitChain = ClampUtils.clamp(
+  const multiHitChain = ClampWithOptionalMaximum(
     baseMultiHitChain + addMultiHitChain,
     baseMultiHitChain,
-    maxMultiHitChain
+    maxMultiHitChain,
+    ignoreMaximumCaps
   );
 
   // Multi-Hit Chain Factor
@@ -235,10 +255,11 @@ function ComputeMultiHit(
     (sum, s) => Sum(sum, s.MultiHit.ChainFactor),
     0
   );
-  const multiHitChainFactor = ClampUtils.clamp(
+  const multiHitChainFactor = ClampWithOptionalMaximum(
     baseMultiHitChainFactor + dexterityChainFactor + increaseMultiHitChainFactor,
     baseMultiHitChainFactor,
-    maxMultiHitChainFactor
+    maxMultiHitChainFactor,
+    ignoreMaximumCaps
   );
 
   return {
@@ -249,17 +270,18 @@ function ComputeMultiHit(
   };
 }
 
-function ComputeAccuracy(sources: StatSource[]): number {
+function ComputeAccuracy(sources: StatSource[], ignoreMaximumCaps: boolean): number {
   const minAcc = STATS_CONFIG.BASE.ACCURACY;
   const maxAcc = STATS_CONFIG.CAPS.MAX_ACCURACY;
   const addedAcc = sources.reduce((prod, s) => Sum(prod, s.Accuracy.Value), 0);
-  const accuracy = ClampUtils.clamp(minAcc + addedAcc, minAcc, maxAcc);
+  const accuracy = ClampWithOptionalMaximum(minAcc + addedAcc, minAcc, maxAcc, ignoreMaximumCaps);
   return accuracy;
 }
 
 function ComputeChargingStrike(
   sources: StatSource[],
-  baseStats: HeroStats
+  baseStats: HeroStats,
+  ignoreMaximumCaps: boolean
 ): { ChargeGain: number; ChargeLoss: number; ChargeDamage: number; ChargeDuration: number } {
   const chargeGain =
     baseStats.ChargeGain + sources.reduce((sum, s) => Sum(sum, s.ChargingStrike.ChargeGain), 0);
@@ -267,7 +289,7 @@ function ComputeChargingStrike(
   const chargeLoss =
     baseStats.ChargeLoss +
     sources.reduce((sum, s) => Sum(sum, s.ChargingStrike.ChargeLossPercentage), 0);
-  const decreasedChargeLoss = ClampUtils.clamp(chargeLoss, 0, 1);
+  const decreasedChargeLoss = ClampWithOptionalMaximum(chargeLoss, 0, 1, ignoreMaximumCaps);
 
   const chargeDamage =
     baseStats.ChargeDamage + sources.reduce((sum, s) => Sum(sum, s.ChargingStrike.ChargeDamage), 0);
@@ -288,5 +310,16 @@ function ComputeChargingStrike(
 //#region Helpers
 function Sum(currentSum: number, additionalValue: number): number {
   return currentSum + (additionalValue ?? 0);
+}
+
+function ClampWithOptionalMaximum(
+  value: number,
+  minimum: number,
+  maximum: number,
+  ignoreMaximumCaps: boolean
+): number {
+  return ignoreMaximumCaps
+    ? ClampUtils.clamp(value, minimum, Number.POSITIVE_INFINITY)
+    : ClampUtils.clamp(value, minimum, maximum);
 }
 //#endregion
