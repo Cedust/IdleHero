@@ -12,6 +12,7 @@ import {
   EvilTrident,
   FireDragon,
   FloatingGhost,
+  GargoyleTitan,
   Ghost,
   Gooey,
   HauntingGhost,
@@ -32,6 +33,7 @@ import {
   Slime,
   Slug,
   SpectreGhost,
+  ThanatosTitan,
   Troglodyte,
   VileFluid,
   ViperSnake,
@@ -203,6 +205,48 @@ export const DUNGEON_BOSS_CONFIGS: Record<string, DungeonBossConfig> = {
       [70, [SeaDragon, DoubleHeadedDragon]],
       [80, [DoubleHeadedDragon]],
       [90, [HydraDragon]]
+    ])
+  },
+  C4: {
+    StageSpecific: new Map<number, BossFactory>([
+      [1, GargoyleTitan],
+      [20, GargoyleTitan],
+      [40, GargoyleTitan],
+      [60, GargoyleTitan],
+      [80, GargoyleTitan],
+      [100, ThanatosTitan]
+    ]),
+    BossPools: new Map<number, BossFactory[]>([
+      [1, [Gooey, Troglodyte, RattleSnake, RockGolem, Ghost, EvilImp, SeaSerpentDragon]],
+      [20, [Gooey, EvilMinion, ViperSnake, SandSnake, RockGolem, Ghost, EvilImp, SeaSerpentDragon]],
+      [
+        40,
+        [
+          VileFluid,
+          EvilMinion,
+          MambaSnake,
+          IceGolem,
+          FloatingGhost,
+          EvilBat,
+          WyvernDragon,
+          FireDragon
+        ]
+      ],
+      [
+        60,
+        [
+          Slime,
+          BullyMinion,
+          PythonSnake,
+          ShamblingMound,
+          HauntingGhost,
+          EvilTrident,
+          FireDragon,
+          SeaDragon
+        ]
+      ],
+      [80, [Slug, Brute, CobraSnake, RobotGolem, SpectreGhost, EvilHarpy, DoubleHeadedDragon]],
+      [90, [KingSlime, Minotaur, SeaSerpent, BattleMechGolem, SpectreGhost, EvilHawk, HydraDragon]]
     ])
   }
 };

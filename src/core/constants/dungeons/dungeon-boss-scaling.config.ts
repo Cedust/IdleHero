@@ -70,6 +70,14 @@ export const DUNGEON_BOSS_SCALING: Record<string, DungeonBossScalingParams> = {
     b: 1.45,
     MidBossMultiplier: 5,
     EndBossMultiplier: 10
+  },
+  C4: {
+    BossBaseHealth: 1_000_000_000,
+    r: 1.016,
+    a: 0.001,
+    b: 1.45,
+    MidBossMultiplier: 5,
+    EndBossMultiplier: 11.6522934004
   }
 };
 

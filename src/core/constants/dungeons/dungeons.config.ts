@@ -178,8 +178,8 @@ export const CAPSTONE_DUNGEONS: CapstoneDungeonRoom[] = [
   {
     Id: 'C4',
     Title: 'Trial of the Titans',
-    Description: 'Face the mightiest titans in this ultimate trial.',
-    Icon: 'hydra',
+    Description: 'Endure the wrath of the titans in this desolated sanctuary.',
+    Icon: 'cloakedfigureonhorseback',
     Type: DungeonType.Capstone,
 
     StagesBase: 1,
