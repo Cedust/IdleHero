@@ -17,6 +17,8 @@ import {
 } from '../../../core/services';
 import { GetAllDungeons, RUNE_QUALITY_ORDER } from '../../../core/constants';
 
+import { GameStateService } from '../../../shared/services';
+
 @Component({
   selector: 'app-dungeon-rooms',
   imports: [PanelHeader, IconComponent, Level],
@@ -28,9 +30,12 @@ export class DungeonRooms {
   private readonly dungeonKey = inject(DungeonKeyService);
   private readonly level = inject(LevelService);
   private readonly statistics = inject(StatisticsService);
+  private readonly gameState = inject(GameStateService);
 
   // Data
   public readonly Dungeons = GetAllDungeons();
+  public readonly IsGameCompleted = computed<boolean>(() => this.gameState.IsGameCompleted());
+
   public readonly DungeonGroups = computed<DungeonGroupViewModel[]>(() => [
     {
       Title: 'DUNGEONS',

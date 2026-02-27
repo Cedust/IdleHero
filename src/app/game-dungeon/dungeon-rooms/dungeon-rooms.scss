@@ -1,6 +1,31 @@
 @use "sass:color";
 @use "index" as *;
 
+.game-completed-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc($gap / 2);
+  margin-bottom: 16px;
+  padding: $gap;
+
+  border: 1px solid color.adjust($clr-highlight, $alpha: -0.35);
+  border-radius: 8px;
+  background: $clr-ui-bg;
+}
+
+.game-completed-title {
+  color: $clr-highlight;
+  text-align: center;
+}
+
+.game-completed-description {
+  color: $clr-text-primary;
+  font-family: $font-family-header;
+  text-align: center;
+  width: 60%;
+}
+
 .dungeon-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
