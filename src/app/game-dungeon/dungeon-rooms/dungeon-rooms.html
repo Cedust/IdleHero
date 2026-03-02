@@ -3,17 +3,21 @@
 
   @if (IsGameCompleted()) {
     <div class="game-completed-panel">
-      <h2 class="game-completed-title">GAME COMPLETED</h2>
+      <h2 class="game-completed-title">THE LIGHT RETURNS</h2>
       <p class="game-completed-description">
-        The shadows have been banished, and the final echo of the depths has faded. Through grit and
-        steel, you have conquered every trial laid before you. The realm breathes a sigh of relief,
-        for its greatest champion has emerged victorious.
-        <br />
-        <br />
-        Your journey is complete, but your legend is eternal.
-        <br />
-        <br />
-        Thank you for playing!
+        The shadows have been banished, and the final echo of the depths has faded into a hollow
+        silence.
+        <br /><br />
+        <span class="hero-name">{{ HeroName }}</span
+        >, you walked the path where others feared to tread. Through grit, steel, and unyielding
+        resolve, you have conquered every trial laid before you. The realm breathes a sigh of
+        relief, for its greatest champion has emerged victorious from the darkness — not just as a
+        survivor, but as a hero. <br /><br />
+        Your journey through these halls may be complete, but your legend is eternal. The story of
+        your triumph will be whispered for generations.
+        <br /><br />
+        Thank you, <span class="hero-name">{{ HeroName }}</span
+        >, for bringing the light back to a world lost in shadow.
       </p>
     </div>
   }

@@ -13,6 +13,7 @@ import {
   DungeonKeyService,
   DungeonRoomService,
   LevelService,
+  PlayerHeroService,
   StatisticsService
 } from '../../../core/services';
 import { GetAllDungeons, RUNE_QUALITY_ORDER } from '../../../core/constants';
@@ -31,8 +32,10 @@ export class DungeonRooms {
   private readonly level = inject(LevelService);
   private readonly statistics = inject(StatisticsService);
   private readonly gameState = inject(GameStateService);
+  private readonly playerHero = inject(PlayerHeroService);
 
   // Data
+  public readonly HeroName = this.playerHero.Name();
   public readonly Dungeons = GetAllDungeons();
   public readonly IsGameCompleted = computed<boolean>(() => this.gameState.IsGameCompleted());
 
