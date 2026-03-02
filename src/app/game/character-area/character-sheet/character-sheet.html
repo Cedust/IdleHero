@@ -1,7 +1,10 @@
 <div class="sheet">
   <!-- PORTRAIT -->
-  <div class="sheet__portrait">
-    <app-icon [character]="HeroIcon" size="4x"></app-icon>
+  <div class="sheet__portrait" [class.sheet__portrait--completed]="IsGameCompleted()">
+    <app-icon
+      [class.sheet__icon--completed]="IsGameCompleted()"
+      [character]="HeroIcon"
+      size="4x"></app-icon>
   </div>
 
   <!-- INFO -->

@@ -12,8 +12,18 @@
   height: 10em;
   width: 9em;
 
-  border: 3px solid $clr-border;
+  border-width: 3px;
+  border-style: solid;
+  border-color: $clr-border;
   border-radius: $border-radius;
+
+  &--completed {
+    border-color: color.scale($clr-highlight, $lightness: -20%);
+  }
+
+  & .sheet__icon--completed {
+    color: color.scale($clr-highlight, $lightness: -20%);
+  }
 }
 
 /* === Info Section === */
