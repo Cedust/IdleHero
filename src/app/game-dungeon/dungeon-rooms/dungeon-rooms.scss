@@ -17,6 +17,7 @@
 .game-completed-title {
   color: $clr-highlight;
   text-align: center;
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.8);
 }
 
 .game-completed-description {
@@ -24,6 +25,14 @@
   font-family: $font-family-header;
   text-align: center;
   width: 60%;
+}
+
+.hero-name {
+  font-family: $font-family-header;
+  color: $clr-highlight;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.8);
 }
 
 .dungeon-list {
